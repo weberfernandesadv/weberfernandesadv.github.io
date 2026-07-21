@@ -1,0 +1,334 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import { siteConfig } from '../data/site';
+---
+
+<BaseLayout 
+  title="O Escritório | Weber F. Pereira & Advogados Associados"
+  description="Conheça o escritório Weber F. Pereira & Advogados Associados, sua atuação profissional em Goiânia/GO, seus valores institucionais e compromisso com orientação jurídica ética, estratégica e transparente."
+>
+  <PageHero 
+    title="O Escritório" 
+    subtitle="Conheça nossa estrutura de atendimento, nossos valores institucionais e nosso compromisso ético."
+    tagline="Quem Somos"
+  />
+
+  <section class="escritorio-page-section">
+    <div class="container escritorio-container">
+      
+      <!-- Atuação Profissional -->
+      <div class="escritorio-block">
+        <SectionTitle 
+          title="Atuação Profissional" 
+          align="left"
+        />
+        <div class="escritorio-text">
+          <p>
+            O escritório <strong>Weber F. Pereira & Advogados Associados</strong> destaca-se pela prestação de assessoria jurídica de excelência, atuando de forma estratégica na defesa dos interesses de seus clientes. Sob a coordenação do <strong>Dr. Weber Fernandes Pereira (OAB/GO 73.173)</strong>, oferecemos um serviço pautado no rigor técnico, no zelo ético e na transparência total das ações conduzidas.
+          </p>
+          <p>
+            Com sede física em Goiânia/GO, realizamos atendimento presencial estruturado para proporcionar total sigilo e privacidade aos nossos clientes. Paralelamente, dispomos de infraestrutura tecnológica moderna para atendimento online via salas virtuais seguras, atendendo a demandas em todo o estado de Goiás e demais regiões do país de forma consultiva, preventiva e contenciosa.
+          </p>
+        </div>
+      </div>
+
+      <!-- Missão Institucional & Lema -->
+      <div class="grid-two-cards">
+        <div class="feature-card brand-purple-card">
+          <span class="card-tag">Missão Institucional</span>
+          <h2 class="card-quote">“Direito: dar a cada um o que é seu.”</h2>
+        </div>
+        <div class="feature-card brand-black-card">
+          <span class="card-tag">Lema</span>
+          <h2 class="card-quote">“Em seus passos o que Jesus faria?”</h2>
+        </div>
+      </div>
+
+      <!-- Valores -->
+      <div class="escritorio-block text-center-block">
+        <SectionTitle 
+          title="Valores" 
+          subtitle="Os quatro pilares éticos e operacionais que orientam a nossa conduta profissional diariamente."
+        />
+        <div class="valores-grid">
+          <div class="valor-card">
+            <div class="valor-badge-num">1</div>
+            <h3>Ética</h3>
+            <p>Atuação em estrito respeito aos preceitos morais e ao Estatuto da Advocacia da OAB.</p>
+          </div>
+          <div class="valor-card">
+            <div class="valor-badge-num">2</div>
+            <h3>Compromisso</h3>
+            <p>Dedicação total e acompanhamento minucioso de cada demanda confiada ao escritório.</p>
+          </div>
+          <div class="valor-card">
+            <div class="valor-badge-num">3</div>
+            <h3>Transparência</h3>
+            <p>Informação clara e direta ao cliente sobre a viabilidade, andamento e custos de seu processo.</p>
+          </div>
+          <div class="valor-card">
+            <div class="valor-badge-num">4</div>
+            <h3>Estratégia</h3>
+            <p>Estudo aprofundado da legislação e jurisprudência para traçar as soluções jurídicas mais eficazes.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Informações do Escritório -->
+      <div class="escritorio-block">
+        <SectionTitle 
+          title="Informações do Escritório" 
+          align="left"
+        />
+        
+        <div class="info-table-container">
+          <table class="info-table">
+            <tbody>
+              <tr>
+                <th>Nome fantasia</th>
+                <td>Weber F. Pereira & Advogados Associados</td>
+              </tr>
+              <tr>
+                <th>Razão social</th>
+                <td>WEBER FERNANDES PEREIRA SOCIEDADE INDIVIDUAL DE ADVOCACIA</td>
+              </tr>
+              <tr>
+                <th>Inscrição OAB</th>
+                <td>OAB/GO 73.173</td>
+              </tr>
+              <tr>
+                <th>CNPJ</th>
+                <td>63.525.293/0001-40</td>
+              </tr>
+              <tr>
+                <th>Endereço</th>
+                <td>Rua VF 9, 6A - Lote 13 - Vila Finsocial, Goiânia/GO, 74473-070</td>
+              </tr>
+              <tr>
+                <th>WhatsApp</th>
+                <td>
+                  <a href={`https://wa.me/${siteConfig.whatsappNumber}`} target="_blank" rel="noopener noreferrer">
+                    {siteConfig.phone}
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <th>E-mail</th>
+                <td>
+                  <a href={`mailto:${siteConfig.email}`}>
+                    {siteConfig.email}
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .escritorio-page-section {
+    padding: var(--space-xxl) 0;
+    background-color: var(--color-bg-light);
+  }
+
+  .escritorio-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxl);
+  }
+
+  .escritorio-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .escritorio-text {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .grid-two-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+  }
+
+  .feature-card {
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    justify-content: center;
+    box-shadow: var(--shadow-premium);
+  }
+
+  .brand-purple-card {
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+  }
+
+  .brand-black-card {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-light);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .card-tag {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+  }
+
+  .card-quote {
+    font-family: var(--font-serif);
+    font-size: 1.85rem;
+    font-style: italic;
+    line-height: 1.35;
+    font-weight: 500;
+    color: var(--color-text-light);
+  }
+
+  .text-center-block {
+    text-align: center;
+    align-items: center;
+  }
+
+  .valores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-md);
+    margin-top: var(--space-sm);
+    width: 100%;
+  }
+
+  .valor-card {
+    background-color: #FAFAFA;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    text-align: center;
+    transition: all var(--transition-normal);
+  }
+
+  .valor-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    background-color: #FFFFFF;
+  }
+
+  .valor-badge-num {
+    width: 32px;
+    height: 32px;
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.85rem;
+    margin-bottom: var(--space-xs);
+  }
+
+  .valor-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-bg-dark);
+  }
+
+  .valor-card p {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  /* Info Table */
+  .info-table-container {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: #FAFAFA;
+  }
+
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+  }
+
+  .info-table th, .info-table td {
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .info-table tr:last-child th, .info-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .info-table th {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-bg-dark);
+    width: 250px;
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  .info-table td {
+    color: var(--color-text-muted);
+  }
+
+  .info-table td a {
+    color: var(--color-primary);
+    font-weight: 600;
+    transition: color var(--transition-fast);
+  }
+
+  .info-table td a:hover {
+    color: var(--color-primary-light);
+  }
+
+  @media (max-width: 768px) {
+    .grid-two-cards {
+      grid-template-columns: 1fr;
+    }
+
+    .card-quote {
+      font-size: 1.5rem;
+    }
+
+    .info-table th {
+      width: auto;
+      display: block;
+      padding-bottom: var(--space-xs);
+    }
+
+    .info-table td {
+      display: block;
+      padding-top: 0;
+    }
+  }
+</style>

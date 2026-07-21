@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE `processos` MODIFY COLUMN `tipoManifestacao` enum('Recurso','Resposta','Apelação','Embargos de declaração','Autos conclusos','Conciliação','Audiência','Outro');\nALTER TABLE `processos` ADD `horario` varchar(5);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user jtCeb7e1jptwE2x.25d8f19ad12d --database iZRnCDjueaYGD68s28cofE --execute ALTER TABLE `processos` MODIFY COLUMN `tipoManifestacao` enum('Recurso','Resposta','Apelação','Embargos de declaração','Autos conclusos','Conciliação','Audiência','Outro');\nALTER TABLE `processos` ADD `horario` varchar(5);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 644
+}

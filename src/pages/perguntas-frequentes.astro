@@ -1,0 +1,223 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import { siteConfig } from '../data/site';
+
+const faqs = [
+  {
+    question: "Como funciona o atendimento do escritório?",
+    answer: "Nosso atendimento é estruturado para oferecer o máximo de comodidade e segurança jurídica. Realizamos consultas sob agendamento prévio, onde analisamos detalhadamente as particularidades do seu caso e sugerimos as melhores estratégias, de forma consultiva, preventiva ou judicial."
+  },
+  {
+    question: "O escritório atende online?",
+    answer: "Sim. Oferecemos atendimento online completo por meio de reuniões virtuais por videoconferência em canais seguros. Isso nos permite atender clientes em qualquer município de Goiás e demais regiões do país com a mesma proximidade e eficiência de uma reunião presencial."
+  },
+  {
+    question: "Quais áreas jurídicas o escritório atende?",
+    answer: "Atuamos em diversas áreas do Direito, com destaque especial para Direito Imobiliário, Direito Administrativo (incluindo sindicâncias e Processos Administrativos Disciplinares - PAD), Direito Previdenciário, Direito Trabalhista, Direito Cível, Direito de Família e Sucessões."
+  },
+  {
+    question: "Quais documentos devo separar antes do atendimento?",
+    answer: "Inicialmente, é recomendável separar seus documentos de identificação pessoal (como RG e CPF ou CNH), um comprovante de residência atualizado e todos os documentos relacionados diretamente ao seu caso (por exemplo: contratos, certidões de imóveis, notificações recebidas ou carteira de trabalho)."
+  },
+  {
+    question: "O contato pelo site substitui uma consulta jurídica?",
+    answer: "Não. O contato por e-mail ou WhatsApp serve exclusivamente para canalizar o atendimento inicial e efetuar o agendamento da consulta. Nenhuma orientação genérica substitui a análise técnica individualizada de um advogado qualificado sobre o seu caso."
+  },
+  {
+    question: "O escritório garante resultado em processos?",
+    answer: "Não. Em estrita conformidade com o Código de Ética e Disciplina da OAB, a advocacia é uma atividade de meio, e não de resultado. Dedicamos nossa máxima diligência técnica e estratégica na defesa de seus interesses, mas o julgamento final compete exclusivamente ao Poder Judiciário."
+  },
+  {
+    question: "Como acessar as plataformas digitais?",
+    answer: "O acesso aos nossos sistemas de Procuração Digital, Acompanhamento de Processos e Controle de Pagamentos é feito diretamente pela aba 'Plataformas' do menu principal, utilizando as credenciais exclusivas fornecidas pelo escritório."
+  },
+  {
+    question: "O Fórum Jurídico é um canal de consulta individual?",
+    answer: "Não. O Fórum Jurídico presente no site é uma seção estritamente informativa destinada a esclarecer dúvidas comuns do público em geral sobre temas legais e sociais. Caso necessite de parecer ou análise específica, deverá agendar uma consulta individualizada."
+  },
+  {
+    question: "Como falar com o escritório pelo WhatsApp?",
+    answer: "Você pode clicar no botão 'Falar pelo WhatsApp' disponível em nosso menu principal e nas páginas do site, ou adicionar diretamente o nosso número oficial de atendimento: (62) 99499-1875."
+  },
+  {
+    question: "Onde fica o escritório?",
+    answer: "Nossa sede física está localizada na Rua VF 9, 6A - Lote 13 - Vila Finsocial, Goiânia/GO, CEP 74473-070. O atendimento presencial é realizado mediante agendamento prévio obrigatório."
+  }
+];
+
+// JSON-LD schema generation
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+---
+
+<BaseLayout 
+  title="Perguntas Frequentes | Weber F. Pereira & Advogados Associados"
+  description="Veja respostas para dúvidas frequentes sobre atendimento jurídico, consulta online, documentos necessários, áreas de atuação, plataformas digitais e contato com o escritório Weber F. Pereira & Advogados Associados."
+>
+  <head slot="head">
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+  </head>
+
+  <PageHero 
+    title="Perguntas Frequentes" 
+    subtitle="Esclareça suas dúvidas gerais sobre o funcionamento do escritório e procedimentos jurídicos básicos."
+    tagline="Dúvidas Comuns"
+  />
+
+  <section class="faq-page-section">
+    <div class="container container-narrow">
+      <SectionTitle 
+        title="Dúvidas Frequentes" 
+        subtitle="Selecione as perguntas abaixo para ler as respostas institucionais e éticas do nosso escritório."
+      />
+
+      <div class="faq-list">
+        {faqs.map((faq) => (
+          <div class="faq-item">
+            <details class="faq-details">
+              <summary class="faq-summary">
+                {faq.question}
+                <span class="faq-icon">+</span>
+              </summary>
+              <div class="faq-content">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          </div>
+        ))}
+      </div>
+
+      <div class="faq-cta-box text-center">
+        <h3>Ainda possui alguma dúvida?</h3>
+        <p>Caso sua dúvida não esteja listada ou necessite de atendimento específico para o seu caso, entre em contato diretamente com nossa equipe.</p>
+        <a href="/#fale-conosco" class="btn btn-primary">
+          Falar pelo WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .faq-page-section {
+    padding: var(--space-xxl) 0;
+    background-color: var(--color-bg-light);
+  }
+
+  .container-narrow {
+    max-width: 750px;
+    margin: 0 auto;
+  }
+
+  .faq-list {
+    margin-top: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .faq-item {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: #FAFAFA;
+    transition: all var(--transition-normal);
+  }
+
+  .faq-item:hover {
+    border-color: var(--color-primary);
+    background-color: #FFFFFF;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .faq-details {
+    width: 100%;
+  }
+
+  .faq-summary {
+    padding: var(--space-md);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-bg-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    font-family: var(--font-display);
+    line-height: 1.35;
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--color-primary);
+    transition: transform var(--transition-normal);
+    margin-left: var(--space-sm);
+  }
+
+  .faq-details[open] .faq-icon {
+    transform: rotate(45deg);
+    color: var(--color-primary-dark);
+  }
+
+  .faq-content {
+    padding: 0 var(--space-md) var(--space-md) var(--space-md);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    border-top: 1px solid transparent;
+  }
+
+  .faq-details[open] .faq-content {
+    border-top-color: rgba(229, 229, 229, 0.5);
+    margin-top: var(--space-xs);
+    padding-top: var(--space-sm);
+  }
+
+  .faq-cta-box {
+    margin-top: var(--space-xxl);
+    background-color: #FAFAFA;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .faq-cta-box h3 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--color-bg-dark);
+  }
+
+  .faq-cta-box p {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    max-width: 550px;
+    margin-bottom: var(--space-xs);
+  }
+
+  .text-center {
+    text-align: center;
+  }
+</style>

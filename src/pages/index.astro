@@ -1,0 +1,527 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../data/site';
+import { areasOfPractice } from '../data/areas';
+import PageHero from '../components/ui/PageHero.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import AreaCard from '../components/cards/AreaCard.astro';
+import ContactCard from '../components/cards/ContactCard.astro';
+---
+
+<BaseLayout 
+  title={`${siteConfig.name} | Advocacia Estratégica em Goiânia`}
+  description="Escritório de advocacia Weber F. Pereira & Advogados Associados in Goiânia/GO. Atuação ética, transparente e estratégica em Direito Imobiliário, Administrativo, Previdenciário, Trabalhista, Cível e mais."
+>
+  <!-- Hero Section -->
+  <PageHero 
+    title={siteConfig.name}
+    subtitle="Assessoria jurídica pautada pela ética, transparência e estratégia operacional para resguardar seus direitos."
+    tagline="Escritório de Advocacia"
+    ctaText="Falar pelo WhatsApp"
+    ctaLink="#fale-conosco"
+  />
+
+  <!-- Institutional Section -->
+  <section id="sobre-nos" class="institutional-section">
+    <div class="container grid-two-cols">
+      <div class="institutional-text-content">
+        <span class="section-tagline">Institucional</span>
+        <h2 class="institutional-h2">Compromisso com a Orientação Jurídica</h2>
+        <p class="institutional-p leading-motto">
+          {siteConfig.tagline}
+        </p>
+        <p class="institutional-p text-description">
+          Sob a coordenação do Dr. {siteConfig.founder} ({siteConfig.oab}), nosso trabalho fundamenta-se na excelência técnica e na transparência total com o cliente. Atuamos de forma consultiva, preventiva e contenciosa, desenhando estratégias sob medida para a resolução das mais complexas demandas jurídicas.
+        </p>
+        <div class="values-flex">
+          {siteConfig.values.map(val => (
+            <div class="value-badge">
+              <span class="badge-dot"></span>
+              {val}
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <!-- Visual geometric box representing high-end aesthetics -->
+      <div class="decorative-card-box">
+        <div class="glass-deco-card">
+          <svg class="deco-icon-scale" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="12" y1="2" x2="12" y2="22"/>
+            <line x1="5" y1="7" x2="19" y2="7"/>
+            <path d="M5 7c0 5 2.5 7 2.5 7s2.5-2 2.5-7"/>
+            <path d="M14 7c0 5 2.5 7 2.5 7s2.5-2 2.5-7"/>
+          </svg>
+          <h3 class="deco-card-title">{siteConfig.motto}</h3>
+          <p class="deco-card-desc">Nosso trabalho é conduzido com o máximo zelo ético e responsabilidade social.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Areas of Practice Section -->
+  <section class="practice-areas-preview bg-light-gray">
+    <div class="container">
+      <SectionTitle 
+        title="Áreas de Atuação" 
+        subtitle="Soluções jurídicas e de assessoramento focadas na segurança patrimonial, profissional e familiar."
+      />
+      
+      <!-- Grid of first 6 key areas -->
+      <div class="grid-three-cols">
+        {areasOfPractice.slice(0, 6).map((area) => (
+          <AreaCard 
+            title={area.title}
+            summary={area.summary}
+            slug={area.slug}
+            icon={area.icon}
+          />
+        ))}
+      </div>
+      
+      <div class="section-actions text-center">
+        <a href="/areas-de-atuacao" class="btn btn-secondary">
+          Visualizar Todas as Áreas
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Platforms Promotion Section -->
+  <section class="platforms-promo">
+    <div class="container container-narrow text-center">
+      <span class="section-tagline">Tecnologia & Agilidade</span>
+      <h2 class="promo-h2">Plataformas Digitais de Atendimento</h2>
+      <p class="promo-p text-description">
+        Disponibilizamos ferramentas para acompanhamento processual, emissão de procurações eletrônicas e emissão de guias com segurança e agilidade.
+      </p>
+      <a href="/plataformas" class="btn btn-primary">
+        Acessar Área do Cliente
+      </a>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="faq-section">
+    <div class="container container-narrow">
+      <SectionTitle 
+        title="Perguntas Frequentes" 
+        subtitle="Esclareça suas dúvidas gerais sobre o funcionamento do escritório e procedimentos jurídicos."
+      />
+      
+      <div class="faq-list">
+        <div class="faq-item">
+          <details class="faq-details">
+            <summary class="faq-summary">
+              Como funciona o agendamento de uma consulta?
+              <span class="faq-icon">+</span>
+            </summary>
+            <div class="faq-content">
+              <p>O agendamento é feito de forma simples e rápida diretamente pelo nosso WhatsApp de atendimento ou por e-mail. Realizamos as consultas de forma online (por meio de videoconferência segura em todo o país) ou presencialmente em nossa sede física em Goiânia/GO.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="faq-item">
+          <details class="faq-details">
+            <summary class="faq-summary">
+              Quais documentos são necessários para iniciar uma ação imobiliária?
+              <span class="faq-icon">+</span>
+            </summary>
+            <div class="faq-content">
+              <p>Os documentos dependem do tipo de ação (como usucapião, inventário ou regularização de posse). Geralmente, a base inicial inclui seus documentos de identificação pessoal (RG/CPF), comprovante de residência e a certidão de matrícula do imóvel atualizada (emitida pelo Cartório de Registro de Imóveis competente).</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="faq-item">
+          <details class="faq-details">
+            <summary class="faq-summary">
+              Como posso acompanhar o andamento do meu processo?
+              <span class="faq-icon">+</span>
+            </summary>
+            <div class="faq-content">
+              <p>Nossos clientes contam com acesso exclusivo ao nosso portal digital de Acompanhamento de Processo, onde é possível consultar as atualizações de forma clara e descomplicada. Além disso, enviamos relatórios informativos periódicos via WhatsApp ou e-mail a cada movimentação relevante.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="faq-item">
+          <details class="faq-details">
+            <summary class="faq-summary">
+              O escritório atua em outras regiões fora de Goiânia?
+              <span class="faq-icon">+</span>
+            </summary>
+            <div class="faq-content">
+              <p>Sim. Com a digitalização integral da justiça através dos sistemas de Processo Judicial Eletrônico (PJE), nosso escritório atua ativamente em litígios e assessorias extrajudiciais em todo o estado de Goiás, bem como em tribunais superiores em Brasília e outras capitais do país.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Location Section -->
+  <section id="fale-conosco" class="contact-section bg-light-gray">
+    <div class="container">
+      <SectionTitle 
+        title="Fale Conosco" 
+        subtitle="Entre em contato com nossa equipe para agendamento de consultas presenciais ou atendimento por videoconferência."
+      />
+      
+      <div class="grid-contact">
+        <!-- Direct Contacts -->
+        <div class="contact-list-box">
+          <ContactCard 
+            type="whatsapp"
+            title="WhatsApp de Atendimento"
+            value={siteConfig.phone}
+            link={`https://wa.me/${siteConfig.whatsappNumber}`}
+          />
+          <ContactCard 
+            type="email"
+            title="E-mail Corporativo"
+            value={siteConfig.email}
+            link={`mailto:${siteConfig.email}`}
+          />
+          <ContactCard 
+            type="address"
+            title="Sede do Escritório"
+            value={siteConfig.address}
+            link={siteConfig.addressLink}
+          />
+        </div>
+
+        <!-- Ethical Legal Notice Box -->
+        <div class="ethical-card">
+          <h3 class="ethical-title">Informações Importantes</h3>
+          <p class="ethical-text">
+            Em conformidade com as regras éticas do Conselho Federal da OAB, ressaltamos que a advocacia é uma atividade de meio, não de resultado.
+          </p>
+          <ul class="ethical-list">
+            <li>Nenhuma informação prestada substitui uma consulta individualizada.</li>
+            <li>O atendimento é feito mediante agendamento prévio.</li>
+            <li>Atuamos em estrito sigilo profissional.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Institutional Section */
+  .institutional-section {
+    background-color: var(--color-bg-light);
+  }
+
+  .grid-two-cols {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  .section-tagline {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    letter-spacing: 0.15em;
+    display: block;
+    margin-bottom: var(--space-xs);
+  }
+
+  .institutional-h2 {
+    font-size: 2.25rem;
+    color: var(--color-bg-dark);
+    margin-bottom: var(--space-md);
+  }
+
+  .institutional-p {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-md);
+    line-height: 1.6;
+  }
+
+  .leading-motto {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--color-primary-dark);
+    line-height: 1.4;
+    border-left: 3px solid var(--color-primary);
+    padding-left: var(--space-sm);
+  }
+
+  .values-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-md);
+  }
+
+  .value-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-bg-dark);
+    border: 1px solid var(--color-border);
+    padding: 0.4rem var(--space-sm);
+    border-radius: var(--radius-sm);
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-primary-light);
+    border-radius: var(--radius-full);
+  }
+
+  /* Decorative card box */
+  .decorative-card-box {
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+
+  .decorative-card-box::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    width: calc(100% - 40px);
+    height: calc(100% + 40px);
+    background: linear-gradient(135deg, var(--color-accent-green), var(--color-primary));
+    border-radius: var(--radius-lg);
+    opacity: 0.05;
+    z-index: 1;
+  }
+
+  .glass-deco-card {
+    position: relative;
+    z-index: 2;
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-light);
+    padding: var(--space-xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-premium);
+    max-width: 380px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .deco-icon-scale {
+    color: var(--color-primary-light);
+  }
+
+  .deco-card-title {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--color-text-light);
+  }
+
+  .deco-card-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted-light);
+    line-height: 1.5;
+  }
+
+  /* Section layouts */
+  .bg-light-gray {
+    background-color: #FAFAFA;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .grid-three-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-md);
+  }
+
+  .section-actions {
+    margin-top: var(--space-xl);
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  /* Platforms Promo */
+  .platforms-promo {
+    background-color: var(--color-bg-light);
+    position: relative;
+  }
+
+  .container-narrow {
+    max-width: 750px;
+  }
+
+  .promo-h2 {
+    font-size: 2.25rem;
+    color: var(--color-bg-dark);
+    margin-bottom: var(--space-xs);
+  }
+
+  .promo-p {
+    margin-bottom: var(--space-md);
+  }
+
+  /* FAQ Section */
+  .faq-section {
+    padding: var(--space-xxl) 0;
+    background-color: var(--color-bg-light);
+  }
+
+  .faq-list {
+    margin-top: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .faq-item {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: #FAFAFA;
+    transition: all var(--transition-normal);
+  }
+
+  .faq-item:hover {
+    border-color: var(--color-primary);
+    background-color: #FFFFFF;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .faq-details {
+    width: 100%;
+  }
+
+  .faq-summary {
+    padding: var(--space-md);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-bg-dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    font-family: var(--font-display);
+  }
+
+  .faq-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--color-primary);
+    transition: transform var(--transition-normal);
+  }
+
+  .faq-details[open] .faq-icon {
+    transform: rotate(45deg);
+    color: var(--color-primary-dark);
+  }
+
+  .faq-content {
+    padding: 0 var(--space-md) var(--space-md) var(--space-md);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    border-top: 1px solid transparent;
+  }
+
+  .faq-details[open] .faq-content {
+    border-top-color: rgba(229, 229, 229, 0.5);
+    margin-top: var(--space-xs);
+    padding-top: var(--space-sm);
+  }
+
+  /* Grid Contacts */
+  .grid-contact {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-xl);
+  }
+
+  .contact-list-box {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .ethical-card {
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .ethical-title {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    letter-spacing: 0.05em;
+  }
+
+  .ethical-text {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .ethical-list {
+    list-style: none;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .ethical-list li {
+    position: relative;
+    padding-left: var(--space-sm);
+  }
+
+  .ethical-list li::before {
+    content: '•';
+    color: var(--color-primary-light);
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+  }
+
+  @media (max-width: 991px) {
+    .grid-two-cols, .grid-contact {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+
+    .decorative-card-box {
+      margin-top: var(--space-sm);
+    }
+  }
+</style>

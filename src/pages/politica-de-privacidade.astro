@@ -1,0 +1,196 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import { siteConfig } from '../data/site';
+---
+
+<BaseLayout 
+  title="Política de Privacidade | Weber F. Pereira & Advogados Associados"
+  description="Política de Privacidade do escritório Weber F. Pereira & Advogados Associados. Informações sobre tratamento de dados nos termos da LGPD."
+>
+  <PageHero 
+    title="Política de Privacidade" 
+    subtitle="Transparência e conformidade com a Lei Geral de Proteção de Dados (LGPD) no tratamento das suas informações."
+    tagline="Segurança da Informação"
+  />
+
+  <section class="policy-page-section">
+    <div class="container policy-container">
+      <div class="policy-content">
+        <p class="policy-last-updated">Última atualização: Julho de 2026</p>
+
+        <p class="policy-intro">
+          O escritório <strong>{siteConfig.legalName}</strong>, inscrito no CNPJ sob o nº <strong>{siteConfig.cnpj}</strong>, sob registro da <strong>OAB/GO nº 73.173</strong>, valoriza a privacidade de seus clientes e usuários. Esta política descreve como coletamos, armazenamos e tratamos seus dados pessoais quando você visita nosso portal eletrônico ou interage com nossos canais de atendimento.
+        </p>
+
+        <h2 class="policy-h2">1. Coleta de Informações e Dados Pessoais</h2>
+        <p class="policy-text">
+          Coletamos informações que você voluntariamente nos fornece ao preencher o formulário de contato, ao iniciar um diálogo pelo link de WhatsApp ou ao enviar e-mails. Os dados coletados podem incluir:
+        </p>
+        <ul class="policy-list">
+          <li>Nome completo;</li>
+          <li>Endereço de e-mail;</li>
+          <li>Número de telefone/WhatsApp;</li>
+          <li>Assunto de interesse e informações básicas descritas na mensagem.</li>
+        </ul>
+
+        <h2 class="policy-h2">2. Finalidade do Tratamento de Dados</h2>
+        <p class="policy-text">
+          Nos termos da Lei Geral de Proteção de Dados (Lei nº 13.709/18 - LGPD), o tratamento de dados pessoais no âmbito do escritório possui as seguintes finalidades legítimas:
+        </p>
+        <h3 class="policy-h3">2.1. Contato Preliminar e Agendamento</h3>
+        <p class="policy-text-sub">
+          Processar as informações fornecidas para responder à sua consulta inicial, prestar esclarecimentos acadêmicos preliminares e formalizar o agendamento de consultas jurídicas individuais.
+        </p>
+        <h3 class="policy-h3">2.2. Execução de Contratos de Honorários</h3>
+        <p class="policy-text-sub">
+          Caso o cliente contrate os serviços do escritório, os dados coletados serão integrados à ficha cadastral necessária para a elaboração de contratos, procurações judiciais e propositura de ações.
+        </p>
+
+        <h2 class="policy-h2">3. Compartilhamento e Proteção de Dados</h2>
+        <p class="policy-text">
+          O escritório não comercializa ou compartilha seus dados pessoais com terceiros para fins publicitários. O compartilhamento ocorre única e exclusivamente nas seguintes hipóteses legais:
+        </p>
+        <ul class="policy-list">
+          <li>Para órgãos do Poder Judiciário ou administrações públicas em razão do cumprimento de obrigações processuais vinculadas ao mandato outorgado;</li>
+          <li>Por determinação legal ou ordem judicial expressa de autoridade competente.</li>
+        </ul>
+
+        <h2 class="policy-h2">4. Direitos dos Titulares de Dados</h2>
+        <p class="policy-text">
+          Como titular de dados pessoais, a LGPD garante a você direitos fundamentais que podem ser exercidos a qualquer momento mediante requisição direta ao nosso e-mail corporativo:
+        </p>
+        <ul class="policy-list">
+          <li>Confirmação da existência de tratamento dos seus dados;</li>
+          <li>Acesso facilitado às suas informações custodiadas;</li>
+          <li>Correção de dados incompletos, inexatos ou desatualizados;</li>
+          <li>Eliminação de dados pessoais desnecessários ou tratados com base em consentimento revogado.</li>
+        </ul>
+
+        <h2 class="policy-h2">5. Sigilo Profissional da Advocacia</h2>
+        <p class="policy-text">
+          Além das proteções dispostas pela LGPD, todas as informações de fatos e documentos compartilhados com o escritório encontram-se resguardadas pelo sigilo profissional obrigatório determinado pelo Estatuto da Advocacia e da OAB (Lei nº 8.906/94) e pelo Código de Ética e Disciplina da OAB.
+        </p>
+
+        <div class="ethical-caveat-box">
+          <h4 class="caveat-heading">Dúvidas sobre Privacidade</h4>
+          <p class="caveat-desc">
+            Para qualquer esclarecimento ou exercício de direitos referentes à privacidade de dados, por favor, envie sua solicitação formal para o canal de e-mail corporativo: <strong>{siteConfig.email}</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .policy-page-section {
+    background-color: var(--color-bg-light);
+    padding: var(--space-xl) 0;
+  }
+
+  .policy-container {
+    max-width: 800px;
+  }
+
+  .policy-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .policy-last-updated {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-bottom: var(--space-md);
+  }
+
+  .policy-intro {
+    font-size: 1.05rem;
+    color: var(--color-bg-dark);
+    line-height: 1.6;
+    margin-bottom: var(--space-md);
+  }
+
+  .policy-h2 {
+    font-size: 1.5rem;
+    color: var(--color-bg-dark);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-xs);
+  }
+
+  .policy-h3 {
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-top: var(--space-sm);
+    margin-bottom: var(--space-xs);
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .policy-text {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: var(--space-sm);
+  }
+
+  .policy-text-sub {
+    font-size: 0.925rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: var(--space-sm);
+    padding-left: var(--space-sm);
+  }
+
+  .policy-list {
+    list-style: none;
+    font-size: 0.925rem;
+    color: var(--color-text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+    padding-left: var(--space-sm);
+  }
+
+  .policy-list li {
+    position: relative;
+    padding-left: var(--space-sm);
+  }
+
+  .policy-list li::before {
+    content: '▪';
+    color: var(--color-primary);
+    position: absolute;
+    left: 0;
+  }
+
+  .ethical-caveat-box {
+    margin-top: var(--space-xl);
+    padding: var(--space-md);
+    background-color: #FAFAFA;
+    border-left: 3px solid var(--color-primary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+
+  .caveat-heading {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-bg-dark);
+    margin-bottom: 2px;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .caveat-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+</style>

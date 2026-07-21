@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import { siteConfig } from '../data/site';
+---
+
+<BaseLayout 
+  title="Termos de Uso | Weber F. Pereira & Advogados Associados"
+  description="Termos de Uso que regem a navegação no portal eletrônico institucional do escritório Weber F. Pereira & Advogados Associados."
+>
+  <PageHero 
+    title="Termos de Uso" 
+    subtitle="Regras e condições gerais de navegação aplicáveis ao nosso portal eletrônico institucional."
+    tagline="Orientações de Uso"
+  />
+
+  <section class="terms-page-section">
+    <div class="container terms-container">
+      <div class="terms-content">
+        <p class="terms-last-updated">Última atualização: Julho de 2026</p>
+
+        <p class="terms-intro">
+          Seja bem-vindo ao portal institucional de <strong>{siteConfig.name}</strong>. Ao acessar e navegar por este site, você concorda em cumprir e respeitar os presentes Termos de Uso. Caso não concorde com qualquer disposição aqui estabelecida, solicitamos que não continue a navegar neste site.
+        </p>
+
+        <h2 class="terms-h2">1. Natureza Informativa do Conteúdo</h2>
+        <p class="terms-text">
+          O conteúdo disponível neste site, incluindo artigos acadêmicos do Fórum Jurídico, resumos explicativos das áreas de atuação e informações de expediente, possui finalidade exclusivamente informativa e acadêmica.
+        </p>
+        <p class="terms-text-important">
+          <strong>IMPORTANTE:</strong> Nenhuma informação veiculada neste portal constitui consulta jurídica, conselho legal ou parecer técnico formalizado. A contratação de serviços profissionais de advocacia exige contato individualizado com a banca de advogados e a celebração de contrato de honorários específico.
+        </p>
+
+        <h2 class="terms-h2">2. Propriedade Intelectual</h2>
+        <p class="terms-text">
+          Todos os textos, artigos, logomarcas, componentes gráficos, layout de páginas e códigos deste site são de propriedade intelectual exclusiva do escritório ou de seus respectivos licenciadores, protegidos pela legislação de direitos autorais nacional e internacional.
+        </p>
+        <ul class="terms-list">
+          <li>É autorizada a visualização e impressão de trechos de artigos do Fórum Jurídico exclusivamente para uso pessoal ou de pesquisa acadêmica, desde que citada a fonte original e o nome do autor correspondente.</li>
+          <li>É expressamente vedada a reprodução total ou parcial, cópia de código, distribuição comercial ou modificação de qualquer conteúdo deste portal sem prévia e expressa autorização por escrito do escritório.</li>
+        </ul>
+
+        <h2 class="terms-h2">3. Limitação de Responsabilidade</h2>
+        <p class="terms-text">
+          O escritório empenha-se em manter as informações deste portal corretas e atualizadas. Contudo, não nos responsabilizamos por:
+        </p>
+        <ul class="terms-list">
+          <li>Prejuízos decorrentes de decisões tomadas por usuários com base exclusiva nas informações aqui veiculadas (que não substituem consulta individualizada);</li>
+          <li>Inconsistências temporárias ou falhas de conexão do servidor que possam inviabilizar o carregamento das páginas;</li>
+          <li>Indisponibilidade temporária de acesso às Plataformas Digitais de terceiros.</li>
+        </ul>
+
+        <h2 class="terms-h2">4. Links para Terceiros</h2>
+        <p class="terms-text">
+          Para facilidade do usuário, nosso portal pode conter links redirecionando para sistemas externos (como o Google Maps para localização ou APIs do WhatsApp). O escritório não possui ingerência sobre as políticas de privacidade e termos de uso destes portais externos, cabendo ao usuário ler suas respectivas diretrizes regulatórias.
+        </p>
+
+        <h2 class="terms-h2">5. Foro de Eleição</h2>
+        <p class="terms-text">
+          Estes termos são regidos pelas leis brasileiras. Fica eleito o Foro da Comarca de Goiânia/GO como o único competente para dirimir eventuais controvérsias decorrentes do uso ou interpretação das informações deste site.
+        </p>
+
+        <div class="ethical-caveat-box">
+          <h4 class="caveat-heading">Diretrizes da OAB</h4>
+          <p class="caveat-desc">
+            Estes termos atendem integralmente ao Provimento nº 205/2021 do Conselho Federal da Ordem dos Advogados do Brasil, que disciplina a publicidade e a informação da advocacia de forma sóbria e exclusivamente informativa.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .terms-page-section {
+    background-color: var(--color-bg-light);
+    padding: var(--space-xl) 0;
+  }
+
+  .terms-container {
+    max-width: 800px;
+  }
+
+  .terms-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .terms-last-updated {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-bottom: var(--space-md);
+  }
+
+  .terms-intro {
+    font-size: 1.05rem;
+    color: var(--color-bg-dark);
+    line-height: 1.6;
+    margin-bottom: var(--space-md);
+  }
+
+  .terms-h2 {
+    font-size: 1.5rem;
+    color: var(--color-bg-dark);
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-xs);
+  }
+
+  .terms-text {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: var(--space-sm);
+  }
+
+  .terms-text-important {
+    font-size: 0.95rem;
+    color: var(--color-bg-dark);
+    line-height: 1.6;
+    margin-bottom: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    background-color: rgba(239, 108, 0, 0.03);
+    border-left: 3px solid var(--color-accent-orange);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  .terms-list {
+    list-style: none;
+    font-size: 0.925rem;
+    color: var(--color-text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+    padding-left: var(--space-sm);
+  }
+
+  .terms-list li {
+    position: relative;
+    padding-left: var(--space-sm);
+  }
+
+  .terms-list li::before {
+    content: '▪';
+    color: var(--color-primary);
+    position: absolute;
+    left: 0;
+  }
+
+  .ethical-caveat-box {
+    margin-top: var(--space-xl);
+    padding: var(--space-md);
+    background-color: #FAFAFA;
+    border-left: 3px solid var(--color-primary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+
+  .caveat-heading {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-bg-dark);
+    margin-bottom: 2px;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .caveat-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+</style>

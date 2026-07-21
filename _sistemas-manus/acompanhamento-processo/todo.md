@@ -1,0 +1,38 @@
+# Acompanhamento de Processos - TODO
+
+- [x] Schema do banco de dados: tabelas `processos` e `novidades`
+- [x] Rotas tRPC: listar, cadastrar, remover processos; listar novidades
+- [x] Notificação ao dono ao cadastrar novo processo
+- [x] Layout elegante com DashboardLayout e tema sofisticado (dark/light)
+- [x] Página principal com campo de busca por número CNJ
+- [x] Preenchimento automático do campo Tribunal com base no número CNJ
+- [x] Exibição de tribunais por sigla (TJGO, STJ, TRF1, TRT, etc.)
+- [x] Aba "Novidades" para exibir notificações e atualizações de processos
+- [x] Autenticação via Manus OAuth
+- [x] Cadastro e listagem de processos acompanhados por usuário logado
+- [x] Testes Vitest para rotas principais
+- [x] Checkpoint e publicação
+- [x] Importar 14 processos do arquivo Processos.docx no banco de dados
+- [x] Migrar schema: adicionar colunas dataLimite, tipoManifestacao, cliente, anotacao
+- [x] Atualizar rotas tRPC para os novos campos
+- [x] Atualizar dados existentes com os campos corretos
+- [x] Redesenhar interface: tabela/cards com todas as colunas
+- [x] Formulário de cadastro/edição com os novos campos
+- [x] Destaque visual nas linhas com prazo próximo (até 7 dias) ou vencido
+- [x] Barra de pesquisa para filtrar por cliente ou número CNJ
+- [x] Corrigir erro "Cannot update a component while rendering" na Home.tsx
+- [x] Corrigir reconhecimento do tribunal no CNJ: número 5223008-93.2016.8.09.0051 não identificava TJGO
+- [x] Processos com "Autos conclusos" não devem ser destacados como vencidos ou urgentes
+- [x] Processos com "Outro" também não devem ser destacados como vencidos ou urgentes
+- [x] Adicionar "Audiência" como tipo de manifestação
+- [x] Campo de horário para Audiência e Conciliação (salvar e exibir data + horário)
+- [x] Corrigir data limite exibida com um dia a menos (problema de fuso horário UTC)
+- [x] Exportar lista completa de processos em PDF
+- [x] Adicionar "Contestação" e "Impugnação" como tipos de manifestação
+- [x] Utilitário de cálculo de prazo em dias úteis com feriados TJGO e TRT18
+- [x] Campo "Data de Intimação" no formulário com cálculo automático da data limite
+- [x] Prazos CPC: Contestação/Resposta/Impugnação/Apelação/Recurso = 15 dias úteis; Embargos = 5 dias úteis
+- [x] Prazos CLT (TRT18): Contestação = 5 dias, Recurso Ordinário = 8 dias, Embargos = 5 dias
+- [x] Alerta visual vermelho para processos com prazo vencendo nos próximos 3 dias úteis
+- [x] Corrigir fuso horário para UTC-3 em todos os pontos do sistema (datas, prazos, urgência)
+- [x] Adicionar campo Data de Intimação no formulário de edição com recálculo automático do prazo

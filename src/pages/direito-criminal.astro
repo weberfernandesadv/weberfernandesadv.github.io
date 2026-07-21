@@ -1,0 +1,279 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import { areasOfPractice } from '../data/areas';
+import { siteConfig } from '../data/site';
+
+const area = areasOfPractice.find(a => a.slug === 'direito-criminal')!;
+const encodedTopic = encodeURIComponent("Olá, vim pelo site e gostaria de informações sobre a área de " + area.title);
+const whatsappContactUrl = "/#fale-conosco";
+---
+
+<BaseLayout 
+  title={area.seoTitle}
+  description={area.seoDescription}
+>
+  <!-- Hero Banner (H1 inside) -->
+  <PageHero 
+    title={area.title} 
+    subtitle={area.summary}
+    tagline="Área de Atuação"
+    ctaText="Agendar Consulta"
+    ctaLink={whatsappContactUrl}
+  />
+
+  <section class="area-detail-section">
+    <div class="container detail-container">
+      <div class="main-content">
+        <!-- Section H2 -->
+        <h2 class="detail-h2">Sobre a Especialidade</h2>
+        <p class="detail-desc">{area.description}</p>
+
+        <!-- Section H2 -->
+        <h2 class="detail-h2 spacing-top">Frentes de Atuação e Soluções</h2>
+        <div class="topics-grid">
+          {area.topics.map((topic) => (
+            <div class="topic-item">
+              <div class="topic-bullet-number">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="bullet-check">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              <div class="topic-text-box">
+                <!-- Subtopic H3 -->
+                <h3 class="topic-title">{topic}</h3>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {area.caveat && (
+          <div class="ethical-caveat-box">
+            <!-- Complementary observation H4 -->
+            <h4 class="caveat-heading">{area.caveat}</h4>
+          </div>
+        )}
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="sidebar-aside">
+        <div class="aside-card highlight-card">
+          <h3 class="aside-title">Atendimento Online & Presencial</h3>
+          <p class="aside-text">
+            O atendimento é prestado de forma personalizada. Realizamos consultas por videoconferência com máxima confidencialidade ou em nosso escritório físico.
+          </p>
+          <a href={whatsappContactUrl} class="btn btn-primary btn-aside" target="_blank" rel="noopener noreferrer">
+            Iniciar Atendimento
+          </a>
+        </div>
+
+        <div class="aside-card info-card">
+          <h3 class="aside-title">Nossos Valores</h3>
+          <ul class="values-aside-list">
+            <li><strong>Ética:</strong> Atuação sob sigilo absoluto e transparência processual.</li>
+            <li><strong>Compromisso:</strong> Zelo integral em todas as etapas da demanda.</li>
+            <li><strong>Estratégia:</strong> Foco em soluções preventivas eficazes.</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .area-detail-section {
+    background-color: var(--color-bg-light);
+    padding: var(--space-xl) 0;
+  }
+
+  .detail-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .main-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .detail-h2 {
+    font-size: 1.75rem;
+    color: var(--color-bg-dark);
+    margin-bottom: var(--space-md);
+    position: relative;
+    padding-left: var(--space-sm);
+  }
+
+  .detail-h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 15%;
+    height: 70%;
+    width: 4px;
+    background-color: var(--color-primary);
+    border-radius: var(--radius-sm);
+  }
+
+  .spacing-top {
+    margin-top: var(--space-xl);
+  }
+
+  .detail-desc {
+    font-size: 1.05rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: var(--space-md);
+  }
+
+  .topics-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+  }
+
+  .topic-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: #FAFAFA;
+    transition: all var(--transition-fast);
+  }
+
+  .topic-item:hover {
+    transform: translateX(4px);
+    border-color: rgba(107, 0, 119, 0.15);
+    background-color: var(--color-bg-light);
+  }
+
+  .topic-bullet-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    background-color: rgba(107, 0, 119, 0.05);
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .topic-title {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-bg-dark);
+    text-transform: none;
+    letter-spacing: normal;
+    margin-top: 3px;
+  }
+
+  .ethical-caveat-box {
+    margin-top: var(--space-lg);
+    padding: var(--space-md);
+    background-color: rgba(107, 0, 119, 0.02);
+    border-left: 3px solid var(--color-accent-orange);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+
+  .caveat-heading {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  /* Sidebar styling */
+  .sidebar-aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    position: sticky;
+    top: 100px;
+  }
+
+  .aside-card {
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-light);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .highlight-card {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-light);
+    border-color: var(--color-bg-dark);
+  }
+
+  .highlight-card .aside-title {
+    color: var(--color-text-light);
+  }
+
+  .aside-title {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-bg-dark);
+    margin-bottom: var(--space-sm);
+  }
+
+  .aside-text {
+    font-size: 0.875rem;
+    color: var(--color-text-muted-light);
+    line-height: 1.5;
+    margin-bottom: var(--space-md);
+  }
+
+  .highlight-card .aside-text {
+    color: var(--color-text-muted-light);
+  }
+
+  .btn-aside {
+    width: 100%;
+    font-size: 0.8rem;
+  }
+
+  .values-aside-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+  }
+
+  .values-aside-list li {
+    position: relative;
+    padding-left: var(--space-sm);
+  }
+
+  .values-aside-list li::before {
+    content: '▪';
+    color: var(--color-primary-light);
+    position: absolute;
+    left: 0;
+  }
+
+  @media (max-width: 991px) {
+    .detail-container {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+    .sidebar-aside {
+      position: static;
+    }
+  }
+</style>

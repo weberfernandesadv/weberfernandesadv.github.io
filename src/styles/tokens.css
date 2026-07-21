@@ -1,0 +1,53 @@
+:root {
+  /* Colors */
+  --color-primary: #6B0077;          /* Roxo Institucional */
+  --color-primary-light: #8E0A9B;    /* Lightened Purple for hovers */
+  --color-primary-dark: #4A0053;     /* Darker Purple */
+  --color-bg-dark: #0D0C0C;          /* Preto Institucional */
+  --color-bg-light: #FFFFFF;         /* Branco */
+  --color-text-dark: #0D0C0C;
+  --color-text-light: #FFFFFF;
+  --color-text-muted: #666666;
+  --color-text-muted-light: #A3A3A3;
+  --color-border: #E5E5E5;
+  --color-border-dark: #2A2A2A;
+
+  /* Logo accent colors (used subtly) */
+  --color-accent-green: #2E7D32;
+  --color-accent-red: #C62828;
+  --color-accent-orange: #EF6C00;
+  --color-accent-yellow: #FBC02D;
+
+  /* Typography Fallbacks conforme briefing */
+  --font-serif: "Ivy Journal", Georgia, Garamond, serif;
+  --font-sans: "Roboto", system-ui, Arial, sans-serif;
+  --font-display: "Forma DJR Micro", system-ui, Arial, sans-serif;
+
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-xxl: 5rem;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 24px rgba(107, 0, 119, 0.08);
+  --shadow-premium: 0 12px 30px rgba(0, 0, 0, 0.15);
+
+  /* Transitions */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Layout Container */
+  --max-width: 1200px;
+}

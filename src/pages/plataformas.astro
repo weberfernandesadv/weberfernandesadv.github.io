@@ -1,0 +1,782 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+---
+
+<BaseLayout 
+  title="Plataformas Digitais | Weber F. Pereira & Advogados Associados"
+  description="Acesse as plataformas digitais de atendimento restrito do escritório: Procuração Digital, Acompanhamento de Processo e Controle de Pagamentos/Carnês."
+>
+  <PageHero 
+    title="Plataformas Digitais" 
+    subtitle="Serviços eletrônicos integrados para maior comodidade, transparência e agilidade na gestão das suas demandas."
+    tagline="Área Restrita"
+  />
+
+  <section class="platforms-section">
+    <div class="container">
+      <SectionTitle 
+        title="Acesso aos Sistemas" 
+        subtitle="Identifique-se para acessar as plataformas digitais autorizadas."
+      />
+
+      <!-- LOADING STATE -->
+      <div id="portal-loading" class="portal-status-container">
+        <div class="spinner"></div>
+        <p>Verificando sua sessão...</p>
+      </div>
+
+      <!-- UNIFIED LOGIN FORM -->
+      <div id="portal-login-form" class="login-card-container hidden">
+        <div class="login-card">
+          <div class="login-card-header">
+            <svg class="lock-icon-lg" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <h3>Acesso Único ao Portal</h3>
+            <p>Insira seu E-mail ou CPF e sua senha para entrar.</p>
+          </div>
+
+          <form id="form-portal-login" class="portal-login-form">
+            <div class="form-group">
+              <label for="login-user">CPF ou E-mail</label>
+              <input type="text" id="login-user" required placeholder="Digite seu CPF ou E-mail..." class="form-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="login-pass">Senha</label>
+              <input type="password" id="login-pass" required placeholder="Sua senha..." class="form-input" />
+            </div>
+
+            <div id="login-error-message" class="error-msg hidden">
+              E-mail/CPF ou senha incorretos.
+            </div>
+
+            <button type="submit" class="btn-submit-login">Acessar Plataformas</button>
+            
+            <div class="login-footer-links">
+              <a href="http://localhost:3002/cadastro-cliente" class="register-link">Primeiro Acesso? Cadastre-se aqui</a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- LOGGED IN PORTAL VIEW -->
+      <div id="portal-cards-view" class="hidden">
+        <!-- Welcome banner -->
+        <div class="welcome-banner">
+          <div class="user-meta">
+            <span class="user-avatar" id="user-avatar-initials">U</span>
+            <div class="user-info">
+              <h4 id="user-display-name">Carregando...</h4>
+              <p id="user-display-role">Perfil: Carregando...</p>
+            </div>
+          </div>
+          <button id="btn-portal-logout" class="btn-logout">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
+            </svg>
+            Sair do Portal
+          </button>
+        </div>
+
+        <!-- The 3 Cards -->
+        <div class="grid-three-cols">
+          <!-- Card 1: Procuração Digital -->
+          <div class="platform-card" id="card-procuracao">
+            <div class="platform-header">
+              <div class="platform-icon-container">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+                </svg>
+              </div>
+              <span class="platform-status-badge">
+                <span class="status-dot"></span>
+                Sistema Ativo
+              </span>
+            </div>
+            <div class="platform-body">
+              <h3 class="platform-title">Procuração Digital</h3>
+              <p class="platform-desc">Emita, preencha e assine eletronicamente procurações, declarações de hipossuficiência e contratos de honorários com total validade jurídica.</p>
+              
+              <div class="card-access-action">
+                <a href="http://localhost:3001/dashboard" class="btn btn-primary platform-btn" target="_blank" rel="noopener noreferrer">
+                  Acessar Área Restrita
+                  <svg class="lock-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                </a>
+                <span class="restriction-badge hidden">Acesso restrito a Administradores</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Acompanhamento de Processo -->
+          <div class="platform-card" id="card-processos">
+            <div class="platform-header">
+              <div class="platform-icon-container">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+              </div>
+              <span class="platform-status-badge">
+                <span class="status-dot"></span>
+                Sistema Ativo
+              </span>
+            </div>
+            <div class="platform-body">
+              <h3 class="platform-title">Acompanhamento de Processo</h3>
+              <p class="platform-desc">Consulte relatórios de movimentações processuais, cópias de decisões judiciais e informativos sobre o andamento da sua causa.</p>
+              
+              <div class="card-access-action">
+                <a href="http://localhost:3002/dashboard" class="btn btn-primary platform-btn" target="_blank" rel="noopener noreferrer">
+                  Acessar Área Restrita
+                  <svg class="lock-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Controle de Pagamentos / Carnês -->
+          <div class="platform-card" id="card-pagamentos">
+            <div class="platform-header">
+              <div class="platform-icon-container">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                  <line x1="1" y1="10" x2="23" y2="10"/>
+                </svg>
+              </div>
+              <span class="platform-status-badge">
+                <span class="status-dot"></span>
+                Sistema Ativo
+              </span>
+            </div>
+            <div class="platform-body">
+              <h3 class="platform-title">Controle de Pagamentos / Carnês</h3>
+              <p class="platform-desc">Visualize o demonstrativo financeiro das parcelas acordadas, faça o download de guias ou solicite a segunda via de carnês de pagamento.</p>
+              
+              <div class="card-access-action">
+                <a href="http://localhost:3003/dashboard" class="btn btn-primary platform-btn" target="_blank" rel="noopener noreferrer">
+                  Acessar Área Restrita
+                  <svg class="lock-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                </a>
+                <span class="restriction-badge hidden">Acesso restrito a Administradores</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mandatory Security notice -->
+        <div class="security-warning-box">
+          <svg class="warning-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <div class="warning-text-container">
+            <h4 class="warning-heading">Aviso de Segurança</h4>
+            <p class="warning-desc">
+              O acesso às plataformas é monitorado. O uso indevido destas ferramentas ou acesso sem autorização prévia por pessoal não autorizado constitui violação de segurança sujeito às penalidades legais cabíveis.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // DOM Elements
+  const containerLoading = document.getElementById("portal-loading")!;
+  const containerLoginForm = document.getElementById("portal-login-form")!;
+  const containerCardsView = document.getElementById("portal-cards-view")!;
+  
+  const formLogin = document.getElementById("form-portal-login") as HTMLFormElement;
+  const loginUserInput = document.getElementById("login-user") as HTMLInputElement;
+  const loginPassInput = document.getElementById("login-pass") as HTMLInputElement;
+  const loginErrorMsg = document.getElementById("login-error-message")!;
+  
+  const userAvatar = document.getElementById("user-avatar-initials")!;
+  const userDisplayName = document.getElementById("user-display-name")!;
+  const userDisplayRole = document.getElementById("user-display-role")!;
+  const btnLogout = document.getElementById("btn-portal-logout")!;
+  
+  // Cards and restriction links
+  const cardProcuracao = document.getElementById("card-procuracao")!;
+  const cardPagamentos = document.getElementById("card-pagamentos")!;
+
+  // Helper to check user session on page load
+  async function checkSession() {
+    try {
+      const res = await fetch("http://localhost:3002/api/user-session", { credentials: "include" });
+      const data = await res.json();
+      
+      containerLoading.classList.add("hidden");
+
+      if (data.loggedIn) {
+        showPortal(data.user);
+      } else {
+        showLogin();
+      }
+    } catch (e) {
+      console.error("[Session Check] Connection error:", e);
+      containerLoading.classList.add("hidden");
+      showLogin(); // Fallback to login form if API is offline
+    }
+  }
+
+  function showLogin() {
+    containerLoginForm.classList.remove("hidden");
+    containerCardsView.classList.add("hidden");
+  }
+
+  function showPortal(user: any) {
+    containerLoginForm.classList.add("hidden");
+    containerCardsView.classList.remove("hidden");
+
+    // Set Welcome info
+    userDisplayName.textContent = user.name || "Usuário";
+    userAvatar.textContent = (user.name || "U").charAt(0).toUpperCase();
+    
+    if (user.role === "admin") {
+      userDisplayRole.textContent = "Perfil: Administrador / Advogado (Acesso Completo)";
+      userDisplayRole.className = "user-role-text role-admin";
+      
+      // Unlock all cards
+      enableCard(cardProcuracao);
+      enableCard(cardPagamentos);
+    } else {
+      userDisplayRole.textContent = "Perfil: Cliente (Acesso Restrito)";
+      userDisplayRole.className = "user-role-text role-client";
+      
+      // Lock Procuracao and Pagamentos cards
+      disableCard(cardProcuracao);
+      disableCard(cardPagamentos);
+    }
+  }
+
+  function disableCard(cardEl: HTMLElement) {
+    cardEl.classList.add("card-disabled");
+    const link = cardEl.querySelector(".platform-btn") as HTMLAnchorElement;
+    if (link) {
+      link.classList.add("btn-disabled");
+      link.setAttribute("tabindex", "-1");
+      link.addEventListener("click", preventDefaultClick);
+    }
+    const restrictionBadge = cardEl.querySelector(".restriction-badge");
+    if (restrictionBadge) {
+      restrictionBadge.classList.remove("hidden");
+    }
+  }
+
+  function enableCard(cardEl: HTMLElement) {
+    cardEl.classList.remove("card-disabled");
+    const link = cardEl.querySelector(".platform-btn") as HTMLAnchorElement;
+    if (link) {
+      link.classList.remove("btn-disabled");
+      link.removeAttribute("tabindex");
+      link.removeEventListener("click", preventDefaultClick);
+    }
+    const restrictionBadge = cardEl.querySelector(".restriction-badge");
+    if (restrictionBadge) {
+      restrictionBadge.classList.add("hidden");
+    }
+  }
+
+  function preventDefaultClick(e: Event) {
+    e.preventDefault();
+  }
+
+  // Handle Login form submit
+  formLogin.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    loginErrorMsg.classList.add("hidden");
+    
+    const login = loginUserInput.value.trim();
+    const password = loginPassInput.value;
+
+    try {
+      const res = await fetch("http://localhost:3002/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ login, password }),
+        credentials: "include"
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showPortal(data.user);
+      } else {
+        loginErrorMsg.classList.remove("hidden");
+      }
+    } catch (err) {
+      console.error("[Login Form] Error logging in:", err);
+      loginErrorMsg.textContent = "Erro de conexão com o servidor.";
+      loginErrorMsg.classList.remove("hidden");
+    }
+  });
+
+  // Handle Logout click
+  btnLogout.addEventListener("click", async () => {
+    try {
+      await fetch("http://localhost:3002/api/logout", { method: "POST", credentials: "include" });
+    } catch (e) {
+      console.warn("Logout failed, clearing client view anyway");
+    }
+    showLogin();
+    formLogin.reset();
+  });
+
+  // Run session check on page load
+  checkSession();
+</script>
+
+<style>
+  .platforms-section {
+    background-color: var(--color-bg-light);
+    padding: var(--space-xxl) 0;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* Portal Loader/Loading status styling */
+  .portal-status-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xxl) 0;
+    gap: var(--space-sm);
+    color: var(--color-text-muted);
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(107, 0, 119, 0.1);
+    border-top: 3px solid var(--color-primary);
+    border-radius: var(--radius-full);
+    animation: spin 1s linear infinite;
+  }
+
+  /* Welcome User Header Styling */
+  .welcome-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #1C0020 0%, #0D0C0C 100%);
+    border: 1px solid rgba(107, 0, 119, 0.2);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md) var(--space-lg);
+    margin-bottom: var(--space-xl);
+    box-shadow: var(--shadow-premium);
+  }
+
+  .user-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .user-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #D4AF37;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: left;
+  }
+
+  .user-info h4 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #D4AF37;
+  }
+
+  .user-role-text {
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .role-admin {
+    color: #F3E7C4;
+  }
+
+  .role-client {
+    color: #A3A3A3;
+  }
+
+  .btn-logout {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #A3A3A3;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-sm);
+    padding: 6px 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xxs);
+    transition: all var(--transition-fast);
+  }
+
+  .btn-logout:hover {
+    color: var(--color-text-light);
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Grid Three Cols */
+  .grid-three-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-md);
+  }
+
+  /* Platform Card & Disable Styles */
+  .platform-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-md);
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+  }
+
+  .platform-card:not(.card-disabled):hover {
+    transform: translateY(-5px);
+    border-color: rgba(107, 0, 119, 0.2);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .platform-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+  }
+
+  .platform-icon-container {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(107, 0, 119, 0.05);
+    color: var(--color-primary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-normal);
+  }
+
+  .platform-card:not(.card-disabled):hover .platform-icon-container {
+    background-color: var(--color-primary);
+    color: var(--color-bg-light);
+  }
+
+  .platform-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-accent-green);
+    background-color: rgba(46, 125, 50, 0.08);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-full);
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-accent-green);
+    border-radius: var(--radius-full);
+    animation: blink 2s infinite;
+  }
+
+  .platform-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    text-align: left;
+  }
+
+  .platform-title {
+    font-size: 1.2rem;
+    font-family: var(--font-display);
+    color: var(--color-bg-dark);
+    margin-bottom: var(--space-xs);
+  }
+
+  .platform-desc {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-md);
+    line-height: 1.5;
+    flex-grow: 1;
+  }
+
+  .platform-btn {
+    width: 100%;
+    font-size: 0.75rem;
+    padding: 0.6rem var(--space-sm);
+    display: inline-flex;
+    gap: var(--space-xs);
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .lock-icon {
+    opacity: 0.8;
+  }
+
+  /* Disabled Card State */
+  .card-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #FAFAFA;
+  }
+
+  .card-disabled .platform-icon-container {
+    color: var(--color-text-muted);
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  .btn-disabled {
+    pointer-events: none;
+    background-color: var(--color-text-muted) !important;
+    border-color: var(--color-text-muted) !important;
+    opacity: 0.5;
+    display: none !important;
+  }
+
+  .restriction-badge {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.04);
+    color: var(--color-text-muted);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Security Warning Box */
+  .security-warning-box {
+    margin-top: var(--space-xl);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background-color: rgba(239, 108, 0, 0.04);
+    border-left: 4px solid var(--color-accent-orange);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+
+  .warning-icon {
+    color: var(--color-accent-orange);
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  .warning-text-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: left;
+  }
+
+  .warning-heading {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-bg-dark);
+  }
+
+  .warning-desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  /* Login Card Styles */
+  .login-card-container {
+    display: flex;
+    justify-content: center;
+    padding: var(--space-lg) 0;
+  }
+
+  .login-card {
+    max-width: 420px;
+    width: 100%;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-premium);
+    padding: var(--space-xl) var(--space-lg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .login-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary) 0%, #D4AF37 50%, var(--color-primary) 100%);
+  }
+
+  .login-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: var(--space-lg);
+    gap: var(--space-xs);
+  }
+
+  .lock-icon-lg {
+    color: var(--color-primary);
+  }
+
+  .login-card-header h3 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-bg-dark);
+  }
+
+  .login-card-header p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+
+  .portal-login-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: left;
+  }
+
+  .form-group label {
+    font-size: 0.775rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-bg-dark);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    color: var(--color-bg-dark);
+    background-color: #FAFAFA;
+    transition: border-color var(--transition-fast);
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background-color: #FFFFFF;
+  }
+
+  .error-msg {
+    color: var(--color-accent-red);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  .btn-submit-login {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.95rem;
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+  }
+
+  .btn-submit-login:hover {
+    background-color: var(--color-primary-light);
+  }
+
+  .login-footer-links {
+    text-align: center;
+    margin-top: var(--space-xs);
+  }
+
+  .register-link {
+    font-size: 0.8rem;
+    color: var(--color-primary);
+    text-decoration: underline;
+    font-weight: 600;
+    transition: color var(--transition-fast);
+  }
+
+  .register-link:hover {
+    color: var(--color-primary-light);
+  }
+
+  @keyframes spin {
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+</style>

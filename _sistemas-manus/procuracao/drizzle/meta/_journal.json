@@ -1,0 +1,55 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1778779159464,
+      "tag": "0000_mature_blacklash",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1778795238173,
+      "tag": "0001_noisy_paibok",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1778865813119,
+      "tag": "0002_goofy_doorman",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1780967779725,
+      "tag": "0003_purple_dracula",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1780971641429,
+      "tag": "0004_flashy_cyclops",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1781535277634,
+      "tag": "0005_powerful_tattoo",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1782771856485,
+      "tag": "0006_tan_weapon_omega",
+      "breakpoints": true
+    }
+  ]
+}

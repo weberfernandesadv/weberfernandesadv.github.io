@@ -1,0 +1,1 @@
+ALTER TABLE `procuracoes` ADD `downloadToken` varchar(64);

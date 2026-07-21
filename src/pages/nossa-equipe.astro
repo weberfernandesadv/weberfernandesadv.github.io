@@ -1,0 +1,842 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+---
+
+<BaseLayout 
+  title="Nossa Equipe | Weber F. Pereira & Advogados Associados"
+  description="Conheça os advogados e associados do escritório Weber F. Pereira & Advogados Associados em Goiânia/GO. Especialistas comprometidos com a ética e a defesa dos seus direitos."
+>
+  <PageHero 
+    title="Nossa Equipe" 
+    subtitle="Profissionais qualificados dedicados a oferecer a melhor defesa estratégica para os seus direitos."
+    tagline="Corpo Jurídico"
+  />
+
+  <section class="equipe-page-section">
+    <div class="container equipe-container">
+      
+      <div class="equipe-block">
+        <div class="text-center-block">
+          <SectionTitle 
+            title="Profissionais Associados" 
+            subtitle="Fale diretamente com um de nossos advogados via WhatsApp ou visualize suas biografias detalhadas."
+          />
+        </div>
+        
+        <div class="equipe-grid">
+          <!-- Dr. Weber -->
+          <div class="membro-card" data-membro="1">
+            <div class="membro-foto-placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Law Scale Icon -->
+                <path d="M12 3v17M19 8H5M5 8c0 3 2 5 5 5M19 8c0 3-2 5-5 5M12 20h4M12 20H8" />
+              </svg>
+              <span class="membro-iniciais">WP</span>
+            </div>
+            <div class="membro-info">
+              <h3>Dr. Weber Fernandes Pereira</h3>
+              <p class="membro-cargo">Sócio Fundador & Diretor Geral</p>
+              <p class="membro-oab">OAB/GO 73.173</p>
+              <div class="membro-actions-row">
+                <button class="btn-whatsapp-link" data-phone="5562999999999" data-advogado="Dr. Weber Fernandes Pereira">Falar no WhatsApp</button>
+                <button class="btn-bio">Ver Biografia</button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Dr. Silneyr -->
+          <div class="membro-card" data-membro="2">
+            <div class="membro-foto-wrapper">
+              <img src="https://i.ibb.co/FkCZz5Js/adv1.webp" alt="Dr. Silneyr Deófanes de Castro" class="membro-foto" />
+            </div>
+            <div class="membro-info">
+              <h3>Dr. Silneyr Deófanes de Castro</h3>
+              <p class="membro-cargo">Advogado</p>
+              <p class="membro-oab">OAB/GO 50.650</p>
+              <div class="membro-actions-row">
+                <button class="btn-whatsapp-link" data-phone="5562984623030" data-advogado="Dr. Silneyr Deófanes de Castro">Falar no WhatsApp</button>
+                <button class="btn-bio">Ver Biografia</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dra. Ana Laura -->
+          <div class="membro-card" data-membro="3">
+            <div class="membro-foto-wrapper">
+              <img src="https://i.ibb.co/27zGBrWT/adv2.webp" alt="Dra. Ana Laura Paiva Carneiro" class="membro-foto" />
+            </div>
+            <div class="membro-info">
+              <h3>Dra. Ana Laura Paiva Carneiro</h3>
+              <p class="membro-cargo">Advogada</p>
+              <p class="membro-oab">OAB/GO 78.269</p>
+              <div class="membro-actions-row">
+                <button class="btn-whatsapp-link" data-phone="5564999342263" data-advogado="Dra. Ana Laura Paiva Carneiro">Falar no WhatsApp</button>
+                <button class="btn-bio">Ver Biografia</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Modais de Biografia (Dialog nativo) -->
+  <dialog id="modal-bio" class="bio-dialog">
+    <div class="dialog-content">
+      <button class="close-dialog" id="close-modal">&times;</button>
+      <div class="dialog-layout">
+        <div class="dialog-sidebar">
+          <div class="dialog-avatar-container" id="modal-foto-container">
+            <!-- Dinamicamente preenchido com iniciais ou imagem -->
+          </div>
+          <h2 id="modal-nome">Dr. Weber Fernandes Pereira</h2>
+          <p id="modal-cargo" class="modal-subtitle">Sócio Fundador</p>
+          <span id="modal-oab" class="modal-badge">OAB/GO 73.173</span>
+        </div>
+        <div class="dialog-body">
+          <div class="dialog-section">
+            <h4>Sobre o Profissional</h4>
+            <div id="modal-texto-container" class="bio-paragraphs">
+              <!-- Parágrafos dinâmicos da biografia -->
+            </div>
+          </div>
+          <div class="dialog-section">
+            <h4>Áreas de Atuação</h4>
+            <ul id="modal-atuacao">
+              <li>Área 1</li>
+            </ul>
+          </div>
+          <div class="dialog-section">
+            <h4>Formação Acadêmica</h4>
+            <ul id="modal-formacao">
+              <li>Formação 1</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Modal de Consentimento LGPD & Cadastro de Lead -->
+  <dialog id="modal-lgpd" class="lgpd-dialog">
+    <div class="dialog-content">
+      <button class="close-dialog" id="close-lgpd">&times;</button>
+      <div class="lgpd-form-container">
+        <div class="lgpd-header">
+          <svg class="lgpd-icon" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          <h3>Privacidade & Segurança</h3>
+          <p>Seus dados serão tratados com sigilo em conformidade com a LGPD. Identifique-se para iniciar o atendimento.</p>
+        </div>
+        
+        <form id="form-lgpd" class="lgpd-form">
+          <input type="hidden" id="lgpd-adv-phone" />
+          <input type="hidden" id="lgpd-adv-nome" />
+          
+          <div class="form-group">
+            <label for="lead-nome">Seu Nome Completo</label>
+            <input type="text" id="lead-nome" required placeholder="Digite seu nome..." class="form-input" />
+          </div>
+          
+          <div class="form-group">
+            <label for="lead-telefone">Seu WhatsApp</label>
+            <input type="tel" id="lead-telefone" required placeholder="Ex: (64) 99934-2263" class="form-input" />
+          </div>
+          
+          <div class="form-consent">
+            <input type="checkbox" id="lead-consent" required checked class="form-checkbox" />
+            <label for="lead-consent">Declaro que concordo e autorizo o tratamento seguro dos meus dados nos termos da LGPD.</label>
+          </div>
+          
+          <button type="submit" class="btn-submit-lead">Iniciar conversa no WhatsApp</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+</BaseLayout>
+
+<script>
+  const dadosMembros = {
+    "1": {
+      nome: "Dr. Weber Fernandes Pereira",
+      cargo: "Sócio Fundador & Diretor Geral",
+      oab: "OAB/GO 73.173",
+      iniciais: "WP",
+      fotoUrl: null,
+      paragraphs: [
+        "O Dr. Weber Fernandes Pereira lidera o escritório com uma visão focada na advocacia estratégica de resultados. Possui ampla experiência no contencioso cível e assessoria consultiva empresarial, unindo dedicação pessoal a cada caso com rigor técnico atualizado."
+      ],
+      atuacao: ["Direito Civil", "Direito de Família e Sucessões", "Contratos e Obrigações", "Defesa do Consumidor"],
+      formacao: ["Bacharel em Direito", "Especialista em Direito Processual Civil", "Pós-graduado em Direito Civil e Empresarial"]
+    },
+    "2": {
+      nome: "Dr. Silneyr Deófanes de Castro",
+      cargo: "Advogado",
+      oab: "OAB/GO 50.650",
+      iniciais: "SC",
+      fotoUrl: "/silneyr-bio.png",
+      paragraphs: [
+        "SILNEYR DEÓFANES DE CASTRO é advogado, inscrito na OAB/GO nº 50.650, casado com Joana Darc Pereira de Sousa e pai de Benício Sousa de Castro.",
+        "Natural da cidade de Goiás-GO, concluiu o ensino fundamental no Colégio Ipê e o ensino médio no Colégio Carlos Chagas. Em 1986, graduou-se em Direito pela Universidade Católica de Goiás.",
+        "Em 1985, ingressou, mediante concurso público, na Polícia Civil do Estado de Goiás, no cargo de Agente de Polícia Civil. Posteriormente, em 1989, também por concurso público, foi nomeado Delegado de Polícia Civil do Estado do Tocantins, instituição da qual é um dos delegados pioneiros, tendo participado de sua estruturação e consolidação.",
+        "Ao longo de 26 anos de carreira como Delegado de Polícia Civil, exerceu com dedicação, honradez e elevado espírito público a titularidade de diversas Delegacias de Polícia, destacando-se as unidades de Miracema do Tocantins, Miranorte, Natividade, Ananás, Gurupi, Cristalândia, Palmas e Araguaína. Sua trajetória profissional foi marcada pelo compromisso com a legalidade, pela defesa da sociedade e pela condução de inúmeras investigações de grande relevância, aposentando-se em 2015.",
+        "Em 2017, passou a dedicar-se integralmente à advocacia, atuando nas áreas de Direito Criminal, Direito do Consumidor, Direito de Trânsito, Direito de Família e Direito Imobiliário, sempre pautando sua atuação pela ética, pela transparência e pela defesa técnica qualificada dos interesses de seus clientes.",
+        "É pós-graduado em Direito Penal e Processo Penal, Direito de Trânsito e Direito Imobiliário, mantendo constante aperfeiçoamento profissional e atualização jurídica para oferecer uma advocacia moderna, estratégica e comprometida com a excelência."
+      ],
+      atuacao: ["Direito Criminal (Penal e Processo Penal)", "Direito de Trânsito", "Direito do Consumidor", "Direito de Família", "Direito Imobiliário"],
+      formacao: [
+        "Graduado em Direito pela Universidade Católica de Goiás (1986)",
+        "Pós-graduado em Direito Penal e Processo Penal",
+        "Pós-graduado em Direito de Trânsito",
+        "Pós-graduado em Direito Imobiliário"
+      ]
+    },
+    "3": {
+      nome: "Dra. Ana Laura Paiva Carneiro",
+      cargo: "Advogada",
+      oab: "OAB/GO 78.269",
+      iniciais: "AC",
+      fotoUrl: "https://i.ibb.co/27zGBrWT/adv2.webp",
+      paragraphs: [
+        "ANA LAURA PAIVA CARNEIRO - Advogada (OAB/GO nº 78.269).",
+        "Graduada pela Universidade Federal de Jataí (UFJ), com atuação dedicada ao Direito Administrativo e ao Direito do Trabalho, Ana Laura construiu sua trajetória profissional com base em três pilares: técnica jurídica sólida, organização rigorosa e uso estratégico da tecnologia.",
+        "Sua experiência abrange a elaboração de pareceres, manifestações técnicas e peças processuais, além da análise criteriosa de processos administrativos e judiciais. Cada caso é tratado com atenção individual, garantindo que o cliente compreenda cada etapa do caminho e tome decisões com segurança.",
+        "A advocacia de Ana Laura se diferencia pela busca constante de soluções jurídicas estratégicas, não apenas respostas processuais, mas caminhos práticos que protegem direitos e antecipam problemas. É uma atuação eficiente, ética e comprometida com a excelência, pensada para quem precisa de respaldo jurídico com proximidade e transparência.",
+        "Endereço profissional: Rua Cantimiro Martins Costa, nº 185 - Serra Azul, Jataí/GO · CEP: 75.802-261, Fone/Whatsapp: (064) 99934-2263."
+      ],
+      atuacao: ["Direito Administrativo", "Direito do Trabalho", "Pareceres e Análise de Processos", "Assessoria Consultiva e Contenciosa"],
+      formacao: ["Graduada em Direito pela Universidade Federal de Jataí (UFJ)"]
+    }
+  };
+
+  // Modais Dom Elements
+  const modalBio = document.getElementById("modal-bio") as HTMLDialogElement | null;
+  const modalLgpd = document.getElementById("modal-lgpd") as HTMLDialogElement | null;
+  
+  // Triggers
+  const cards = document.querySelectorAll(".membro-card");
+  const btnCloseBio = document.getElementById("close-modal");
+  const btnCloseLgpd = document.getElementById("close-lgpd");
+  const formLgpd = document.getElementById("form-lgpd") as HTMLFormElement | null;
+  const telInput = document.getElementById("lead-telefone") as HTMLInputElement | null;
+
+  // Tel Input Mask
+  if (telInput) {
+    telInput.addEventListener("input", (e) => {
+      const target = e.target as HTMLInputElement;
+      let value = target.value.replace(/\D/g, "");
+      if (value.length > 11) value = value.slice(0, 11);
+      
+      if (value.length > 10) {
+        target.value = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
+      } else if (value.length > 6) {
+        target.value = `(${value.slice(0, 2)}) ${value.slice(2, 6)}-${value.slice(6)}`;
+      } else if (value.length > 2) {
+        target.value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
+      } else {
+        target.value = value;
+      }
+    });
+  }
+
+  // Intercept Card clicks
+  cards.forEach(card => {
+    card.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      
+      // Se clicou no botão de WhatsApp
+      if (target.classList.contains("btn-whatsapp-link")) {
+        e.stopPropagation(); // Não abre a bio
+        const phone = target.getAttribute("data-phone") || "";
+        const adv = target.getAttribute("data-advogado") || "";
+        
+        if (modalLgpd) {
+          (document.getElementById("lgpd-adv-phone") as HTMLInputElement).value = phone;
+          (document.getElementById("lgpd-adv-nome") as HTMLInputElement).value = adv;
+          modalLgpd.showModal();
+        }
+        return;
+      }
+
+      // Se clicou em ver biografia
+      const id = card.getAttribute("data-membro") as keyof typeof dadosMembros;
+      const dados = dadosMembros[id];
+      if (dados && modalBio && !target.classList.contains("btn-whatsapp-link")) {
+        // Foto do Modal
+        const fotoContainer = document.getElementById("modal-foto-container")!;
+        fotoContainer.innerHTML = "";
+        if (dados.fotoUrl) {
+          const img = document.createElement("img");
+          img.src = dados.fotoUrl;
+          img.alt = dados.nome;
+          img.className = "modal-avatar-image";
+          fotoContainer.appendChild(img);
+        } else {
+          const span = document.createElement("span");
+          span.className = "modal-avatar-initials";
+          span.textContent = dados.iniciais;
+          fotoContainer.appendChild(span);
+        }
+
+        document.getElementById("modal-nome")!.textContent = dados.nome;
+        document.getElementById("modal-cargo")!.textContent = dados.cargo;
+        document.getElementById("modal-oab")!.textContent = dados.oab;
+        
+        // Texto Biográfico
+        const textoContainer = document.getElementById("modal-texto-container")!;
+        textoContainer.innerHTML = "";
+        dados.paragraphs.forEach(pText => {
+          const p = document.createElement("p");
+          p.textContent = pText;
+          textoContainer.appendChild(p);
+        });
+        
+        // Atuação
+        const listAtuacao = document.getElementById("modal-atuacao")!;
+        listAtuacao.innerHTML = "";
+        dados.atuacao.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          listAtuacao.appendChild(li);
+        });
+
+        // Formação
+        const listFormacao = document.getElementById("modal-formacao")!;
+        listFormacao.innerHTML = "";
+        dados.formacao.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          listFormacao.appendChild(li);
+        });
+
+        modalBio.showModal();
+      }
+    });
+  });
+
+  // Modal Close triggers
+  if (btnCloseBio && modalBio) {
+    btnCloseBio.addEventListener("click", () => modalBio.close());
+    modalBio.addEventListener("click", (e) => { if (e.target === modalBio) modalBio.close(); });
+  }
+  
+  if (btnCloseLgpd && modalLgpd) {
+    btnCloseLgpd.addEventListener("click", () => modalLgpd.close());
+    modalLgpd.addEventListener("click", (e) => { if (e.target === modalLgpd) modalLgpd.close(); });
+  }
+
+  // Handle LGPD Form Submit
+  if (formLgpd && modalLgpd) {
+    formLgpd.addEventListener("submit", (e) => {
+      e.preventDefault();
+      
+      const nome = (document.getElementById("lead-nome") as HTMLInputElement).value;
+      const telefone = (document.getElementById("lead-telefone") as HTMLInputElement).value;
+      const advPhone = (document.getElementById("lgpd-adv-phone") as HTMLInputElement).value;
+      const advNome = (document.getElementById("lgpd-adv-nome") as HTMLInputElement).value;
+
+      // Send to central backend API (Express local server on port 3002)
+      fetch("http://localhost:3002/api/leads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          nome: nome,
+          telefone: telefone,
+          advogado: advNome
+        })
+      })
+      .then(() => {
+        // Redirect to WhatsApp
+        const cleanPhone = advPhone.replace(/\D/g, "");
+        const text = `Olá, me chamo ${nome} e vi seu contato no site do Dr. Weber F. Pereira. Gostaria de iniciar um atendimento.`;
+        window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`, "_blank");
+        modalLgpd.close();
+        formLgpd.reset();
+      })
+      .catch(err => {
+        console.warn("[Site Leads] Failed to register lead, redirecting anyway:", err);
+        // Fail-safe redirect even if server is offline
+        const cleanPhone = advPhone.replace(/\D/g, "");
+        const text = `Olá, me chamo ${nome} e vi seu contato no site do Dr. Weber F. Pereira. Gostaria de iniciar um atendimento.`;
+        window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`, "_blank");
+        modalLgpd.close();
+        formLgpd.reset();
+      });
+    });
+  }
+</script>
+
+<style>
+  .equipe-page-section {
+    padding: var(--space-xxl) 0;
+    background-color: var(--color-bg-light);
+  }
+
+  .equipe-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxl);
+  }
+
+  .equipe-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .text-center-block {
+    text-align: center;
+    align-items: center;
+    margin-bottom: var(--space-sm);
+  }
+
+  /* Equipe Grid */
+  .equipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-lg);
+    width: 100%;
+  }
+
+  .membro-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+    transition: all var(--transition-normal);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .membro-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-premium);
+  }
+
+  .membro-foto-placeholder, .membro-foto-wrapper {
+    width: 100%;
+    height: 290px;
+    background: linear-gradient(135deg, var(--color-bg-dark) 0%, var(--color-primary) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 2px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  .membro-foto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 10%;
+    transition: transform var(--transition-normal);
+  }
+
+  .membro-card:hover .membro-foto {
+    transform: scale(1.05);
+  }
+
+  .membro-iniciais {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-text-light);
+    letter-spacing: 0.05em;
+    margin-top: var(--space-xs);
+  }
+
+  .placeholder-icon {
+    color: var(--color-primary-light);
+    opacity: 0.85;
+    animation: pulse 2.5s infinite ease-in-out;
+  }
+
+  .membro-info {
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+    background-color: #FFFFFF;
+  }
+
+  .membro-info h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-bg-dark);
+    margin: 0;
+  }
+
+  .membro-cargo {
+    font-size: 0.85rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .membro-oab {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    margin-bottom: var(--space-xs);
+  }
+
+  .membro-actions-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+  }
+
+  .btn-whatsapp-link {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 700;
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+    white-space: nowrap;
+  }
+
+  .btn-whatsapp-link:hover {
+    background-color: var(--color-primary-light);
+  }
+
+  .btn-bio {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color var(--transition-fast);
+    padding: 0;
+    white-space: nowrap;
+  }
+
+  .btn-bio:hover {
+    color: var(--color-primary-light);
+  }
+
+  /* Modal de Biografia */
+  .bio-dialog {
+    border: none;
+    border-radius: var(--radius-lg);
+    padding: 0;
+    max-width: 680px;
+    width: 90%;
+    box-shadow: var(--shadow-premium);
+    background-color: #FFFFFF;
+    margin: auto;
+  }
+
+  .bio-dialog::backdrop {
+    background-color: rgba(15, 26, 46, 0.7);
+    backdrop-filter: blur(4px);
+  }
+
+  .dialog-content {
+    position: relative;
+    padding: var(--space-xl);
+  }
+
+  .close-dialog {
+    position: absolute;
+    top: var(--space-sm);
+    right: var(--space-md);
+    font-size: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+  }
+
+  .close-dialog:hover {
+    color: var(--color-primary);
+  }
+
+  .dialog-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: var(--space-xl);
+    margin-top: var(--space-sm);
+  }
+
+  .dialog-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-right: 1px solid var(--color-border);
+    padding-right: var(--space-lg);
+    gap: var(--space-xs);
+  }
+
+  .dialog-avatar-container {
+    width: 90px;
+    height: 90px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--color-bg-dark) 0%, var(--color-primary) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-xs);
+    overflow: hidden;
+    border: 3px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  .modal-avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 10%;
+  }
+
+  .modal-avatar-initials {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-light);
+  }
+
+  .dialog-sidebar h2 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-bg-dark);
+    line-height: 1.3;
+  }
+
+  .modal-subtitle {
+    font-size: 0.85rem;
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .modal-badge {
+    font-size: 0.75rem;
+    background-color: var(--color-border);
+    color: var(--color-text-muted);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+  }
+
+  .dialog-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: var(--space-xs);
+  }
+
+  .dialog-section h4 {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-primary);
+    margin-bottom: var(--space-xxs);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 4px;
+  }
+
+  .bio-paragraphs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .bio-paragraphs p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    margin: 0;
+    text-align: justify;
+  }
+
+  .dialog-section ul {
+    list-style-type: disc;
+    padding-left: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .dialog-section li {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  /* LGPD Dialog Styling */
+  .lgpd-dialog {
+    border: none;
+    border-radius: var(--radius-lg);
+    padding: 0;
+    max-width: 480px;
+    width: 90%;
+    box-shadow: var(--shadow-premium);
+    background-color: #FFFFFF;
+    margin: auto;
+  }
+
+  .lgpd-dialog::backdrop {
+    background-color: rgba(15, 26, 46, 0.75);
+    backdrop-filter: blur(5px);
+  }
+
+  .lgpd-form-container {
+    padding: var(--space-xl) var(--space-lg);
+  }
+
+  .lgpd-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: var(--space-md);
+    gap: var(--space-xs);
+  }
+
+  .lgpd-icon {
+    color: var(--color-primary);
+  }
+
+  .lgpd-header h3 {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--color-bg-dark);
+  }
+
+  .lgpd-header p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .lgpd-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxs);
+    text-align: left;
+  }
+
+  .form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-bg-dark);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    color: var(--color-bg-dark);
+    background-color: #FAFAFA;
+    transition: border-color var(--transition-fast);
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background-color: #FFFFFF;
+  }
+
+  .form-consent {
+    display: flex;
+    gap: var(--space-xs);
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .form-checkbox {
+    margin-top: 3px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--color-primary);
+  }
+
+  .form-consent label {
+    font-size: 0.775rem;
+    line-height: 1.4;
+    color: var(--color-text-muted);
+    cursor: pointer;
+  }
+
+  .btn-submit-lead {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.95rem;
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+    margin-top: var(--space-xs);
+  }
+
+  .btn-submit-lead:hover {
+    background-color: var(--color-primary-light);
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.85; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.85; }
+  }
+
+  @media (max-width: 768px) {
+    .dialog-layout {
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+    .dialog-sidebar {
+      border-right: none;
+      border-bottom: 1px solid var(--color-border);
+      padding-right: 0;
+      padding-bottom: var(--space-md);
+    }
+    .membro-foto-placeholder, .membro-foto-wrapper {
+      height: 290px;
+    }
+  }
+</style>

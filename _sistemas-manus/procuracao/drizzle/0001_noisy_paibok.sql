@@ -1,0 +1,1 @@
+ALTER TABLE `procuracoes` ADD `status` enum('pendente','gerada') DEFAULT 'pendente' NOT NULL;

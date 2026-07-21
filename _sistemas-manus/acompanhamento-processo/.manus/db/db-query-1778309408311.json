@@ -1,0 +1,108 @@
+{
+  "query": "SELECT id, numeroCnj, tribunal, descricao, status FROM processos WHERE userId = 1 ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user jtCeb7e1jptwE2x.25d8f19ad12d --database iZRnCDjueaYGD68s28cofE --execute SELECT id, numeroCnj, tribunal, descricao, status FROM processos WHERE userId = 1 ORDER BY id;",
+  "rows": [
+    {
+      "id": "1",
+      "numeroCnj": "5106433-08.2023.8.09.0099",
+      "tribunal": "TJGO",
+      "descricao": "Responder",
+      "status": "26/05/2026 – Responder"
+    },
+    {
+      "id": "2",
+      "numeroCnj": "5980803-55.2025.8.09.0130",
+      "tribunal": "TJGO",
+      "descricao": "Conciliação",
+      "status": "29/05/2026 14:30 – Conciliação"
+    },
+    {
+      "id": "3",
+      "numeroCnj": "5248885-83.2026.8.09.0051",
+      "tribunal": "TJGO",
+      "descricao": "Conciliação",
+      "status": "18/05/2026 14:00 – Conciliação"
+    },
+    {
+      "id": "4",
+      "numeroCnj": "5144869-49.2024.8.09.0051",
+      "tribunal": "TJGO",
+      "descricao": "Responder",
+      "status": "22/05/2026 – Responder"
+    },
+    {
+      "id": "5",
+      "numeroCnj": "5061666-24.2026.8.09.0051",
+      "tribunal": "TJGO",
+      "descricao": "NULL",
+      "status": "NULL"
+    },
+    {
+      "id": "6",
+      "numeroCnj": "5089329-45.2026.8.09.0051",
+      "tribunal": "TJGO",
+      "descricao": "Responder",
+      "status": "07/05/2026 – Responder"
+    },
+    {
+      "id": "7",
+      "numeroCnj": "5024260-66.2026.8.09.0051",
+      "tribunal": "TJGO",
+      "descricao": "Recorrer ou não",
+      "status": "20/05/2026 – Recorrer ou não"
+    },
+    {
+      "id": "8",
+      "numeroCnj": "5563039-67.2025.8.09.0051",
+      "tribunal": "TJGO",
+      "descricao": "Marlene – Responder",
+      "status": "15/05/2026 – Marlene / Responder"
+    },
+    {
+      "id": "9",
+      "numeroCnj": "5989484-91.2024.8.09.0051",
+      "tribunal": "TJGO",
+      "descricao": "Responder",
+      "status": "15/05/2026 – Responder"
+    },
+    {
+      "id": "10",
+      "numeroCnj": "5554704-59.2025.8.09.0051",
+      "tribunal": "TJGO",
+      "descricao": "Devair – Responder",
+      "status": "Devair – Responder"
+    },
+    {
+      "id": "11",
+      "numeroCnj": "5258413-44.2026.8.09.0051",
+      "tribunal": "TJGO",
+      "descricao": "Responder – Nagila",
+      "status": "14/05/2026 – Responder – Nagila"
+    },
+    {
+      "id": "12",
+      "numeroCnj": "5829187-13.2024.8.09.0051",
+      "tribunal": "TJGO",
+      "descricao": "Responder",
+      "status": "07/05/2026 – Responder"
+    },
+    {
+      "id": "13",
+      "numeroCnj": "5283239-71.2025.8.09.0051",
+      "tribunal": "TJGO",
+      "descricao": "Responder Margarida",
+      "status": "06/05/2026 – Responder Margarida"
+    },
+    {
+      "id": "14",
+      "numeroCnj": "5172432-47.2026.8.09.0051",
+      "tribunal": "TJGO",
+      "descricao": "Conciliação",
+      "status": "15/05/2026 17:00 – Conciliação"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tnumeroCnj\ttribunal\tdescricao\tstatus\n1\t5106433-08.2023.8.09.0099\tTJGO\tResponder\t26/05/2026 – Responder\n2\t5980803-55.2025.8.09.0130\tTJGO\tConciliação\t29/05/2026 14:30 – Conciliação\n3\t5248885-83.2026.8.09.0051\tTJGO\tConciliação\t18/05/2026 14:00 – Conciliação\n4\t5144869-49.2024.8.09.0051\tTJGO\tResponder\t22/05/2026 – Responder\n5\t5061666-24.2026.8.09.0051\tTJGO\tNULL\tNULL\n6\t5089329-45.2026.8.09.0051\tTJGO\tResponder\t07/05/2026 – Responder\n7\t5024260-66.2026.8.09.0051\tTJGO\tRecorrer ou não\t20/05/2026 – Recorrer ou não\n8\t5563039-67.2025.8.09.0051\tTJGO\tMarlene – Responder\t15/05/2026 – Marlene / Responder\n9\t5989484-91.2024.8.09.0051\tTJGO\tResponder\t15/05/2026 – Responder\n10\t5554704-59.2025.8.09.0051\tTJGO\tDevair – Responder\tDevair – Responder\n11\t5258413-44.2026.8.09.0051\tTJGO\tResponder – Nagila\t14/05/2026 – Responder – Nagila\n12\t5829187-13.2024.8.09.0051\tTJGO\tResponder\t07/05/2026 – Responder\n13\t5283239-71.2025.8.09.0051\tTJGO\tResponder Margarida\t06/05/2026 – Responder Margarida\n14\t5172432-47.2026.8.09.0051\tTJGO\tConciliação\t15/05/2026 17:00 – Conciliação\n",
+  "stderr": "",
+  "execution_time_ms": 353
+}

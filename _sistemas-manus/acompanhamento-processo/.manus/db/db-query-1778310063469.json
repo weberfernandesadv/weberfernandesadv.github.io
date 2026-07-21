@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE `processos` ADD `dataLimite` date;\nALTER TABLE `processos` ADD `tipoManifestacao` enum('Recurso','Resposta','Apelação','Embargos de declaração','Autos conclusos','Conciliação','Outro');\nALTER TABLE `processos` ADD `cliente` varchar(255);\nALTER TABLE `processos` ADD `anotacao` text;\nALTER TABLE `processos` DROP COLUMN `descricao`;\nALTER TABLE `processos` DROP COLUMN `status`;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user jtCeb7e1jptwE2x.25d8f19ad12d --database iZRnCDjueaYGD68s28cofE --execute ALTER TABLE `processos` ADD `dataLimite` date;\nALTER TABLE `processos` ADD `tipoManifestacao` enum('Recurso','Resposta','Apelação','Embargos de declaração','Autos conclusos','Conciliação','Outro');\nALTER TABLE `processos` ADD `cliente` varchar(255);\nALTER TABLE `processos` ADD `anotacao` text;\nALTER TABLE `processos` DROP COLUMN `descricao`;\nALTER TABLE `processos` DROP COLUMN `status`;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1299
+}

@@ -1,0 +1,2 @@
+ALTER TABLE `processos` MODIFY COLUMN `tipoManifestacao` enum('Recurso','Resposta','Apelação','Embargos de declaração','Autos conclusos','Conciliação','Audiência','Contestação','Impugnação','Outro');--> statement-breakpoint
+ALTER TABLE `processos` ADD `dataIntimacao` date;

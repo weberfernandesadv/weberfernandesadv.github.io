@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1778307796700,
+      "tag": "0000_normal_hiroim",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1778307886417,
+      "tag": "0001_mysterious_sprite",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1778310051138,
+      "tag": "0002_high_harpoon",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1778501944175,
+      "tag": "0003_aromatic_titania",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1780957263177,
+      "tag": "0004_secret_multiple_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1783714703409,
+      "tag": "0005_flimsy_falcon",
+      "breakpoints": true
+    }
+  ]
+}

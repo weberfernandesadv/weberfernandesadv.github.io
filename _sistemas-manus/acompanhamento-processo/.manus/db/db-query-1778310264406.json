@@ -1,0 +1,136 @@
+{
+  "query": "SELECT id, numeroCnj, tribunal, dataLimite, tipoManifestacao, cliente, anotacao FROM processos WHERE userId = 1 ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user jtCeb7e1jptwE2x.25d8f19ad12d --database iZRnCDjueaYGD68s28cofE --execute SELECT id, numeroCnj, tribunal, dataLimite, tipoManifestacao, cliente, anotacao FROM processos WHERE userId = 1 ORDER BY id;",
+  "rows": [
+    {
+      "id": "1",
+      "numeroCnj": "5106433-08.2023.8.09.0099",
+      "tribunal": "TJGO",
+      "dataLimite": "2026-05-26",
+      "tipoManifestacao": "Resposta",
+      "cliente": "NULL",
+      "anotacao": "NULL"
+    },
+    {
+      "id": "2",
+      "numeroCnj": "5980803-55.2025.8.09.0130",
+      "tribunal": "TJGO",
+      "dataLimite": "2026-05-29",
+      "tipoManifestacao": "Conciliação",
+      "cliente": "NULL",
+      "anotacao": "14:30"
+    },
+    {
+      "id": "3",
+      "numeroCnj": "5248885-83.2026.8.09.0051",
+      "tribunal": "TJGO",
+      "dataLimite": "2026-05-18",
+      "tipoManifestacao": "Conciliação",
+      "cliente": "NULL",
+      "anotacao": "14:00"
+    },
+    {
+      "id": "4",
+      "numeroCnj": "5144869-49.2024.8.09.0051",
+      "tribunal": "TJGO",
+      "dataLimite": "2026-05-22",
+      "tipoManifestacao": "Resposta",
+      "cliente": "NULL",
+      "anotacao": "NULL"
+    },
+    {
+      "id": "5",
+      "numeroCnj": "5061666-24.2026.8.09.0051",
+      "tribunal": "TJGO",
+      "dataLimite": "NULL",
+      "tipoManifestacao": "NULL",
+      "cliente": "NULL",
+      "anotacao": "NULL"
+    },
+    {
+      "id": "6",
+      "numeroCnj": "5089329-45.2026.8.09.0051",
+      "tribunal": "TJGO",
+      "dataLimite": "2026-05-07",
+      "tipoManifestacao": "Resposta",
+      "cliente": "NULL",
+      "anotacao": "NULL"
+    },
+    {
+      "id": "7",
+      "numeroCnj": "5024260-66.2026.8.09.0051",
+      "tribunal": "TJGO",
+      "dataLimite": "2026-05-20",
+      "tipoManifestacao": "Outro",
+      "cliente": "NULL",
+      "anotacao": "Recorrer ou não"
+    },
+    {
+      "id": "8",
+      "numeroCnj": "5563039-67.2025.8.09.0051",
+      "tribunal": "TJGO",
+      "dataLimite": "2026-05-15",
+      "tipoManifestacao": "Resposta",
+      "cliente": "Marlene",
+      "anotacao": "NULL"
+    },
+    {
+      "id": "9",
+      "numeroCnj": "5989484-91.2024.8.09.0051",
+      "tribunal": "TJGO",
+      "dataLimite": "2026-05-15",
+      "tipoManifestacao": "Resposta",
+      "cliente": "NULL",
+      "anotacao": "NULL"
+    },
+    {
+      "id": "10",
+      "numeroCnj": "5554704-59.2025.8.09.0051",
+      "tribunal": "TJGO",
+      "dataLimite": "NULL",
+      "tipoManifestacao": "Resposta",
+      "cliente": "Devair",
+      "anotacao": "NULL"
+    },
+    {
+      "id": "11",
+      "numeroCnj": "5258413-44.2026.8.09.0051",
+      "tribunal": "TJGO",
+      "dataLimite": "2026-05-14",
+      "tipoManifestacao": "Resposta",
+      "cliente": "Nagila",
+      "anotacao": "NULL"
+    },
+    {
+      "id": "12",
+      "numeroCnj": "5829187-13.2024.8.09.0051",
+      "tribunal": "TJGO",
+      "dataLimite": "2026-05-07",
+      "tipoManifestacao": "Resposta",
+      "cliente": "NULL",
+      "anotacao": "NULL"
+    },
+    {
+      "id": "13",
+      "numeroCnj": "5283239-71.2025.8.09.0051",
+      "tribunal": "TJGO",
+      "dataLimite": "2026-05-06",
+      "tipoManifestacao": "Resposta",
+      "cliente": "Margarida",
+      "anotacao": "NULL"
+    },
+    {
+      "id": "14",
+      "numeroCnj": "5172432-47.2026.8.09.0051",
+      "tribunal": "TJGO",
+      "dataLimite": "2026-05-15",
+      "tipoManifestacao": "Conciliação",
+      "cliente": "NULL",
+      "anotacao": "17:00"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tnumeroCnj\ttribunal\tdataLimite\ttipoManifestacao\tcliente\tanotacao\n1\t5106433-08.2023.8.09.0099\tTJGO\t2026-05-26\tResposta\tNULL\tNULL\n2\t5980803-55.2025.8.09.0130\tTJGO\t2026-05-29\tConciliação\tNULL\t14:30\n3\t5248885-83.2026.8.09.0051\tTJGO\t2026-05-18\tConciliação\tNULL\t14:00\n4\t5144869-49.2024.8.09.0051\tTJGO\t2026-05-22\tResposta\tNULL\tNULL\n5\t5061666-24.2026.8.09.0051\tTJGO\tNULL\tNULL\tNULL\tNULL\n6\t5089329-45.2026.8.09.0051\tTJGO\t2026-05-07\tResposta\tNULL\tNULL\n7\t5024260-66.2026.8.09.0051\tTJGO\t2026-05-20\tOutro\tNULL\tRecorrer ou não\n8\t5563039-67.2025.8.09.0051\tTJGO\t2026-05-15\tResposta\tMarlene\tNULL\n9\t5989484-91.2024.8.09.0051\tTJGO\t2026-05-15\tResposta\tNULL\tNULL\n10\t5554704-59.2025.8.09.0051\tTJGO\tNULL\tResposta\tDevair\tNULL\n11\t5258413-44.2026.8.09.0051\tTJGO\t2026-05-14\tResposta\tNagila\tNULL\n12\t5829187-13.2024.8.09.0051\tTJGO\t2026-05-07\tResposta\tNULL\tNULL\n13\t5283239-71.2025.8.09.0051\tTJGO\t2026-05-06\tResposta\tMargarida\tNULL\n14\t5172432-47.2026.8.09.0051\tTJGO\t2026-05-15\tConciliação\tNULL\t17:00\n",
+  "stderr": "",
+  "execution_time_ms": 328
+}

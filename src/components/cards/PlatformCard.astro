@@ -1,0 +1,157 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  icon: 'key' | 'search' | 'credit-card';
+  href: string;
+}
+
+const { title, description, icon, href } = Astro.props;
+---
+
+<div class="platform-card">
+  <div class="platform-header">
+    <div class="platform-icon-container">
+      {icon === 'key' && (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+        </svg>
+      )}
+      {icon === 'search' && (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      )}
+      {icon === 'credit-card' && (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+          <line x1="1" y1="10" x2="23" y2="10"/>
+        </svg>
+      )}
+    </div>
+    <span class="platform-status-badge">
+      <span class="status-dot"></span>
+      Sistema Ativo
+    </span>
+  </div>
+  <div class="platform-body">
+    <h3 class="platform-title">{title}</h3>
+    <p class="platform-desc">{description}</p>
+    <a href={href} class="btn btn-primary platform-btn" target="_blank" rel="noopener noreferrer">
+      Acessar Área Restrita
+      <svg class="lock-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+    </a>
+  </div>
+</div>
+
+<style>
+  .platform-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-md);
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+  }
+
+  .platform-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(107, 0, 119, 0.2);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .platform-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+  }
+
+  .platform-icon-container {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(107, 0, 119, 0.05);
+    color: var(--color-primary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-normal);
+  }
+
+  .platform-card:hover .platform-icon-container {
+    background-color: var(--color-primary);
+    color: var(--color-bg-light);
+  }
+
+  .platform-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-accent-green);
+    background-color: rgba(46, 125, 50, 0.08);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-full);
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-accent-green);
+    border-radius: var(--radius-full);
+    animation: blink 2s infinite;
+  }
+
+  .platform-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .platform-title {
+    font-size: 1.2rem;
+    font-family: var(--font-display);
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--color-bg-dark);
+    margin-bottom: var(--space-xs);
+  }
+
+  .platform-desc {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-md);
+    line-height: 1.5;
+    flex-grow: 1;
+  }
+
+  .platform-btn {
+    width: 100%;
+    font-size: 0.75rem;
+    padding: 0.6rem var(--space-sm);
+    display: inline-flex;
+    gap: var(--space-xs);
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .lock-icon {
+    opacity: 0.8;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+</style>

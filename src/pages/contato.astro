@@ -1,0 +1,223 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import ContactCard from '../components/cards/ContactCard.astro';
+import { siteConfig } from '../data/site';
+---
+
+<BaseLayout 
+  title="Fale Conosco | Weber F. Pereira & Advogados Associados"
+  description="Entre em contato com o escritório Weber F. Pereira & Advogados Associados em Goiânia/GO. Canais de atendimento presencial e online via WhatsApp e e-mail."
+>
+  <PageHero 
+    title="Contato" 
+    subtitle="Utilize nossos canais diretos de comunicação para agendar sua consulta jurídica presencial ou online."
+    tagline="Canais de Atendimento"
+  />
+
+  <section class="contact-page-section">
+    <div class="container contact-grid-layout">
+      <!-- Info Column -->
+      <div class="info-column">
+        <SectionTitle 
+          title="Canais de Comunicação" 
+          subtitle="Escolha o meio de contato mais conveniente para o seu atendimento."
+          align="left"
+        />
+
+        <div class="contacts-wrapper">
+          <ContactCard 
+            type="whatsapp"
+            title="WhatsApp Geral"
+            value={siteConfig.phone}
+            link={`https://wa.me/${siteConfig.whatsappNumber}`}
+          />
+          <ContactCard 
+            type="email"
+            title="E-mail de Contato"
+            value={siteConfig.email}
+            link={`mailto:${siteConfig.email}`}
+          />
+          <ContactCard 
+            type="address"
+            title="Sede do Escritório"
+            value={siteConfig.address}
+            link={siteConfig.addressLink}
+          />
+        </div>
+
+        <!-- Embedded Map -->
+        <div class="map-container">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3823.3648616997426!2d-49.3101188!3d-16.6083162!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935ef33f2824df99%3A0xe54e3d360ee330ec!2sRua%20VF%209%20-%20Vila%20Finsocial%2C%20Goi%C3%A2nia%20-%20GO%2C%2074473-070!5e0!3m2!1spt-BR!2sbr!4v1680000000000!5m2!1spt-BR!2sbr" 
+            width="100%" 
+            height="250" 
+            style="border:0; border-radius: var(--radius-md);" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Mapa de localização do escritório Weber F. Pereira"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- Details Column -->
+      <div class="details-column">
+        <div class="contact-details-card">
+          <h2 class="details-card-title">Modalidades de Atendimento</h2>
+          <p class="details-card-subtitle">Orientação segura e sigilosa por vias digitais ou presenciais.</p>
+          
+          <div class="atendimento-info-box">
+            <div class="atendimento-type">
+              <h3 class="atendimento-title">Atendimento Presencial</h3>
+              <p class="atendimento-desc">
+                {siteConfig.channels.presencial} Realizado em ambiente corporativo privativo, pautado pelas regras sanitárias e éticas da OAB.
+              </p>
+            </div>
+            
+            <div class="atendimento-type">
+              <h3 class="atendimento-title">Atendimento Online</h3>
+              <p class="atendimento-desc">
+                {siteConfig.channels.online} Através de salas virtuais criptografadas, garantindo comodidade e segurança jurídica onde você estiver.
+              </p>
+            </div>
+
+            <div class="atendimento-hours">
+              <h3 class="atendimento-title">Horário de Expediente</h3>
+              <p class="atendimento-desc">Segunda a Sexta-feira: 08:00 às 18:00</p>
+              <p class="atendimento-desc font-italic">Agendamento prévio obrigatório.</p>
+            </div>
+
+            <div class="action-wrapper">
+              <a href={`https://wa.me/${siteConfig.whatsappNumber}`} class="btn btn-primary btn-cta-wa" target="_blank" rel="noopener noreferrer">
+                Falar pelo WhatsApp
+              </a>
+            </div>
+          </div>
+          
+          <!-- 
+            PENDÊNCIA: Formulário de contato ocultado temporariamente a pedido do cliente.
+            
+            <form class="visual-contact-form" style="display:none;">
+              ...
+            </form>
+          -->
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-page-section {
+    background-color: var(--color-bg-light);
+    padding: var(--space-xl) 0;
+  }
+
+  .contact-grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .info-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .contacts-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .map-container {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 6px;
+    background-color: var(--color-bg-light);
+    box-shadow: var(--shadow-sm);
+    margin-top: var(--space-xs);
+  }
+
+  .contact-details-card {
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-md);
+  }
+
+  .details-card-title {
+    font-family: var(--font-serif);
+    font-size: 1.75rem;
+    color: var(--color-bg-dark);
+    margin-bottom: 2px;
+    font-weight: 500;
+  }
+
+  .details-card-subtitle {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-md);
+  }
+
+  .atendimento-info-box {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .atendimento-type {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-sm);
+  }
+
+  .atendimento-title {
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .atendimento-desc {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  .atendimento-hours {
+    background-color: #FAFAFA;
+    padding: var(--space-md);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--color-primary-light);
+  }
+
+  .font-italic {
+    font-style: italic;
+    font-size: 0.85rem;
+    margin-top: 2px;
+  }
+
+  .action-wrapper {
+    margin-top: var(--space-sm);
+  }
+
+  .btn-cta-wa {
+    width: 100%;
+    padding: 0.75rem var(--space-sm);
+  }
+
+  @media (max-width: 991px) {
+    .contact-grid-layout {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
+  }
+</style>

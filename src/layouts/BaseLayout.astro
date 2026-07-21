@@ -1,0 +1,32 @@
+---
+import '../styles/tokens.css';
+import '../styles/global.css';
+import SEOHead from '../components/seo/SEOHead.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import WhatsAppButton from '../components/ui/WhatsAppButton.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  noindex?: boolean;
+}
+
+const seoProps = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <SEOHead {...seoProps} />
+  </head>
+  <body>
+    <Header />
+    <slot />
+    <Footer />
+    <WhatsAppButton />
+  </body>
+</html>

@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/ui/PageHero.astro';
+import SectionTitle from '../components/ui/SectionTitle.astro';
+import AreaCard from '../components/cards/AreaCard.astro';
+import { areasOfPractice } from '../data/areas';
+import { siteConfig } from '../data/site';
+---
+
+<BaseLayout 
+  title="Áreas de Atuação Jurídica | Weber F. Pereira & Advogados Associados"
+  description="Conheça todas as áreas de atuação do escritório em Goiânia/GO. Direito Imobiliário, Administrativo/PAD, Previdenciário, Trabalhista, Cível, de Família, Criminal e Internacional."
+>
+  <PageHero 
+    title="Áreas de Atuação" 
+    subtitle="Suporte jurídico integral em múltiplos segmentos do direito, atuando de maneira preventiva e contenciosa."
+    tagline="Nossos Serviços"
+  />
+
+  <section class="all-areas-section">
+    <div class="container">
+      <SectionTitle 
+        title="Atuação Especializada" 
+        subtitle="Selecione abaixo o ramo jurídico correspondente à sua demanda para compreender nosso escopo de atuação e diretrizes operacionais."
+      />
+
+      <div class="grid-three-cols">
+        {areasOfPractice.map((area) => (
+          <AreaCard 
+            title={area.title}
+            summary={area.summary}
+            slug={area.slug}
+            icon={area.icon}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Legal Caveat / Disclaimer -->
+  <section class="disclaimer-section bg-light-gray">
+    <div class="container text-center">
+      <div class="ethical-notice-box">
+        <h4 class="ethical-title-notice">Esclarecimento Importante</h4>
+        <p class="ethical-description-notice">
+          As informações dispostas neste portal são de cunho estritamente informativo e acadêmico. Em respeito aos preceitos éticos da advocacia nacional (OAB), nenhuma informação deve ser interpretada como promessa de êxito processual ou de resultado garantido.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .all-areas-section {
+    background-color: var(--color-bg-light);
+  }
+
+  .grid-three-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-md);
+  }
+
+  .bg-light-gray {
+    background-color: #FAFAFA;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .ethical-notice-box {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: var(--space-md);
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .ethical-title-notice {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: var(--space-xs);
+    letter-spacing: 0.05em;
+  }
+
+  .ethical-description-notice {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+</style>
