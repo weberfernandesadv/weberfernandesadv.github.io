@@ -113,6 +113,7 @@ async function startServer() {
       
       return res.status(200).json({
         success: true,
+        token: sessionToken,
         user: {
           name: user.name,
           email: user.email,
@@ -135,32 +136,7 @@ async function startServer() {
   // Endpoint to check session from the Astro website
   app.get("/api/user-session", async (req, res) => {
     try {
-      const cookieHeader = req.headers.cookie;
-      if (!cookieHeader) {
-        return res.status(200).json({ loggedIn: false });
-      }
-      
-      const parsedCookies = parseCookie(cookieHeader);
-      const sessionCookie = parsedCookies["app_session_id"];
-      
-      if (!sessionCookie) {
-        return res.status(200).json({ loggedIn: false });
-      }
-      
-      const { sdk } = await import("./sdk");
-      const session = await sdk.verifySession(sessionCookie);
-      if (!session) {
-        return res.status(200).json({ loggedIn: false });
-      }
-      
-      const { getUserByEmail, getUserByOpenId } = await import("../db");
-      let user;
-      if (session.openId.includes("@")) {
-        user = await getUserByEmail(session.openId);
-      } else {
-        user = await getUserByOpenId(session.openId);
-      }
-      
+      const user = await authenticateSession(req);
       if (!user) {
         return res.status(200).json({ loggedIn: false });
       }
@@ -168,25 +144,35 @@ async function startServer() {
       return res.status(200).json({
         loggedIn: true,
         user: {
+          id: user.id,
           name: user.name,
           email: user.email,
           cpf: user.cpf,
-          role: user.role
+          role: user.role,
+          cidade: user.cidade,
+          estado: user.estado,
+          fotoUrl: user.fotoUrl
         }
       });
     } catch (e: any) {
       console.error("[API Session] Error:", e);
-      return res.status(500).json({ error: e.message || "Erro interno do servidor." });
+      return res.status(200).json({ loggedIn: false });
     }
   });
 
-  // Helper function to authenticate session cookies
+  // Helper function to authenticate session cookies and Authorization Bearer headers
   async function authenticateSession(req: express.Request): Promise<any | null> {
-    const cookieHeader = req.headers.cookie;
-    if (!cookieHeader) return null;
     try {
-      const parsedCookies = parseCookie(cookieHeader);
-      const sessionCookie = parsedCookies["app_session_id"];
+      let sessionCookie: string | undefined;
+
+      const authHeader = req.headers.authorization;
+      if (authHeader && authHeader.startsWith("Bearer ")) {
+        sessionCookie = authHeader.substring(7);
+      } else if (req.headers.cookie) {
+        const parsedCookies = parseCookie(req.headers.cookie);
+        sessionCookie = parsedCookies["app_session_id"];
+      }
+
       if (!sessionCookie) return null;
       
       const { sdk } = await import("./sdk");
@@ -235,6 +221,7 @@ async function startServer() {
       
       return res.status(200).json({
         success: true,
+        token: sessionToken,
         user: {
           name,
           email,

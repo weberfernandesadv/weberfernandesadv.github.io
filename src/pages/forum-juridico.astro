@@ -349,10 +349,23 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     });
   }
 
+  // Helper for Authorization Headers & persistence
+  function getAuthHeaders(): Record<string, string> {
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    const token = localStorage.getItem("app_session_id");
+    if (token) {
+      headers["Authorization"] = "Bearer " + token;
+    }
+    return headers;
+  }
+
   // Check user session
   async function checkSession() {
     try {
-      const res = await fetch("http://localhost:3002/api/user-session", { credentials: "include" });
+      const res = await fetch("http://localhost:3002/api/user-session", {
+        headers: getAuthHeaders(),
+        credentials: "include"
+      });
       const data = await res.json();
       
       if (data.loggedIn) {
@@ -399,7 +412,10 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
   // Load Collaborative Feed
   async function loadFeed() {
     try {
-      const res = await fetch("http://localhost:3002/api/artigos", { credentials: "include" });
+      const res = await fetch("http://localhost:3002/api/artigos", {
+        headers: getAuthHeaders(),
+        credentials: "include"
+      });
       const data = await res.json();
       
       feedContainer.innerHTML = "";
@@ -569,7 +585,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     try {
       const res = await fetch("http://localhost:3002/api/artigos/curtir", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ artigoId }),
         credentials: "include"
       });
@@ -604,7 +620,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     try {
       const res = await fetch("http://localhost:3002/api/artigos/salvar", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ artigoId }),
         credentials: "include"
       });
@@ -708,7 +724,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     try {
       const res = await fetch("http://localhost:3002/api/artigos/comentarios", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ artigoId, texto }),
         credentials: "include"
       });
@@ -784,6 +800,9 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
       });
       const data = await res.json();
       if (res.ok && data.success) {
+        if (data.token) {
+          localStorage.setItem("app_session_id", data.token);
+        }
         modalLogin.close();
         formLogin.reset();
         await checkSession();
@@ -819,6 +838,9 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
       });
       const data = await res.json();
       if (res.ok && data.success) {
+        if (data.token) {
+          localStorage.setItem("app_session_id", data.token);
+        }
         modalRegister.close();
         formRegister.reset();
         compressedBase64Photo = "";
@@ -849,7 +871,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     try {
       const res = await fetch("http://localhost:3002/api/artigos", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ tipo, categoria, titulo, conteudo }),
         credentials: "include"
       });
@@ -870,6 +892,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
 
   // Handle Logout
   btnSideLogout.addEventListener("click", async () => {
+    localStorage.removeItem("app_session_id");
     try {
       await fetch("http://localhost:3002/api/logout", { method: "POST", credentials: "include" });
     } catch (e) {
