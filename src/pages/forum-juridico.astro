@@ -69,7 +69,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
           <div id="side-promo-card" class="sidebar-card">
             <h3 class="side-card-title">Participe da Comunidade</h3>
             <p class="side-card-text">
-              Faça o cadastro para poder publicar seus próprios artigos e modelos, curtir as publicações, salvar favoritos e participar das discussões!
+              Faça o cadastro para poder curtir as publicações, salvar favoritos e participar das discussões!
             </p>
             <div class="side-card-actions">
               <button id="btn-side-login" class="btn btn-primary side-btn">Entrar no Portal</button>
@@ -138,8 +138,8 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     <div class="modal-content">
       <button class="modal-close-btn">&times;</button>
       <div class="modal-header">
-        <h3>Criar Cadastro Colaborador</h3>
-        <p>Preencha os campos para publicar estudos e modelos jurídicos.</p>
+        <h3>Criar Cadastro no Portal</h3>
+        <p>Preencha os campos para curtir, comentar e salvar publicações.</p>
       </div>
       <form id="form-modal-register" class="modal-form">
         <div class="form-group">
@@ -371,11 +371,19 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
   function showUserLoggedIn(user: any) {
     sidePromoCard.classList.add("hidden");
     sideProfileCard.classList.remove("hidden");
-    btnTopPublish.classList.remove("hidden");
     feedFilterTabs.classList.remove("hidden");
 
+    // Only show Publish buttons if user is an admin / lawyer
+    if (user.role === "admin") {
+      btnTopPublish.classList.remove("hidden");
+      btnSidePublish.classList.remove("hidden");
+    } else {
+      btnTopPublish.classList.add("hidden");
+      btnSidePublish.classList.add("hidden");
+    }
+
     sideUserName.textContent = user.name;
-    sideUserLocation.textContent = (user.cidade && user.estado) ? `${user.cidade} - ${user.estado}` : "Colaborador";
+    sideUserLocation.textContent = (user.cidade && user.estado) ? `${user.cidade} - ${user.estado}` : "Leitor";
     sideUserAvatar.src = user.fotoUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(user.name)}`;
   }
 

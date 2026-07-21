@@ -267,6 +267,10 @@ async function startServer() {
       if (!user) {
         return res.status(401).json({ error: "Não autorizado. Faça o login." });
       }
+
+      if (user.role !== "admin") {
+        return res.status(403).json({ error: "Apenas advogados autorizados podem publicar artigos." });
+      }
       
       const { titulo, conteudo, tipo, categoria } = req.body;
       if (!titulo || !conteudo) {
