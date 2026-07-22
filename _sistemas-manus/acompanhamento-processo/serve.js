@@ -23093,7 +23093,24 @@ __export(db_exports, {
 async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
-      _db = (0, import_mysql2.drizzle)(process.env.DATABASE_URL);
+      let dbUrl = process.env.DATABASE_URL.trim();
+      const schemeIndex = dbUrl.indexOf("://");
+      if (schemeIndex !== -1) {
+        const prefix = dbUrl.substring(0, schemeIndex + 3);
+        const rest = dbUrl.substring(schemeIndex + 3);
+        const lastAt = rest.lastIndexOf("@");
+        if (lastAt !== -1) {
+          const userPass = rest.substring(0, lastAt);
+          const hostDb = rest.substring(lastAt + 1);
+          const colonIndex = userPass.indexOf(":");
+          if (colonIndex !== -1) {
+            const user = userPass.substring(0, colonIndex);
+            const pass = userPass.substring(colonIndex + 1);
+            dbUrl = `${prefix}${user}:${encodeURIComponent(decodeURIComponent(pass))}@${hostDb}`;
+          }
+        }
+      }
+      _db = (0, import_mysql2.drizzle)(dbUrl);
       if (!_seeded) {
         _seeded = true;
         setTimeout(() => seedAdminUser(), 100);
@@ -47928,7 +47945,10 @@ async function startServer() {
   app.use(import_express.default.urlencoded({ limit: "50mb", extended: true }));
   registerStorageProxy(app);
   registerOAuthRoutes(app);
-  app.post("/api/leads", async (req, res) => {
+  app.get(["/", "/api", "/api/health"], (req, res) => {
+    return res.status(200).json({ status: "ok", message: "API Advocacia Weber Fernandes rodando no cPanel!" });
+  });
+  app.post(["/api/leads", "/leads"], async (req, res) => {
     try {
       const { nome, telefone, advogado, mensagem } = req.body;
       if (!nome || !telefone || !advogado) {
@@ -47948,18 +47968,18 @@ async function startServer() {
       return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
     }
   });
-  app.post("/api/login", async (req, res) => {
+  app.post(["/api/login", "/login"], async (req, res) => {
     try {
       const { login, password } = req.body;
       if (!login || !password) {
-        return res.status(400).json({ error: "E-mail/CPF e senha s\xE3o obrigat\xF3rios." });
+        return res.status(400).json({ error: "CPF e senha s\xE3o obrigat\xF3rios." });
       }
       const { getUserByEmail: getUserByEmail2, getUserByCpf: getUserByCpf2 } = await Promise.resolve().then(() => (init_db(), db_exports));
       const { verifyPassword: verifyPassword2 } = await Promise.resolve().then(() => (init_authHelper(), authHelper_exports));
       const isEmail = login.includes("@");
       const user = isEmail ? await getUserByEmail2(login) : await getUserByCpf2(login.replace(/\D/g, ""));
       if (!user || !user.passwordHash || !verifyPassword2(password, user.passwordHash)) {
-        return res.status(401).json({ error: "E-mail/CPF ou senha incorretos." });
+        return res.status(401).json({ error: "CPF ou senha incorretos." });
       }
       const { sdk: sdk2 } = await Promise.resolve().then(() => (init_sdk(), sdk_exports));
       const sessionToken = await sdk2.createSessionToken(user.email || user.cpf || user.openId, {
@@ -47989,11 +48009,11 @@ async function startServer() {
       return res.status(500).json({ error: e.message || "Erro interno do servidor." });
     }
   });
-  app.post("/api/logout", (req, res) => {
+  app.post(["/api/logout", "/logout"], (req, res) => {
     res.clearCookie("app_session_id", { path: "/" });
     return res.status(200).json({ success: true });
   });
-  app.get("/api/user-session", async (req, res) => {
+  app.get(["/api/user-session", "/user-session"], async (req, res) => {
     try {
       const user = await authenticateSession(req);
       if (!user) {
@@ -48043,7 +48063,7 @@ async function startServer() {
       return null;
     }
   }
-  app.post("/api/public-register", async (req, res) => {
+  app.post(["/api/public-register", "/public-register"], async (req, res) => {
     try {
       const { name, email: email4, password, cidade, estado, fotoUrl } = req.body;
       if (!name || !email4 || !password || !cidade || !estado) {
@@ -48079,7 +48099,7 @@ async function startServer() {
       return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
     }
   });
-  app.get("/api/artigos", async (req, res) => {
+  app.get(["/api/artigos", "/artigos"], async (req, res) => {
     try {
       const user = await authenticateSession(req);
       const { getArtigos: getArtigos2 } = await Promise.resolve().then(() => (init_db(), db_exports));
@@ -48090,7 +48110,7 @@ async function startServer() {
       return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
     }
   });
-  app.post("/api/artigos", async (req, res) => {
+  app.post(["/api/artigos", "/artigos"], async (req, res) => {
     try {
       const user = await authenticateSession(req);
       if (!user) {

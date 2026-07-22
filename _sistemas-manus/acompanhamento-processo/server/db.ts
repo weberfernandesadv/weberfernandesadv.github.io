@@ -13,7 +13,24 @@ let _seeded = false;
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
-      _db = drizzle(process.env.DATABASE_URL);
+      let dbUrl = process.env.DATABASE_URL.trim();
+      const schemeIndex = dbUrl.indexOf("://");
+      if (schemeIndex !== -1) {
+        const prefix = dbUrl.substring(0, schemeIndex + 3);
+        const rest = dbUrl.substring(schemeIndex + 3);
+        const lastAt = rest.lastIndexOf("@");
+        if (lastAt !== -1) {
+          const userPass = rest.substring(0, lastAt);
+          const hostDb = rest.substring(lastAt + 1);
+          const colonIndex = userPass.indexOf(":");
+          if (colonIndex !== -1) {
+            const user = userPass.substring(0, colonIndex);
+            const pass = userPass.substring(colonIndex + 1);
+            dbUrl = `${prefix}${user}:${encodeURIComponent(decodeURIComponent(pass))}@${hostDb}`;
+          }
+        }
+      }
+      _db = drizzle(dbUrl);
       if (!_seeded) {
         _seeded = true;
         setTimeout(() => seedAdminUser(), 100);

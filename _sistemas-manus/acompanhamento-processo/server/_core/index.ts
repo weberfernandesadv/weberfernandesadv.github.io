@@ -55,8 +55,13 @@ async function startServer() {
   registerStorageProxy(app);
   registerOAuthRoutes(app);
 
+  // Root health check endpoint
+  app.get(["/", "/api", "/api/health"], (req, res) => {
+    return res.status(200).json({ status: "ok", message: "API Advocacia Weber Fernandes rodando no cPanel!" });
+  });
+
   // Public endpoint to save leads from the website
-  app.post("/api/leads", async (req, res) => {
+  app.post(["/api/leads", "/leads"], async (req, res) => {
     try {
       const { nome, telefone, advogado, mensagem } = req.body;
       if (!nome || !telefone || !advogado) {
@@ -78,11 +83,11 @@ async function startServer() {
   });
 
   // Public Endpoint to login from Astro site and set session cookie
-  app.post("/api/login", async (req, res) => {
+  app.post(["/api/login", "/login"], async (req, res) => {
     try {
       const { login, password } = req.body;
       if (!login || !password) {
-        return res.status(400).json({ error: "E-mail/CPF e senha são obrigatórios." });
+        return res.status(400).json({ error: "CPF e senha são obrigatórios." });
       }
       
       const { getUserByEmail, getUserByCpf } = await import("../db");
@@ -94,7 +99,7 @@ async function startServer() {
         : await getUserByCpf(login.replace(/\D/g, ""));
         
       if (!user || !user.passwordHash || !verifyPassword(password, user.passwordHash)) {
-        return res.status(401).json({ error: "E-mail/CPF ou senha incorretos." });
+        return res.status(401).json({ error: "CPF ou senha incorretos." });
       }
       
       const { sdk } = await import("./sdk");
@@ -127,13 +132,13 @@ async function startServer() {
   });
 
   // Public Endpoint to logout and clear session cookie
-  app.post("/api/logout", (req, res) => {
+  app.post(["/api/logout", "/logout"], (req, res) => {
     res.clearCookie("app_session_id", { path: "/" });
     return res.status(200).json({ success: true });
   });
 
   // Endpoint to check session from the Astro website
-  app.get("/api/user-session", async (req, res) => {
+  app.get(["/api/user-session", "/user-session"], async (req, res) => {
     try {
       const user = await authenticateSession(req);
       if (!user) {
@@ -192,7 +197,7 @@ async function startServer() {
   }
 
   // API to register public users (Name, Email, Password, City, State, Photo)
-  app.post("/api/public-register", async (req, res) => {
+  app.post(["/api/public-register", "/public-register"], async (req, res) => {
     try {
       const { name, email, password, cidade, estado, fotoUrl } = req.body;
       if (!name || !email || !password || !cidade || !estado) {
@@ -234,7 +239,7 @@ async function startServer() {
   });
 
   // API to get list of collaborative articles
-  app.get("/api/artigos", async (req, res) => {
+  app.get(["/api/artigos", "/artigos"], async (req, res) => {
     try {
       const user = await authenticateSession(req);
       const { getArtigos } = await import("../db");
@@ -247,7 +252,7 @@ async function startServer() {
   });
 
   // API to create a collaborative article
-  app.post("/api/artigos", async (req, res) => {
+  app.post(["/api/artigos", "/artigos"], async (req, res) => {
     try {
       const user = await authenticateSession(req);
       if (!user) {
