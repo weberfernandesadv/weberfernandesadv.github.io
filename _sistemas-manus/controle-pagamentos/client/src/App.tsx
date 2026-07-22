@@ -1,7 +1,5 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
-import { Route, Switch, Router as WouterRouter } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import ClientsPage from "./pages/ClientsPage";
@@ -12,49 +10,39 @@ import DashboardLayout from "./components/DashboardLayout";
 import Login from "./pages/Login";
 
 function Router() {
-  const base = typeof window !== "undefined" && window.location.pathname.includes("/controle-pagamentos")
-    ? "/controle-pagamentos"
-    : "";
+  const path = typeof window !== "undefined" ? window.location.pathname : "/";
+  const cleanPath = path.replace(/^\/controle-pagamentos/, "") || "/";
 
+  if (cleanPath.startsWith("/clientes/")) {
+    return (
+      <DashboardLayout>
+        <ClientDetailPage />
+      </DashboardLayout>
+    );
+  }
+  if (cleanPath.startsWith("/carne")) {
+    return (
+      <DashboardLayout>
+        <CarnePage />
+      </DashboardLayout>
+    );
+  }
+  if (cleanPath.startsWith("/lista")) {
+    return (
+      <DashboardLayout>
+        <ClientsListPage />
+      </DashboardLayout>
+    );
+  }
+  if (cleanPath.startsWith("/login")) {
+    return <Login />;
+  }
+
+  // Default: Always render DashboardLayout with ClientsPage!
   return (
-    <WouterRouter base={base}>
-      <Switch>
-        {/* Rotas protegidas envolvidas pelo layout administrativo */}
-        <Route path="/">
-          <DashboardLayout>
-            <ClientsPage />
-          </DashboardLayout>
-        </Route>
-
-        <Route path="/clientes/:id">
-          <DashboardLayout>
-            <ClientDetailPage />
-          </DashboardLayout>
-        </Route>
-
-        <Route path="/carne">
-          <DashboardLayout>
-            <CarnePage />
-          </DashboardLayout>
-        </Route>
-
-        <Route path="/lista">
-          <DashboardLayout>
-            <ClientsListPage />
-          </DashboardLayout>
-        </Route>
-
-        {/* Rota de login */}
-        <Route path="/login" component={Login} />
-
-        <Route path="/404" component={NotFound} />
-        <Route>
-          <DashboardLayout>
-            <ClientsPage />
-          </DashboardLayout>
-        </Route>
-      </Switch>
-    </WouterRouter>
+    <DashboardLayout>
+      <ClientsPage />
+    </DashboardLayout>
   );
 }
 
