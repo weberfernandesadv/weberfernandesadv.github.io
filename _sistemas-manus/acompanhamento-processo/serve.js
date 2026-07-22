@@ -18669,14 +18669,14 @@ var require_init = __commonJS({
   "node_modules/.pnpm/express@4.21.2/node_modules/express/lib/middleware/init.js"(exports2) {
     "use strict";
     var setPrototypeOf = require_setprototypeof();
-    exports2.init = function(app) {
+    exports2.init = function(app2) {
       return function expressInit(req, res, next) {
-        if (app.enabled("x-powered-by")) res.setHeader("X-Powered-By", "Express");
+        if (app2.enabled("x-powered-by")) res.setHeader("X-Powered-By", "Express");
         req.res = res;
         res.req = req;
         req.next = next;
-        setPrototypeOf(req, app.request);
-        setPrototypeOf(res, app.response);
+        setPrototypeOf(req, app2.request);
+        setPrototypeOf(res, app2.response);
         res.locals = res.locals || /* @__PURE__ */ Object.create(null);
         next();
       };
@@ -20932,15 +20932,15 @@ var require_application = __commonJS({
     var setPrototypeOf = require_setprototypeof();
     var hasOwnProperty2 = Object.prototype.hasOwnProperty;
     var slice = Array.prototype.slice;
-    var app = exports2 = module2.exports = {};
+    var app2 = exports2 = module2.exports = {};
     var trustProxyDefaultSymbol = "@@symbol:trust_proxy_default";
-    app.init = function init() {
+    app2.init = function init() {
       this.cache = {};
       this.engines = {};
       this.settings = {};
       this.defaultConfiguration();
     };
-    app.defaultConfiguration = function defaultConfiguration() {
+    app2.defaultConfiguration = function defaultConfiguration() {
       var env = process.env.NODE_ENV || "development";
       this.enable("x-powered-by");
       this.set("etag", "weak");
@@ -20978,7 +20978,7 @@ var require_application = __commonJS({
         }
       });
     };
-    app.lazyrouter = function lazyrouter() {
+    app2.lazyrouter = function lazyrouter() {
       if (!this._router) {
         this._router = new Router({
           caseSensitive: this.enabled("case sensitive routing"),
@@ -20988,7 +20988,7 @@ var require_application = __commonJS({
         this._router.use(middleware.init(this));
       }
     };
-    app.handle = function handle(req, res, callback) {
+    app2.handle = function handle(req, res, callback) {
       var router2 = this._router;
       var done = callback || finalhandler(req, res, {
         env: this.get("env"),
@@ -21001,7 +21001,7 @@ var require_application = __commonJS({
       }
       router2.handle(req, res, done);
     };
-    app.use = function use(fn) {
+    app2.use = function use(fn) {
       var offset = 0;
       var path = "/";
       if (typeof fn !== "function") {
@@ -21039,11 +21039,11 @@ var require_application = __commonJS({
       }, this);
       return this;
     };
-    app.route = function route(path) {
+    app2.route = function route(path) {
       this.lazyrouter();
       return this._router.route(path);
     };
-    app.engine = function engine(ext, fn) {
+    app2.engine = function engine(ext, fn) {
       if (typeof fn !== "function") {
         throw new Error("callback function required");
       }
@@ -21051,7 +21051,7 @@ var require_application = __commonJS({
       this.engines[extension] = fn;
       return this;
     };
-    app.param = function param(name, fn) {
+    app2.param = function param(name, fn) {
       this.lazyrouter();
       if (Array.isArray(name)) {
         for (var i = 0; i < name.length; i++) {
@@ -21062,7 +21062,7 @@ var require_application = __commonJS({
       this._router.param(name, fn);
       return this;
     };
-    app.set = function set2(setting, val) {
+    app2.set = function set2(setting, val) {
       if (arguments.length === 1) {
         var settings = this.settings;
         while (settings && settings !== Object.prototype) {
@@ -21092,23 +21092,23 @@ var require_application = __commonJS({
       }
       return this;
     };
-    app.path = function path() {
+    app2.path = function path() {
       return this.parent ? this.parent.path() + this.mountpath : "";
     };
-    app.enabled = function enabled(setting) {
+    app2.enabled = function enabled(setting) {
       return Boolean(this.set(setting));
     };
-    app.disabled = function disabled(setting) {
+    app2.disabled = function disabled(setting) {
       return !this.set(setting);
     };
-    app.enable = function enable(setting) {
+    app2.enable = function enable(setting) {
       return this.set(setting, true);
     };
-    app.disable = function disable(setting) {
+    app2.disable = function disable(setting) {
       return this.set(setting, false);
     };
     methods.forEach(function(method) {
-      app[method] = function(path) {
+      app2[method] = function(path) {
         if (method === "get" && arguments.length === 1) {
           return this.set(path);
         }
@@ -21118,7 +21118,7 @@ var require_application = __commonJS({
         return this;
       };
     });
-    app.all = function all3(path) {
+    app2.all = function all3(path) {
       this.lazyrouter();
       var route = this._router.route(path);
       var args = slice.call(arguments, 1);
@@ -21127,8 +21127,8 @@ var require_application = __commonJS({
       }
       return this;
     };
-    app.del = deprecate.function(app.delete, "app.del: Use app.delete instead");
-    app.render = function render(name, options, callback) {
+    app2.del = deprecate.function(app2.delete, "app.del: Use app.delete instead");
+    app2.render = function render(name, options, callback) {
       var cache2 = this.cache;
       var done = callback;
       var engines = this.engines;
@@ -21169,9 +21169,9 @@ var require_application = __commonJS({
       }
       tryRender(view, renderOptions, done);
     };
-    app.listen = function listen() {
-      var server = http2.createServer(this);
-      return server.listen.apply(server, arguments);
+    app2.listen = function listen() {
+      var server2 = http2.createServer(this);
+      return server2.listen.apply(server2, arguments);
     };
     function logerror(err) {
       if (this.get("env") !== "test") console.error(err.stack || err.toString());
@@ -22235,7 +22235,7 @@ var require_response = __commonJS({
       var encoding;
       var req = this.req;
       var type;
-      var app = this.app;
+      var app2 = this.app;
       if (arguments.length === 2) {
         if (typeof arguments[0] !== "number" && typeof arguments[1] === "number") {
           deprecate("res.send(body, status): Use res.status(status).send(body) instead");
@@ -22282,7 +22282,7 @@ var require_response = __commonJS({
           this.set("Content-Type", setCharset(type, "utf-8"));
         }
       }
-      var etagFn = app.get("etag fn");
+      var etagFn = app2.get("etag fn");
       var generateETag = !this.get("ETag") && typeof etagFn === "function";
       var len;
       if (chunk !== void 0) {
@@ -22334,10 +22334,10 @@ var require_response = __commonJS({
           val = arguments[1];
         }
       }
-      var app = this.app;
-      var escape2 = app.get("json escape");
-      var replacer = app.get("json replacer");
-      var spaces = app.get("json spaces");
+      var app2 = this.app;
+      var escape2 = app2.get("json escape");
+      var replacer = app2.get("json replacer");
+      var spaces = app2.get("json spaces");
       var body = stringify(val, replacer, spaces, escape2);
       if (!this.get("Content-Type")) {
         this.set("Content-Type", "application/json");
@@ -22356,12 +22356,12 @@ var require_response = __commonJS({
           val = arguments[1];
         }
       }
-      var app = this.app;
-      var escape2 = app.get("json escape");
-      var replacer = app.get("json replacer");
-      var spaces = app.get("json spaces");
+      var app2 = this.app;
+      var escape2 = app2.get("json escape");
+      var replacer = app2.get("json replacer");
+      var spaces = app2.get("json spaces");
       var body = stringify(val, replacer, spaces, escape2);
-      var callback = this.req.query[app.get("jsonp callback name")];
+      var callback = this.req.query[app2.get("jsonp callback name")];
       if (!this.get("Content-Type")) {
         this.set("X-Content-Type-Options", "nosniff");
         this.set("Content-Type", "application/json");
@@ -22626,7 +22626,7 @@ var require_response = __commonJS({
       return this;
     };
     res.render = function render(view, options, callback) {
-      var app = this.req.app;
+      var app2 = this.req.app;
       var done = callback;
       var opts = options || {};
       var req = this.req;
@@ -22640,7 +22640,7 @@ var require_response = __commonJS({
         if (err) return req.next(err);
         self2.send(str);
       };
-      app.render(view, opts, done);
+      app2.render(view, opts, done);
     };
     function sendfile(res2, file2, options, callback) {
       var done = false;
@@ -22848,19 +22848,19 @@ var require_express = __commonJS({
     var res = require_response();
     exports2 = module2.exports = createApplication;
     function createApplication() {
-      var app = function(req2, res2, next) {
-        app.handle(req2, res2, next);
+      var app2 = function(req2, res2, next) {
+        app2.handle(req2, res2, next);
       };
-      mixin(app, EventEmitter2.prototype, false);
-      mixin(app, proto, false);
-      app.request = Object.create(req, {
-        app: { configurable: true, enumerable: true, writable: true, value: app }
+      mixin(app2, EventEmitter2.prototype, false);
+      mixin(app2, proto, false);
+      app2.request = Object.create(req, {
+        app: { configurable: true, enumerable: true, writable: true, value: app2 }
       });
-      app.response = Object.create(res, {
-        app: { configurable: true, enumerable: true, writable: true, value: app }
+      app2.response = Object.create(res, {
+        app: { configurable: true, enumerable: true, writable: true, value: app2 }
       });
-      app.init();
-      return app;
+      app2.init();
+      return app2;
     }
     exports2.application = proto;
     exports2.request = req;
@@ -25959,14 +25959,14 @@ var require_proxy_from_env = __commonJS({
       var parsedUrl = typeof url3 === "string" ? parseUrl(url3) : url3 || {};
       var proto = parsedUrl.protocol;
       var hostname3 = parsedUrl.host;
-      var port = parsedUrl.port;
+      var port2 = parsedUrl.port;
       if (typeof hostname3 !== "string" || !hostname3 || typeof proto !== "string") {
         return "";
       }
       proto = proto.split(":", 1)[0];
       hostname3 = hostname3.replace(/:\d*$/, "");
-      port = parseInt(port) || DEFAULT_PORTS[proto] || 0;
-      if (!shouldProxy(hostname3, port)) {
+      port2 = parseInt(port2) || DEFAULT_PORTS[proto] || 0;
+      if (!shouldProxy(hostname3, port2)) {
         return "";
       }
       var proxy = getEnv("npm_config_" + proto + "_proxy") || getEnv(proto + "_proxy") || getEnv("npm_config_proxy") || getEnv("all_proxy");
@@ -25975,7 +25975,7 @@ var require_proxy_from_env = __commonJS({
       }
       return proxy;
     }
-    function shouldProxy(hostname3, port) {
+    function shouldProxy(hostname3, port2) {
       var NO_PROXY = (getEnv("npm_config_no_proxy") || getEnv("no_proxy")).toLowerCase();
       if (!NO_PROXY) {
         return true;
@@ -25990,7 +25990,7 @@ var require_proxy_from_env = __commonJS({
         var parsedProxy = proxy.match(/^(.+):(\d+)$/);
         var parsedProxyHostname = parsedProxy ? parsedProxy[1] : proxy;
         var parsedProxyPort = parsedProxy ? parseInt(parsedProxy[2]) : 0;
-        if (parsedProxyPort && parsedProxyPort !== port) {
+        if (parsedProxyPort && parsedProxyPort !== port2) {
           return true;
         }
         if (!/^[.*]/.test(parsedProxyHostname)) {
@@ -34973,8 +34973,8 @@ function getQueryParam(req, key) {
   const value = req.query[key];
   return typeof value === "string" ? value : void 0;
 }
-function registerOAuthRoutes(app) {
-  app.get("/api/oauth/callback", async (req, res) => {
+function registerOAuthRoutes(app2) {
+  app2.get("/api/oauth/callback", async (req, res) => {
     const code = getQueryParam(req, "code");
     const state = getQueryParam(req, "state");
     if (!code || !state) {
@@ -35011,8 +35011,8 @@ function registerOAuthRoutes(app) {
 
 // server/_core/storageProxy.ts
 init_env();
-function registerStorageProxy(app) {
-  app.get("/manus-storage/*", async (req, res) => {
+function registerStorageProxy(app2) {
+  app2.get("/manus-storage/*", async (req, res) => {
     const key = req.params[0];
     if (!key) {
       res.status(400).send("Missing storage key");
@@ -47905,313 +47905,303 @@ async function createContext(opts) {
 
 // server/_core/index.ts
 var import_cookie2 = __toESM(require_dist(), 1);
-async function startServer() {
-  const app = (0, import_express.default)();
-  const server = (0, import_http3.createServer)(app);
-  app.use((req, res, next) => {
-    const origin2 = req.headers.origin;
-    if (origin2) {
-      res.header("Access-Control-Allow-Origin", origin2);
-      res.header("Access-Control-Allow-Credentials", "true");
-    } else {
-      res.header("Access-Control-Allow-Origin", "*");
+var app = (0, import_express.default)();
+var server = (0, import_http3.createServer)(app);
+app.use((req, res, next) => {
+  const origin2 = req.headers.origin;
+  if (origin2) {
+    res.header("Access-Control-Allow-Origin", origin2);
+    res.header("Access-Control-Allow-Credentials", "true");
+  } else {
+    res.header("Access-Control-Allow-Origin", "*");
+  }
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Cookie");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
+app.use(import_express.default.json({ limit: "50mb" }));
+app.use(import_express.default.urlencoded({ limit: "50mb", extended: true }));
+registerStorageProxy(app);
+registerOAuthRoutes(app);
+app.get(["/", "/api", "/api/health"], (req, res) => {
+  return res.status(200).json({ status: "ok", message: "API Advocacia Weber Fernandes rodando no cPanel!" });
+});
+app.post(["/api/leads", "/leads"], async (req, res) => {
+  try {
+    const { nome, telefone, advogado, mensagem } = req.body;
+    if (!nome || !telefone || !advogado) {
+      return res.status(400).json({ error: "Nome, telefone e advogado s\xE3o obrigat\xF3rios." });
     }
-    res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Cookie");
-    if (req.method === "OPTIONS") {
-      return res.sendStatus(200);
-    }
-    next();
-  });
-  app.use(import_express.default.json({ limit: "50mb" }));
-  app.use(import_express.default.urlencoded({ limit: "50mb", extended: true }));
-  registerStorageProxy(app);
-  registerOAuthRoutes(app);
-  app.get(["/", "/api", "/api/health"], (req, res) => {
-    return res.status(200).json({ status: "ok", message: "API Advocacia Weber Fernandes rodando no cPanel!" });
-  });
-  app.post(["/api/leads", "/leads"], async (req, res) => {
-    try {
-      const { nome, telefone, advogado, mensagem } = req.body;
-      if (!nome || !telefone || !advogado) {
-        return res.status(400).json({ error: "Nome, telefone e advogado s\xE3o obrigat\xF3rios." });
-      }
-      const { saveLead: saveLead2 } = await Promise.resolve().then(() => (init_db(), db_exports));
-      await saveLead2({
-        nome,
-        telefone,
-        advogado,
-        mensagem: mensagem || null
-      });
-      console.log(`[API Leads] Saved lead for ${advogado}: ${nome} (${telefone})`);
-      return res.status(200).json({ success: true });
-    } catch (error46) {
-      console.error("[API Leads] Error saving lead:", error46);
-      return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
-    }
-  });
-  app.post(["/api/login", "/login"], async (req, res) => {
-    try {
-      const { login, password } = req.body;
-      if (!login || !password) {
-        return res.status(400).json({ error: "CPF e senha s\xE3o obrigat\xF3rios." });
-      }
-      const { getUserByEmail: getUserByEmail2, getUserByCpf: getUserByCpf2 } = await Promise.resolve().then(() => (init_db(), db_exports));
-      const { verifyPassword: verifyPassword2 } = await Promise.resolve().then(() => (init_authHelper(), authHelper_exports));
-      const isEmail = login.includes("@");
-      const user = isEmail ? await getUserByEmail2(login) : await getUserByCpf2(login.replace(/\D/g, ""));
-      if (!user || !user.passwordHash || !verifyPassword2(password, user.passwordHash)) {
-        return res.status(401).json({ error: "CPF ou senha incorretos." });
-      }
-      const { sdk: sdk2 } = await Promise.resolve().then(() => (init_sdk(), sdk_exports));
-      const sessionToken = await sdk2.createSessionToken(user.email || user.cpf || user.openId, {
-        name: user.name || "",
-        expiresInMs: 31536e6
-        // 1 year
-      });
-      res.cookie("app_session_id", sessionToken, {
-        maxAge: 31536e6,
-        httpOnly: false,
-        // Let the frontend check or clear it
-        path: "/",
-        sameSite: "lax"
-      });
-      return res.status(200).json({
-        success: true,
-        token: sessionToken,
-        user: {
-          name: user.name,
-          email: user.email,
-          cpf: user.cpf,
-          role: user.role
-        }
-      });
-    } catch (e) {
-      console.error("[API Login] Error:", e);
-      return res.status(500).json({ error: e.message || "Erro interno do servidor." });
-    }
-  });
-  app.post(["/api/logout", "/logout"], (req, res) => {
-    res.clearCookie("app_session_id", { path: "/" });
+    const { saveLead: saveLead2 } = await Promise.resolve().then(() => (init_db(), db_exports));
+    await saveLead2({
+      nome,
+      telefone,
+      advogado,
+      mensagem: mensagem || null
+    });
+    console.log(`[API Leads] Saved lead for ${advogado}: ${nome} (${telefone})`);
     return res.status(200).json({ success: true });
-  });
-  app.get(["/api/user-session", "/user-session"], async (req, res) => {
-    try {
-      const user = await authenticateSession(req);
-      if (!user) {
-        return res.status(200).json({ loggedIn: false });
+  } catch (error46) {
+    console.error("[API Leads] Error saving lead:", error46);
+    return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
+  }
+});
+app.post(["/api/login", "/login"], async (req, res) => {
+  try {
+    const { login, password } = req.body;
+    if (!login || !password) {
+      return res.status(400).json({ error: "CPF e senha s\xE3o obrigat\xF3rios." });
+    }
+    const { getUserByEmail: getUserByEmail2, getUserByCpf: getUserByCpf2 } = await Promise.resolve().then(() => (init_db(), db_exports));
+    const { verifyPassword: verifyPassword2 } = await Promise.resolve().then(() => (init_authHelper(), authHelper_exports));
+    const isEmail = login.includes("@");
+    const user = isEmail ? await getUserByEmail2(login) : await getUserByCpf2(login.replace(/\D/g, ""));
+    if (!user || !user.passwordHash || !verifyPassword2(password, user.passwordHash)) {
+      return res.status(401).json({ error: "CPF ou senha incorretos." });
+    }
+    const { sdk: sdk2 } = await Promise.resolve().then(() => (init_sdk(), sdk_exports));
+    const sessionToken = await sdk2.createSessionToken(user.email || user.cpf || user.openId, {
+      name: user.name || "",
+      expiresInMs: 31536e6
+      // 1 year
+    });
+    res.cookie("app_session_id", sessionToken, {
+      maxAge: 31536e6,
+      httpOnly: false,
+      // Let the frontend check or clear it
+      path: "/",
+      sameSite: "lax"
+    });
+    return res.status(200).json({
+      success: true,
+      token: sessionToken,
+      user: {
+        name: user.name,
+        email: user.email,
+        cpf: user.cpf,
+        role: user.role
       }
-      return res.status(200).json({
-        loggedIn: true,
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          cpf: user.cpf,
-          role: user.role,
-          cidade: user.cidade,
-          estado: user.estado,
-          fotoUrl: user.fotoUrl
-        }
-      });
-    } catch (e) {
-      console.error("[API Session] Error:", e);
+    });
+  } catch (e) {
+    console.error("[API Login] Error:", e);
+    return res.status(500).json({ error: e.message || "Erro interno do servidor." });
+  }
+});
+app.post(["/api/logout", "/logout"], (req, res) => {
+  res.clearCookie("app_session_id", { path: "/" });
+  return res.status(200).json({ success: true });
+});
+app.get(["/api/user-session", "/user-session"], async (req, res) => {
+  try {
+    const user = await authenticateSession(req);
+    if (!user) {
       return res.status(200).json({ loggedIn: false });
     }
-  });
-  async function authenticateSession(req) {
-    try {
-      let sessionCookie;
-      const authHeader = req.headers.authorization;
-      if (authHeader && authHeader.startsWith("Bearer ")) {
-        sessionCookie = authHeader.substring(7);
-      } else if (req.headers.cookie) {
-        const parsedCookies = (0, import_cookie2.parse)(req.headers.cookie);
-        sessionCookie = parsedCookies["app_session_id"];
+    return res.status(200).json({
+      loggedIn: true,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        cpf: user.cpf,
+        role: user.role,
+        cidade: user.cidade,
+        estado: user.estado,
+        fotoUrl: user.fotoUrl
       }
-      if (!sessionCookie) return null;
-      const { sdk: sdk2 } = await Promise.resolve().then(() => (init_sdk(), sdk_exports));
-      const session = await sdk2.verifySession(sessionCookie);
-      if (!session) return null;
-      const { getUserByEmail: getUserByEmail2, getUserByOpenId: getUserByOpenId2 } = await Promise.resolve().then(() => (init_db(), db_exports));
-      let user;
-      if (session.openId.includes("@")) {
-        user = await getUserByEmail2(session.openId);
-      } else {
-        user = await getUserByOpenId2(session.openId);
-      }
-      return user || null;
-    } catch (e) {
-      return null;
-    }
+    });
+  } catch (e) {
+    console.error("[API Session] Error:", e);
+    return res.status(200).json({ loggedIn: false });
   }
-  app.post(["/api/public-register", "/public-register"], async (req, res) => {
-    try {
-      const { name, email: email4, password, cidade, estado, fotoUrl } = req.body;
-      if (!name || !email4 || !password || !cidade || !estado) {
-        return res.status(400).json({ error: "Todos os campos (nome, e-mail, senha, cidade, estado) s\xE3o obrigat\xF3rios." });
-      }
-      const { registerPublicUser: registerPublicUser2 } = await Promise.resolve().then(() => (init_db(), db_exports));
-      const { hashPassword: hashPassword2 } = await Promise.resolve().then(() => (init_authHelper(), authHelper_exports));
-      const passwordHash = hashPassword2(password);
-      await registerPublicUser2(name, email4, passwordHash, cidade, estado, fotoUrl || "");
-      const { sdk: sdk2 } = await Promise.resolve().then(() => (init_sdk(), sdk_exports));
-      const sessionToken = await sdk2.createSessionToken(email4, {
-        name,
-        expiresInMs: 31536e6
-        // 1 year
-      });
-      res.cookie("app_session_id", sessionToken, {
-        maxAge: 31536e6,
-        httpOnly: false,
-        path: "/",
-        sameSite: "lax"
-      });
-      return res.status(200).json({
-        success: true,
-        token: sessionToken,
-        user: {
-          name,
-          email: email4,
-          role: "user"
-        }
-      });
-    } catch (error46) {
-      console.error("[API Public Register] Error:", error46);
-      return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
+});
+async function authenticateSession(req) {
+  try {
+    let sessionCookie;
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      sessionCookie = authHeader.substring(7);
+    } else if (req.headers.cookie) {
+      const parsedCookies = (0, import_cookie2.parse)(req.headers.cookie);
+      sessionCookie = parsedCookies["app_session_id"];
     }
-  });
-  app.get(["/api/artigos", "/artigos"], async (req, res) => {
-    try {
-      const user = await authenticateSession(req);
-      const { getArtigos: getArtigos2 } = await Promise.resolve().then(() => (init_db(), db_exports));
-      const articles = await getArtigos2(user?.id);
-      return res.status(200).json({ artigos: articles });
-    } catch (error46) {
-      console.error("[API Get Artigos] Error:", error46);
-      return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
+    if (!sessionCookie) return null;
+    const { sdk: sdk2 } = await Promise.resolve().then(() => (init_sdk(), sdk_exports));
+    const session = await sdk2.verifySession(sessionCookie);
+    if (!session) return null;
+    const { getUserByEmail: getUserByEmail2, getUserByOpenId: getUserByOpenId2 } = await Promise.resolve().then(() => (init_db(), db_exports));
+    let user;
+    if (session.openId.includes("@")) {
+      user = await getUserByEmail2(session.openId);
+    } else {
+      user = await getUserByOpenId2(session.openId);
     }
-  });
-  app.post(["/api/artigos", "/artigos"], async (req, res) => {
-    try {
-      const user = await authenticateSession(req);
-      if (!user) {
-        return res.status(401).json({ error: "N\xE3o autorizado. Fa\xE7a o login." });
-      }
-      if (user.role !== "admin") {
-        return res.status(403).json({ error: "Apenas advogados autorizados podem publicar artigos." });
-      }
-      const { titulo, conteudo, tipo, categoria } = req.body;
-      if (!titulo || !conteudo) {
-        return res.status(400).json({ error: "T\xEDtulo e Conte\xFAdo s\xE3o obrigat\xF3rios." });
-      }
-      const { createArtigo: createArtigo2 } = await Promise.resolve().then(() => (init_db(), db_exports));
-      await createArtigo2({
-        userId: user.id,
-        titulo,
-        conteudo,
-        tipo: tipo || "Artigo",
-        categoria: categoria || "Geral"
-      });
-      return res.status(200).json({ success: true });
-    } catch (error46) {
-      console.error("[API Create Artigo] Error:", error46);
-      return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
-    }
-  });
-  app.post("/api/artigos/curtir", async (req, res) => {
-    try {
-      const user = await authenticateSession(req);
-      if (!user) {
-        return res.status(401).json({ error: "N\xE3o autorizado. Fa\xE7a o login." });
-      }
-      const { artigoId } = req.body;
-      if (!artigoId) {
-        return res.status(400).json({ error: "ID do artigo \xE9 obrigat\xF3rio." });
-      }
-      const { toggleLike: toggleLike2 } = await Promise.resolve().then(() => (init_db(), db_exports));
-      const result = await toggleLike2(user.id, parseInt(artigoId));
-      return res.status(200).json({ success: true, ...result });
-    } catch (error46) {
-      console.error("[API Like Artigo] Error:", error46);
-      return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
-    }
-  });
-  app.post("/api/artigos/salvar", async (req, res) => {
-    try {
-      const user = await authenticateSession(req);
-      if (!user) {
-        return res.status(401).json({ error: "N\xE3o autorizado. Fa\xE7a o login." });
-      }
-      const { artigoId } = req.body;
-      if (!artigoId) {
-        return res.status(400).json({ error: "ID do artigo \xE9 obrigat\xF3rio." });
-      }
-      const { toggleSave: toggleSave2 } = await Promise.resolve().then(() => (init_db(), db_exports));
-      const result = await toggleSave2(user.id, parseInt(artigoId));
-      return res.status(200).json({ success: true, ...result });
-    } catch (error46) {
-      console.error("[API Save Artigo] Error:", error46);
-      return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
-    }
-  });
-  app.get("/api/artigos/comentarios", async (req, res) => {
-    try {
-      const { artigoId } = req.query;
-      if (!artigoId) {
-        return res.status(400).json({ error: "ID do artigo \xE9 obrigat\xF3rio." });
-      }
-      const { getComentarios: getComentarios2 } = await Promise.resolve().then(() => (init_db(), db_exports));
-      const comments = await getComentarios2(parseInt(artigoId));
-      return res.status(200).json({ comentarios: comments });
-    } catch (error46) {
-      console.error("[API Get Comentarios] Error:", error46);
-      return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
-    }
-  });
-  app.post("/api/artigos/comentarios", async (req, res) => {
-    try {
-      const user = await authenticateSession(req);
-      if (!user) {
-        return res.status(401).json({ error: "N\xE3o autorizado. Fa\xE7a o login." });
-      }
-      const { artigoId, texto } = req.body;
-      if (!artigoId || !texto) {
-        return res.status(400).json({ error: "ID do artigo e texto do coment\xE1rio s\xE3o obrigat\xF3rios." });
-      }
-      const { addComentario: addComentario2 } = await Promise.resolve().then(() => (init_db(), db_exports));
-      await addComentario2({
-        userId: user.id,
-        artigoId: parseInt(artigoId),
-        texto
-      });
-      return res.status(200).json({ success: true });
-    } catch (error46) {
-      console.error("[API Add Comentario] Error:", error46);
-      return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
-    }
-  });
-  app.use(
-    "/api/trpc",
-    createExpressMiddleware({
-      router: appRouter,
-      createContext
-    })
-  );
-  if (process.env.NODE_ENV === "development") {
-    try {
-      const { setupVite } = await import("./vite");
-      await setupVite(app, server);
-    } catch (e) {
-      console.warn("[Vite] Dev server omitted in production mode");
-    }
+    return user || null;
+  } catch (e) {
+    return null;
   }
-  const port = process.env.PORT || 3002;
-  server.listen(port, () => {
-    console.log(`Server running on port/socket: ${port}`);
-  });
 }
-startServer().catch(console.error);
+app.post(["/api/public-register", "/public-register"], async (req, res) => {
+  try {
+    const { name, email: email4, password, cidade, estado, fotoUrl } = req.body;
+    if (!name || !email4 || !password || !cidade || !estado) {
+      return res.status(400).json({ error: "Todos os campos (nome, e-mail, senha, cidade, estado) s\xE3o obrigat\xF3rios." });
+    }
+    const { registerPublicUser: registerPublicUser2 } = await Promise.resolve().then(() => (init_db(), db_exports));
+    const { hashPassword: hashPassword2 } = await Promise.resolve().then(() => (init_authHelper(), authHelper_exports));
+    const passwordHash = hashPassword2(password);
+    await registerPublicUser2(name, email4, passwordHash, cidade, estado, fotoUrl || "");
+    const { sdk: sdk2 } = await Promise.resolve().then(() => (init_sdk(), sdk_exports));
+    const sessionToken = await sdk2.createSessionToken(email4, {
+      name,
+      expiresInMs: 31536e6
+      // 1 year
+    });
+    res.cookie("app_session_id", sessionToken, {
+      maxAge: 31536e6,
+      httpOnly: false,
+      path: "/",
+      sameSite: "lax"
+    });
+    return res.status(200).json({
+      success: true,
+      token: sessionToken,
+      user: {
+        name,
+        email: email4,
+        role: "user"
+      }
+    });
+  } catch (error46) {
+    console.error("[API Public Register] Error:", error46);
+    return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
+  }
+});
+app.get(["/api/artigos", "/artigos"], async (req, res) => {
+  try {
+    const user = await authenticateSession(req);
+    const { getArtigos: getArtigos2 } = await Promise.resolve().then(() => (init_db(), db_exports));
+    const articles = await getArtigos2(user?.id);
+    return res.status(200).json({ artigos: articles });
+  } catch (error46) {
+    console.error("[API Get Artigos] Error:", error46);
+    return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
+  }
+});
+app.post(["/api/artigos", "/artigos"], async (req, res) => {
+  try {
+    const user = await authenticateSession(req);
+    if (!user) {
+      return res.status(401).json({ error: "N\xE3o autorizado. Fa\xE7a o login." });
+    }
+    if (user.role !== "admin") {
+      return res.status(403).json({ error: "Apenas advogados autorizados podem publicar artigos." });
+    }
+    const { titulo, conteudo, tipo, categoria } = req.body;
+    if (!titulo || !conteudo) {
+      return res.status(400).json({ error: "T\xEDtulo e Conte\xFAdo s\xE3o obrigat\xF3rios." });
+    }
+    const { createArtigo: createArtigo2 } = await Promise.resolve().then(() => (init_db(), db_exports));
+    await createArtigo2({
+      userId: user.id,
+      titulo,
+      conteudo,
+      tipo: tipo || "Artigo",
+      categoria: categoria || "Geral"
+    });
+    return res.status(200).json({ success: true });
+  } catch (error46) {
+    console.error("[API Create Artigo] Error:", error46);
+    return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
+  }
+});
+app.post("/api/artigos/curtir", async (req, res) => {
+  try {
+    const user = await authenticateSession(req);
+    if (!user) {
+      return res.status(401).json({ error: "N\xE3o autorizado. Fa\xE7a o login." });
+    }
+    const { artigoId } = req.body;
+    if (!artigoId) {
+      return res.status(400).json({ error: "ID do artigo \xE9 obrigat\xF3rio." });
+    }
+    const { toggleLike: toggleLike2 } = await Promise.resolve().then(() => (init_db(), db_exports));
+    const result = await toggleLike2(user.id, parseInt(artigoId));
+    return res.status(200).json({ success: true, ...result });
+  } catch (error46) {
+    console.error("[API Like Artigo] Error:", error46);
+    return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
+  }
+});
+app.post("/api/artigos/salvar", async (req, res) => {
+  try {
+    const user = await authenticateSession(req);
+    if (!user) {
+      return res.status(401).json({ error: "N\xE3o autorizado. Fa\xE7a o login." });
+    }
+    const { artigoId } = req.body;
+    if (!artigoId) {
+      return res.status(400).json({ error: "ID do artigo \xE9 obrigat\xF3rio." });
+    }
+    const { toggleSave: toggleSave2 } = await Promise.resolve().then(() => (init_db(), db_exports));
+    const result = await toggleSave2(user.id, parseInt(artigoId));
+    return res.status(200).json({ success: true, ...result });
+  } catch (error46) {
+    console.error("[API Save Artigo] Error:", error46);
+    return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
+  }
+});
+app.get("/api/artigos/comentarios", async (req, res) => {
+  try {
+    const { artigoId } = req.query;
+    if (!artigoId) {
+      return res.status(400).json({ error: "ID do artigo \xE9 obrigat\xF3rio." });
+    }
+    const { getComentarios: getComentarios2 } = await Promise.resolve().then(() => (init_db(), db_exports));
+    const comments = await getComentarios2(parseInt(artigoId));
+    return res.status(200).json({ comentarios: comments });
+  } catch (error46) {
+    console.error("[API Get Comentarios] Error:", error46);
+    return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
+  }
+});
+app.post("/api/artigos/comentarios", async (req, res) => {
+  try {
+    const user = await authenticateSession(req);
+    if (!user) {
+      return res.status(401).json({ error: "N\xE3o autorizado. Fa\xE7a o login." });
+    }
+    const { artigoId, texto } = req.body;
+    if (!artigoId || !texto) {
+      return res.status(400).json({ error: "ID do artigo e texto do coment\xE1rio s\xE3o obrigat\xF3rios." });
+    }
+    const { addComentario: addComentario2 } = await Promise.resolve().then(() => (init_db(), db_exports));
+    await addComentario2({
+      userId: user.id,
+      artigoId: parseInt(artigoId),
+      texto
+    });
+    return res.status(200).json({ success: true });
+  } catch (error46) {
+    console.error("[API Add Comentario] Error:", error46);
+    return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
+  }
+});
+app.use(
+  "/api/trpc",
+  createExpressMiddleware({
+    router: appRouter,
+    createContext
+  })
+);
+var port = process.env.PORT || 3002;
+server.listen(port, () => {
+  console.log(`Server running on port/socket: ${port}`);
+});
+module.exports = app;
 /*! Bundled license information:
 
 depd/index.js:
