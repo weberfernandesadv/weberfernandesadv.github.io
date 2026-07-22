@@ -349,6 +349,8 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     });
   }
 
+  const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:3002/api' : '/api';
+
   // Helper for Authorization Headers & persistence
   function getAuthHeaders(): Record<string, string> {
     const headers: Record<string, string> = { "Content-Type": "application/json" };
@@ -362,7 +364,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
   // Check user session
   async function checkSession() {
     try {
-      const res = await fetch("http://localhost:3002/api/user-session", {
+      const res = await fetch(`${API_BASE}/user-session`, {
         headers: getAuthHeaders(),
         credentials: "include"
       });
@@ -412,7 +414,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
   // Load Collaborative Feed
   async function loadFeed() {
     try {
-      const res = await fetch("http://localhost:3002/api/artigos", {
+      const res = await fetch(`${API_BASE}/artigos`, {
         headers: getAuthHeaders(),
         credentials: "include"
       });
@@ -583,7 +585,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     }
 
     try {
-      const res = await fetch("http://localhost:3002/api/artigos/curtir", {
+      const res = await fetch(`${API_BASE}/artigos/curtir`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify({ artigoId }),
@@ -618,7 +620,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     }
 
     try {
-      const res = await fetch("http://localhost:3002/api/artigos/salvar", {
+      const res = await fetch(`${API_BASE}/artigos/salvar`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify({ artigoId }),
@@ -676,7 +678,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     const list = commentsBox.querySelector(".comments-list")!;
 
     try {
-      const res = await fetch(`http://localhost:3002/api/artigos/comentarios?artigoId=${artigoId}`);
+      const res = await fetch(`${API_BASE}/artigos/comentarios?artigoId=${artigoId}`);
       const data = await res.json();
       
       loader.classList.add("hidden");
@@ -722,7 +724,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     if (!texto) return;
 
     try {
-      const res = await fetch("http://localhost:3002/api/artigos/comentarios", {
+      const res = await fetch(`${API_BASE}/artigos/comentarios`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify({ artigoId, texto }),
@@ -792,7 +794,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     const password = (document.getElementById("login-password") as HTMLInputElement).value;
 
     try {
-      const res = await fetch("http://localhost:3002/api/login", {
+      const res = await fetch(`${API_BASE}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ login, password }),
@@ -830,7 +832,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     const estado = (document.getElementById("reg-estado") as HTMLInputElement).value.trim().toUpperCase();
 
     try {
-      const res = await fetch("http://localhost:3002/api/public-register", {
+      const res = await fetch(`${API_BASE}/public-register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password, cidade, estado, fotoUrl: compressedBase64Photo }),
@@ -869,7 +871,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     const conteudo = (document.getElementById("pub-conteudo") as HTMLTextAreaElement).value.trim();
 
     try {
-      const res = await fetch("http://localhost:3002/api/artigos", {
+      const res = await fetch(`${API_BASE}/artigos`, {
         method: "POST",
         headers: getAuthHeaders(),
         body: JSON.stringify({ tipo, categoria, titulo, conteudo }),
@@ -894,7 +896,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
   btnSideLogout.addEventListener("click", async () => {
     localStorage.removeItem("app_session_id");
     try {
-      await fetch("http://localhost:3002/api/logout", { method: "POST", credentials: "include" });
+      await fetch(`${API_BASE}/logout`, { method: "POST", credentials: "include" });
     } catch (e) {
       console.warn("Logout request failed");
     }

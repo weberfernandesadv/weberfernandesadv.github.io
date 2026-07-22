@@ -7,7 +7,6 @@ import { registerOAuthRoutes } from "./oauth";
 import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
-import { serveStatic, setupVite } from "./vite";
 import { parse as parseCookie } from "cookie";
 
 function isPortAvailable(port: number): Promise<boolean> {
@@ -373,11 +372,14 @@ async function startServer() {
       createContext,
     })
   );
-  // development mode uses Vite, production mode uses static files
+  // development mode uses Vite
   if (process.env.NODE_ENV === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
+    try {
+      const { setupVite } = await import("./vite");
+      await setupVite(app, server);
+    } catch (e) {
+      console.warn("[Vite] Dev server omitted in production mode");
+    }
   }
 
   const preferredPort = parseInt(process.env.PORT || "3000");
