@@ -47,7 +47,15 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
 
             <div class="form-group">
               <label for="login-pass">Senha</label>
-              <input type="password" id="login-pass" required placeholder="Sua senha..." class="form-input" />
+              <div class="password-wrapper">
+                <input type="password" id="login-pass" required placeholder="Sua senha..." class="form-input" />
+                <button type="button" class="btn-toggle-password" aria-label="Mostrar ou ocultar senha">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
             </div>
 
             <div id="login-error-message" class="error-msg hidden">
@@ -85,12 +93,28 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
 
             <div class="form-group">
               <label for="reg-pass">Senha</label>
-              <input type="password" id="reg-pass" required placeholder="Crie uma senha..." class="form-input" minlength="4" />
+              <div class="password-wrapper">
+                <input type="password" id="reg-pass" required placeholder="Crie uma senha..." class="form-input" minlength="4" />
+                <button type="button" class="btn-toggle-password" aria-label="Mostrar ou ocultar senha">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
             </div>
 
             <div class="form-group">
               <label for="reg-pass-confirm">Confirmar Senha</label>
-              <input type="password" id="reg-pass-confirm" required placeholder="Repita a senha..." class="form-input" minlength="4" />
+              <div class="password-wrapper">
+                <input type="password" id="reg-pass-confirm" required placeholder="Repita a senha..." class="form-input" minlength="4" />
+                <button type="button" class="btn-toggle-password" aria-label="Mostrar ou ocultar senha">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </button>
+              </div>
             </div>
 
             <div id="reg-error-message" class="error-msg hidden">
@@ -466,6 +490,24 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
       }
     });
   }
+
+  // Toggle password visibility (Eye Icon)
+  document.querySelectorAll(".btn-toggle-password").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const wrapper = btn.closest(".password-wrapper");
+      if (!wrapper) return;
+      const input = wrapper.querySelector("input") as HTMLInputElement;
+      if (!input) return;
+      
+      if (input.type === "password") {
+        input.type = "text";
+        btn.classList.add("showing");
+      } else {
+        input.type = "password";
+        btn.classList.remove("showing");
+      }
+    });
+  });
 
   // Run session check on page load
   checkSession();
@@ -899,6 +941,38 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
 
   .register-link-btn:hover {
     color: var(--color-primary-light);
+  }
+
+  /* Password Toggle Eye Icon Styling */
+  .password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .password-wrapper .form-input {
+    padding-right: 42px;
+  }
+
+  .btn-toggle-password {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast);
+  }
+
+  .btn-toggle-password:hover,
+  .btn-toggle-password.showing {
+    color: var(--color-primary);
   }
 
   /* Modal Overlay Styling */
