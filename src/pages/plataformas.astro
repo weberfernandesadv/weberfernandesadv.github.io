@@ -57,8 +57,47 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
             <button type="submit" class="btn-submit-login">Acessar Plataformas</button>
             
             <div class="login-footer-links">
-              <a href="/forum-juridico" class="register-link">Primeiro Acesso? Cadastre-se aqui</a>
+              <button type="button" id="btn-open-register-modal" class="register-link-btn">Primeiro Acesso? Cadastre-se aqui</button>
             </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- REGISTRATION MODAL -->
+      <div id="modal-register" class="modal-overlay hidden">
+        <div class="modal-card">
+          <div class="modal-header">
+            <h3>Cadastro de Novo Usuário</h3>
+            <button type="button" id="btn-close-register-modal" class="btn-close-modal">&times;</button>
+          </div>
+          <p class="modal-subtitle">Preencha seus dados abaixo para cadastrar seu CPF e senha de acesso.</p>
+
+          <form id="form-portal-register" class="portal-login-form">
+            <div class="form-group">
+              <label for="reg-name">Nome Completo</label>
+              <input type="text" id="reg-name" required placeholder="Seu nome completo..." class="form-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="reg-cpf">CPF</label>
+              <input type="text" id="reg-cpf" required placeholder="000.000.000-00" class="form-input cpf-mask-input" maxlength="14" />
+            </div>
+
+            <div class="form-group">
+              <label for="reg-pass">Senha</label>
+              <input type="password" id="reg-pass" required placeholder="Crie uma senha..." class="form-input" minlength="4" />
+            </div>
+
+            <div class="form-group">
+              <label for="reg-pass-confirm">Confirmar Senha</label>
+              <input type="password" id="reg-pass-confirm" required placeholder="Repita a senha..." class="form-input" minlength="4" />
+            </div>
+
+            <div id="reg-error-message" class="error-msg hidden">
+              Erro ao realizar cadastro.
+            </div>
+
+            <button type="submit" class="btn-submit-login">Cadastrar e Acessar</button>
           </form>
         </div>
       </div>
@@ -359,6 +398,74 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     showLogin();
     formLogin.reset();
   });
+
+  // Registration Modal Logic
+  const modalRegister = document.getElementById("modal-register") as HTMLElement;
+  const btnOpenRegisterModal = document.getElementById("btn-open-register-modal") as HTMLButtonElement;
+  const btnCloseRegisterModal = document.getElementById("btn-close-register-modal") as HTMLButtonElement;
+  const formRegister = document.getElementById("form-portal-register") as HTMLFormElement;
+  const regNameInput = document.getElementById("reg-name") as HTMLInputElement;
+  const regCpfInput = document.getElementById("reg-cpf") as HTMLInputElement;
+  const regPassInput = document.getElementById("reg-pass") as HTMLInputElement;
+  const regPassConfirmInput = document.getElementById("reg-pass-confirm") as HTMLInputElement;
+  const regErrorMsg = document.getElementById("reg-error-message") as HTMLElement;
+
+  if (btnOpenRegisterModal && modalRegister) {
+    btnOpenRegisterModal.addEventListener("click", () => {
+      regErrorMsg.classList.add("hidden");
+      if (formRegister) formRegister.reset();
+      modalRegister.classList.remove("hidden");
+    });
+  }
+
+  if (btnCloseRegisterModal && modalRegister) {
+    btnCloseRegisterModal.addEventListener("click", () => {
+      modalRegister.classList.add("hidden");
+    });
+  }
+
+  if (formRegister) {
+    formRegister.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      regErrorMsg.classList.add("hidden");
+
+      const name = regNameInput.value.trim();
+      const cpf = regCpfInput.value.trim();
+      const password = regPassInput.value;
+      const confirmPass = regPassConfirmInput.value;
+
+      if (password !== confirmPass) {
+        regErrorMsg.textContent = "As senhas não coincidem.";
+        regErrorMsg.classList.remove("hidden");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, cpf, password }),
+          credentials: "include"
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          if (data.token) {
+            localStorage.setItem("app_session_id", data.token);
+          }
+          modalRegister.classList.add("hidden");
+          showPortal(data.user);
+        } else {
+          regErrorMsg.textContent = data.error || "Erro ao realizar cadastro.";
+          regErrorMsg.classList.remove("hidden");
+        }
+      } catch (err) {
+        console.error("[Register Form] Error:", err);
+        regErrorMsg.textContent = "Erro de conexão ao cadastrar.";
+        regErrorMsg.classList.remove("hidden");
+      }
+    });
+  }
 
   // Run session check on page load
   checkSession();
@@ -779,16 +886,71 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     margin-top: var(--space-xs);
   }
 
-  .register-link {
-    font-size: 0.8rem;
+  .register-link-btn {
+    background: none;
+    border: none;
     color: var(--color-primary);
-    text-decoration: underline;
+    font-size: 0.85rem;
     font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
     transition: color var(--transition-fast);
   }
 
-  .register-link:hover {
+  .register-link-btn:hover {
     color: var(--color-primary-light);
+  }
+
+  /* Modal Overlay Styling */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+
+  .modal-card {
+    background: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    width: 90%;
+    max-width: 460px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-xs);
+  }
+
+  .modal-header h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-bg-dark);
+  }
+
+  .btn-close-modal {
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    line-height: 1;
+  }
+
+  .modal-subtitle {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-md);
   }
 
   @keyframes spin {

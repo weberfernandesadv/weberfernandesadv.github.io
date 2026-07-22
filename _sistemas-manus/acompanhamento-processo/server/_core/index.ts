@@ -225,6 +225,58 @@ app.use((req, res, next) => {
     }
   });
 
+  // API to register a new client by CPF and Password
+  app.post(["/api/register", "/register"], async (req, res) => {
+    try {
+      const { name, cpf, password } = req.body;
+      if (!name || !cpf || !password) {
+        return res.status(400).json({ error: "Nome, CPF e Senha são obrigatórios." });
+      }
+      
+      const cleanCpf = cpf.replace(/\D/g, "");
+      if (cleanCpf.length !== 11) {
+        return res.status(400).json({ error: "CPF inválido. Digite um CPF com 11 dígitos." });
+      }
+
+      const { registerClientPassword } = await import("../db");
+      const { hashPassword } = await import("../authHelper");
+      
+      const passwordHash = hashPassword(password);
+      const success = await registerClientPassword(name, cleanCpf, passwordHash, "cliente");
+
+      if (!success) {
+        return res.status(400).json({ error: "Não foi possível realizar o cadastro." });
+      }
+
+      const formattedCpf = cleanCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+      const { sdk } = await import("./sdk");
+      const sessionToken = await sdk.createSessionToken(formattedCpf, {
+        name,
+        expiresInMs: 31536000000
+      });
+
+      res.cookie("app_session_id", sessionToken, {
+        maxAge: 31536000000,
+        httpOnly: false,
+        path: "/",
+        sameSite: "lax"
+      });
+
+      return res.status(200).json({
+        success: true,
+        token: sessionToken,
+        user: {
+          name,
+          cpf: formattedCpf,
+          role: "cliente"
+        }
+      });
+    } catch (error: any) {
+      console.error("[API Register] Error:", error);
+      return res.status(500).json({ error: error.message || "Erro interno no cadastro." });
+    }
+  });
+
   // API to get list of collaborative articles
   app.get(["/api/artigos", "/artigos"], async (req, res) => {
     try {

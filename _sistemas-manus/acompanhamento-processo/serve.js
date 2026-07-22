@@ -74906,6 +74906,49 @@ app.post(["/api/public-register", "/public-register"], async (req, res) => {
     return res.status(500).json({ error: error46.message || "Erro interno do servidor." });
   }
 });
+app.post(["/api/register", "/register"], async (req, res) => {
+  try {
+    const { name, cpf, password } = req.body;
+    if (!name || !cpf || !password) {
+      return res.status(400).json({ error: "Nome, CPF e Senha s\xE3o obrigat\xF3rios." });
+    }
+    const cleanCpf = cpf.replace(/\D/g, "");
+    if (cleanCpf.length !== 11) {
+      return res.status(400).json({ error: "CPF inv\xE1lido. Digite um CPF com 11 d\xEDgitos." });
+    }
+    const { registerClientPassword: registerClientPassword2 } = await Promise.resolve().then(() => (init_db2(), db_exports));
+    const { hashPassword: hashPassword2 } = await Promise.resolve().then(() => (init_authHelper(), authHelper_exports));
+    const passwordHash = hashPassword2(password);
+    const success2 = await registerClientPassword2(name, cleanCpf, passwordHash, "cliente");
+    if (!success2) {
+      return res.status(400).json({ error: "N\xE3o foi poss\xEDvel realizar o cadastro." });
+    }
+    const formattedCpf = cleanCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    const { sdk: sdk2 } = await Promise.resolve().then(() => (init_sdk(), sdk_exports));
+    const sessionToken = await sdk2.createSessionToken(formattedCpf, {
+      name,
+      expiresInMs: 31536e6
+    });
+    res.cookie("app_session_id", sessionToken, {
+      maxAge: 31536e6,
+      httpOnly: false,
+      path: "/",
+      sameSite: "lax"
+    });
+    return res.status(200).json({
+      success: true,
+      token: sessionToken,
+      user: {
+        name,
+        cpf: formattedCpf,
+        role: "cliente"
+      }
+    });
+  } catch (error46) {
+    console.error("[API Register] Error:", error46);
+    return res.status(500).json({ error: error46.message || "Erro interno no cadastro." });
+  }
+});
 app.get(["/api/artigos", "/artigos"], async (req, res) => {
   try {
     const user = await authenticateSession(req);
