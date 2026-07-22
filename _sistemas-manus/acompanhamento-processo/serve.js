@@ -23169,7 +23169,15 @@ async function getUserByCpf(cpf) {
     console.warn("[Database] Cannot get user by cpf: database not available");
     return void 0;
   }
-  const result = await db.select().from(users).where((0, import_drizzle_orm.eq)(users.cpf, cpf)).limit(1);
+  const clean = cpf.replace(/\D/g, "");
+  const formatted = clean.length === 11 ? `${clean.slice(0, 3)}.${clean.slice(3, 6)}.${clean.slice(6, 9)}-${clean.slice(9)}` : cpf;
+  const result = await db.select().from(users).where(
+    or(
+      (0, import_drizzle_orm.eq)(users.cpf, cpf),
+      (0, import_drizzle_orm.eq)(users.cpf, clean),
+      (0, import_drizzle_orm.eq)(users.cpf, formatted)
+    )
+  ).limit(1);
   return result.length > 0 ? result[0] : void 0;
 }
 async function getUserById(id) {

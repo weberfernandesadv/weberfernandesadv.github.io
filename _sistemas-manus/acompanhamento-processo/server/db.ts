@@ -74,7 +74,17 @@ export async function getUserByEmail(email: string) {
 export async function getUserByCpf(cpf: string) {
   const db = await getDb();
   if (!db) { console.warn("[Database] Cannot get user by cpf: database not available"); return undefined; }
-  const result = await db.select().from(users).where(eq(users.cpf, cpf)).limit(1);
+  const clean = cpf.replace(/\D/g, "");
+  const formatted = clean.length === 11 
+    ? `${clean.slice(0,3)}.${clean.slice(3,6)}.${clean.slice(6,9)}-${clean.slice(9)}`
+    : cpf;
+  const result = await db.select().from(users).where(
+    or(
+      eq(users.cpf, cpf),
+      eq(users.cpf, clean),
+      eq(users.cpf, formatted)
+    )
+  ).limit(1);
   return result.length > 0 ? result[0] : undefined;
 }
 
