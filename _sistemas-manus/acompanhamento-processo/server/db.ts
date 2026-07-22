@@ -33,9 +33,9 @@ export async function getDb() {
       _db = drizzle(dbUrl);
       if (!_seeded) {
         _seeded = true;
-        setTimeout(() => seedAdminUser(), 100);
-        setTimeout(() => verifyLeadsTable(), 150);
-        setTimeout(() => verifyCollaborativeTables(), 200);
+        setTimeout(() => { seedAdminUser().catch(e => console.error("[Seed Admin Error]", e)); }, 100);
+        setTimeout(() => { verifyLeadsTable().catch(e => console.error("[Verify Leads Error]", e)); }, 150);
+        setTimeout(() => { verifyCollaborativeTables().catch(e => console.error("[Verify Tables Error]", e)); }, 200);
       }
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);

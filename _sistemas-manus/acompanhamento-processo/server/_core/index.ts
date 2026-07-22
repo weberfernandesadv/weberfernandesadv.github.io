@@ -8,6 +8,14 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { parse as parseCookie } from "cookie";
 
+process.on("uncaughtException", (err) => {
+  console.error("[Uncaught Exception]", err);
+});
+
+process.on("unhandledRejection", (reason) => {
+  console.error("[Unhandled Rejection]", reason);
+});
+
 const app = express();
 const server = createServer(app);
 
@@ -356,6 +364,13 @@ app.use((req, res, next) => {
       createContext,
     })
   );
+
+  // Global Express Error Handler
+  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.error("[Express Error Handler]", err);
+    return res.status(500).json({ error: err?.message || "Erro interno do servidor." });
+  });
+
   const port = process.env.PORT || 3002;
 
   server.listen(port, () => {

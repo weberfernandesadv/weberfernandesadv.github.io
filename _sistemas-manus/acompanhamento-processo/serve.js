@@ -49866,7 +49866,7 @@ var import_crypto;
 var init_authHelper = __esm({
   "server/authHelper.ts"() {
     "use strict";
-    import_crypto = __toESM(require("crypto"), 1);
+    import_crypto = __toESM(require("crypto"));
   }
 });
 
@@ -49927,9 +49927,15 @@ async function getDb() {
       _db = drizzle(dbUrl);
       if (!_seeded) {
         _seeded = true;
-        setTimeout(() => seedAdminUser(), 100);
-        setTimeout(() => verifyLeadsTable(), 150);
-        setTimeout(() => verifyCollaborativeTables(), 200);
+        setTimeout(() => {
+          seedAdminUser().catch((e) => console.error("[Seed Admin Error]", e));
+        }, 100);
+        setTimeout(() => {
+          verifyLeadsTable().catch((e) => console.error("[Verify Leads Error]", e));
+        }, 150);
+        setTimeout(() => {
+          verifyCollaborativeTables().catch((e) => console.error("[Verify Tables Error]", e));
+        }, 200);
       }
     } catch (error46) {
       console.warn("[Database] Failed to connect:", error46);
@@ -57469,7 +57475,7 @@ var init_sdk = __esm({
     init_const();
     init_errors2();
     init_axios2();
-    import_cookie = __toESM(require_dist(), 1);
+    import_cookie = __toESM(require_dist());
     init_webapi();
     init_db2();
     init_env();
@@ -59009,7 +59015,7 @@ var require_dist2 = __commonJS({
 })();
 
 // server/_core/index.ts
-var import_express = __toESM(require_express2(), 1);
+var import_express = __toESM(require_express2());
 var import_http3 = require("http");
 
 // node_modules/.pnpm/@trpc+server@11.6.0_typescript@5.9.3/node_modules/@trpc/server/dist/utils-CLZnJdb_.mjs
@@ -74494,7 +74500,7 @@ async function notifyOwner(payload) {
 
 // server/_core/trpc.ts
 init_const();
-var import_superjson = __toESM(require_dist2(), 1);
+var import_superjson = __toESM(require_dist2());
 var t = initTRPC.context().create({
   transformer: import_superjson.default
 });
@@ -74718,7 +74724,13 @@ async function createContext(opts) {
 }
 
 // server/_core/index.ts
-var import_cookie2 = __toESM(require_dist(), 1);
+var import_cookie2 = __toESM(require_dist());
+process.on("uncaughtException", (err) => {
+  console.error("[Uncaught Exception]", err);
+});
+process.on("unhandledRejection", (reason) => {
+  console.error("[Unhandled Rejection]", reason);
+});
 var app = (0, import_express.default)();
 var server = (0, import_http3.createServer)(app);
 app.use((req, res, next) => {
@@ -75011,6 +75023,10 @@ app.use(
     createContext
   })
 );
+app.use((err, req, res, next) => {
+  console.error("[Express Error Handler]", err);
+  return res.status(500).json({ error: err?.message || "Erro interno do servidor." });
+});
 var port = process.env.PORT || 3002;
 server.listen(port, () => {
   console.log(`Server running on port/socket: ${port}`);
