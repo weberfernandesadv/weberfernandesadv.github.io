@@ -86,48 +86,46 @@ export async function getUserById(id: number) {
 }
 
 export async function seedAdminUser() {
-  const email = process.env.ADMIN_EMAIL;
-  const password = process.env.ADMIN_PASSWORD;
-  if (!email || !password) {
-    console.warn("[Seed] ADMIN_EMAIL or ADMIN_PASSWORD not configured. Skipping seeding.");
-    return;
-  }
-
   const db = await getDb();
   if (!db) return;
 
-  try {
-    const user = await getUserByEmail(email);
-    const pwdHash = hashPassword(password);
+  const adminName = "Weber Fernandes Pereira";
+  const adminCpf = "11111111111";
+  const adminEmail = process.env.ADMIN_EMAIL || "contato@weberfernandes.adv.br";
+  const password = process.env.ADMIN_PASSWORD || "admin123";
+  const pwdHash = hashPassword(password);
 
-    const name = email === "wolfrickwolf@gmail.com" ? "Dr. Weber Fernandes Pereira" : "Administrador";
-    const cidade = "Jataí";
-    const estado = "GO";
-    const fotoUrl = "";
+  try {
+    let user = await getUserByCpf(adminCpf);
+    if (!user) {
+      user = await getUserByEmail(adminEmail);
+    }
 
     if (!user) {
-      console.log(`[Seed] Creating admin user: ${email}`);
+      console.log(`[Seed] Creating admin user: ${adminName} (${adminCpf})`);
       await db.insert(users).values({
-        openId: `local-${email}`,
-        name,
-        email,
+        openId: `local-${adminCpf}`,
+        name: adminName,
+        email: adminEmail,
+        cpf: adminCpf,
         passwordHash: pwdHash,
         role: "admin",
         loginMethod: "local",
-        cidade,
-        estado,
-        fotoUrl,
+        cidade: "Jataí",
+        estado: "GO",
+        fotoUrl: "",
         lastSignedIn: new Date()
       });
     } else {
-      console.log(`[Seed] Updating admin password for: ${email}`);
+      console.log(`[Seed] Updating admin user: ${adminName} (${adminCpf})`);
       await db.update(users).set({
-        name,
+        name: adminName,
+        email: adminEmail,
+        cpf: adminCpf,
         passwordHash: pwdHash,
         role: "admin",
-        cidade,
-        estado,
-        fotoUrl
+        cidade: "Jataí",
+        estado: "GO"
       }).where(eq(users.id, user.id));
     }
 

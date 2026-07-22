@@ -23154,13 +23154,13 @@ async function getUserByOpenId(openId) {
   const result = await db.select().from(users).where((0, import_drizzle_orm.eq)(users.openId, openId)).limit(1);
   return result.length > 0 ? result[0] : void 0;
 }
-async function getUserByEmail(email3) {
+async function getUserByEmail(email4) {
   const db = await getDb();
   if (!db) {
     console.warn("[Database] Cannot get user by email: database not available");
     return void 0;
   }
-  const result = await db.select().from(users).where((0, import_drizzle_orm.eq)(users.email, email3)).limit(1);
+  const result = await db.select().from(users).where((0, import_drizzle_orm.eq)(users.email, email4)).limit(1);
   return result.length > 0 ? result[0] : void 0;
 }
 async function getUserByCpf(cpf) {
@@ -23182,48 +23182,47 @@ async function getUserById(id) {
   return result.length > 0 ? result[0] : void 0;
 }
 async function seedAdminUser() {
-  const email3 = process.env.ADMIN_EMAIL;
-  const password = process.env.ADMIN_PASSWORD;
-  if (!email3 || !password) {
-    console.warn("[Seed] ADMIN_EMAIL or ADMIN_PASSWORD not configured. Skipping seeding.");
-    return;
-  }
   const db = await getDb();
   if (!db) return;
+  const adminName = "Weber Fernandes Pereira";
+  const adminCpf = "11111111111";
+  const adminEmail = process.env.ADMIN_EMAIL || "contato@weberfernandes.adv.br";
+  const password = process.env.ADMIN_PASSWORD || "admin123";
+  const pwdHash = hashPassword(password);
   try {
-    const user = await getUserByEmail(email3);
-    const pwdHash = hashPassword(password);
-    const name = email3 === "wolfrickwolf@gmail.com" ? "Dr. Weber Fernandes Pereira" : "Administrador";
-    const cidade = "Jata\xED";
-    const estado = "GO";
-    const fotoUrl = "";
+    let user = await getUserByCpf(adminCpf);
     if (!user) {
-      console.log(`[Seed] Creating admin user: ${email3}`);
+      user = await getUserByEmail(adminEmail);
+    }
+    if (!user) {
+      console.log(`[Seed] Creating admin user: ${adminName} (${adminCpf})`);
       await db.insert(users).values({
-        openId: `local-${email3}`,
-        name,
-        email: email3,
+        openId: `local-${adminCpf}`,
+        name: adminName,
+        email: adminEmail,
+        cpf: adminCpf,
         passwordHash: pwdHash,
         role: "admin",
         loginMethod: "local",
-        cidade,
-        estado,
-        fotoUrl,
+        cidade: "Jata\xED",
+        estado: "GO",
+        fotoUrl: "",
         lastSignedIn: /* @__PURE__ */ new Date()
       });
     } else {
-      console.log(`[Seed] Updating admin password for: ${email3}`);
+      console.log(`[Seed] Updating admin user: ${adminName} (${adminCpf})`);
       await db.update(users).set({
-        name,
+        name: adminName,
+        email: adminEmail,
+        cpf: adminCpf,
         passwordHash: pwdHash,
         role: "admin",
-        cidade,
-        estado,
-        fotoUrl
+        cidade: "Jata\xED",
+        estado: "GO"
       }).where((0, import_drizzle_orm.eq)(users.id, user.id));
     }
     try {
-      const adminUser = await getUserByEmail(email3);
+      const adminUser = await getUserByEmail(email);
       if (adminUser) {
         const existingArticles = await db.select().from(artigos).limit(1);
         if (existingArticles.length === 0) {
@@ -23551,17 +23550,17 @@ async function addComentario(data) {
   if (!db) throw new Error("Database not available");
   return db.insert(comentarios).values(data);
 }
-async function registerPublicUser(name, email3, passwordHash, cidade, estado, fotoUrl) {
+async function registerPublicUser(name, email4, passwordHash, cidade, estado, fotoUrl) {
   const db = await getDb();
   if (!db) return false;
-  const existing = await getUserByEmail(email3);
+  const existing = await getUserByEmail(email4);
   if (existing) {
     throw new Error("Este e-mail j\xE1 est\xE1 cadastrado.");
   }
   await db.insert(users).values({
-    openId: `local-email-${email3}`,
+    openId: `local-email-${email4}`,
     name,
-    email: email3,
+    email: email4,
     passwordHash,
     cidade,
     estado,
@@ -35135,7 +35134,7 @@ __export(external_exports, {
   decodeAsync: () => decodeAsync2,
   discriminatedUnion: () => discriminatedUnion,
   e164: () => e1642,
-  email: () => email2,
+  email: () => email3,
   emoji: () => emoji2,
   encode: () => encode5,
   encodeAsync: () => encodeAsync2,
@@ -36463,7 +36462,7 @@ __export(regexes_exports, {
   domain: () => domain,
   duration: () => duration,
   e164: () => e164,
-  email: () => email,
+  email: () => email2,
   emoji: () => emoji,
   extendedDuration: () => extendedDuration,
   guid: () => guid,
@@ -36524,7 +36523,7 @@ var uuid = (version2) => {
 var uuid4 = /* @__PURE__ */ uuid(4);
 var uuid6 = /* @__PURE__ */ uuid(6);
 var uuid7 = /* @__PURE__ */ uuid(7);
-var email = /^(?!\.)(?!.*\.\.)([A-Za-z0-9_'+\-\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\-]*\.)+[A-Za-z]{2,}$/;
+var email2 = /^(?!\.)(?!.*\.\.)([A-Za-z0-9_'+\-\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\-]*\.)+[A-Za-z]{2,}$/;
 var html5Email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 var rfc5322Email = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 var unicodeEmail = /^[^\s@"]{1,64}@[^\s@]{1,255}$/u;
@@ -37342,7 +37341,7 @@ var $ZodUUID = /* @__PURE__ */ $constructor("$ZodUUID", (inst, def) => {
   $ZodStringFormat.init(inst, def);
 });
 var $ZodEmail = /* @__PURE__ */ $constructor("$ZodEmail", (inst, def) => {
-  def.pattern ?? (def.pattern = email);
+  def.pattern ?? (def.pattern = email2);
   $ZodStringFormat.init(inst, def);
 });
 var $ZodURL = /* @__PURE__ */ $constructor("$ZodURL", (inst, def) => {
@@ -46682,7 +46681,7 @@ var ZodEmail = /* @__PURE__ */ $constructor("ZodEmail", (inst, def) => {
   $ZodEmail.init(inst, def);
   ZodStringFormat.init(inst, def);
 });
-function email2(params) {
+function email3(params) {
   return _email(ZodEmail, params);
 }
 var ZodGUID = /* @__PURE__ */ $constructor("ZodGUID", (inst, def) => {
@@ -48038,16 +48037,16 @@ async function startServer() {
   }
   app.post("/api/public-register", async (req, res) => {
     try {
-      const { name, email: email3, password, cidade, estado, fotoUrl } = req.body;
-      if (!name || !email3 || !password || !cidade || !estado) {
+      const { name, email: email4, password, cidade, estado, fotoUrl } = req.body;
+      if (!name || !email4 || !password || !cidade || !estado) {
         return res.status(400).json({ error: "Todos os campos (nome, e-mail, senha, cidade, estado) s\xE3o obrigat\xF3rios." });
       }
       const { registerPublicUser: registerPublicUser2 } = await Promise.resolve().then(() => (init_db(), db_exports));
       const { hashPassword: hashPassword2 } = await Promise.resolve().then(() => (init_authHelper(), authHelper_exports));
       const passwordHash = hashPassword2(password);
-      await registerPublicUser2(name, email3, passwordHash, cidade, estado, fotoUrl || "");
+      await registerPublicUser2(name, email4, passwordHash, cidade, estado, fotoUrl || "");
       const { sdk: sdk2 } = await Promise.resolve().then(() => (init_sdk(), sdk_exports));
-      const sessionToken = await sdk2.createSessionToken(email3, {
+      const sessionToken = await sdk2.createSessionToken(email4, {
         name,
         expiresInMs: 31536e6
         // 1 year
@@ -48063,7 +48062,7 @@ async function startServer() {
         token: sessionToken,
         user: {
           name,
-          email: email3,
+          email: email4,
           role: "user"
         }
       });
