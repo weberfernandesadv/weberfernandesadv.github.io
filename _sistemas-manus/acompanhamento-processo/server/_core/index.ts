@@ -387,15 +387,10 @@ async function startServer() {
     }
   }
 
-  const preferredPort = parseInt(process.env.PORT || "3000");
-  const port = await findAvailablePort(preferredPort);
-
-  if (port !== preferredPort) {
-    console.log(`Port ${preferredPort} is busy, using port ${port} instead`);
-  }
+  const port = process.env.PORT || 3002;
 
   server.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}/`);
+    console.log(`Server running on port/socket: ${port}`);
   });
 }
 

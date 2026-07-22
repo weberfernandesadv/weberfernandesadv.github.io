@@ -1741,8 +1741,8 @@ var require_node = __commonJS({
           break;
         case "PIPE":
         case "TCP":
-          var net2 = require("net");
-          stream5 = new net2.Socket({
+          var net = require("net");
+          stream5 = new net.Socket({
             fd: fd2,
             readable: false,
             writable: true
@@ -32197,7 +32197,6 @@ var require_dist2 = __commonJS({
 // server/_core/index.ts
 var import_express = __toESM(require_express2(), 1);
 var import_http3 = require("http");
-var import_net = __toESM(require("net"), 1);
 
 // node_modules/.pnpm/@trpc+server@11.6.0_typescript@5.9.3/node_modules/@trpc/server/dist/utils-CLZnJdb_.mjs
 var TRPC_ERROR_CODES_BY_KEY = {
@@ -47906,23 +47905,6 @@ async function createContext(opts) {
 
 // server/_core/index.ts
 var import_cookie2 = __toESM(require_dist(), 1);
-function isPortAvailable(port) {
-  return new Promise((resolve) => {
-    const server = import_net.default.createServer();
-    server.listen(port, () => {
-      server.close(() => resolve(true));
-    });
-    server.on("error", () => resolve(false));
-  });
-}
-async function findAvailablePort(startPort = 3e3) {
-  for (let port = startPort; port < startPort + 20; port++) {
-    if (await isPortAvailable(port)) {
-      return port;
-    }
-  }
-  throw new Error(`No available port found starting from ${startPort}`);
-}
 async function startServer() {
   const app = (0, import_express.default)();
   const server = (0, import_http3.createServer)(app);
@@ -48224,13 +48206,9 @@ async function startServer() {
       console.warn("[Vite] Dev server omitted in production mode");
     }
   }
-  const preferredPort = parseInt(process.env.PORT || "3000");
-  const port = await findAvailablePort(preferredPort);
-  if (port !== preferredPort) {
-    console.log(`Port ${preferredPort} is busy, using port ${port} instead`);
-  }
+  const port = process.env.PORT || 3002;
   server.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}/`);
+    console.log(`Server running on port/socket: ${port}`);
   });
 }
 startServer().catch(console.error);
