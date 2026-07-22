@@ -99,7 +99,11 @@ export async function getUserByCpf(cpf: string) {
     or(
       eq(users.cpf, cpf),
       eq(users.cpf, clean),
-      eq(users.cpf, formatted)
+      eq(users.cpf, formatted),
+      eq(users.openId, cpf),
+      eq(users.openId, clean),
+      eq(users.openId, formatted),
+      eq(users.openId, `local-${clean}`)
     )
   ).limit(1);
   return result.length > 0 ? result[0] : undefined;
