@@ -351,9 +351,11 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
   }
 
   document.querySelectorAll(".cpf-mask-input").forEach((input) => {
-    input.addEventListener("input", (e) => {
-      const target = e.target as HTMLInputElement;
-      target.value = applyCpfMask(target.value);
+    ["input", "keyup", "paste", "change"].forEach(evt => {
+      input.addEventListener(evt, (e) => {
+        const target = e.target as HTMLInputElement;
+        target.value = applyCpfMask(target.value);
+      });
     });
   });
 
