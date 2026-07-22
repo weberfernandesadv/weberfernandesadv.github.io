@@ -36,13 +36,13 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
               <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
             <h3>Acesso Único ao Portal</h3>
-            <p>Insira seu E-mail ou CPF e sua senha para entrar.</p>
+            <p>Insira seu CPF e sua senha para entrar.</p>
           </div>
 
           <form id="form-portal-login" class="portal-login-form">
             <div class="form-group">
-              <label for="login-user">CPF ou E-mail</label>
-              <input type="text" id="login-user" required placeholder="Digite seu CPF ou E-mail..." class="form-input" />
+              <label for="login-user">CPF</label>
+              <input type="text" id="login-user" required placeholder="000.000.000-00" class="form-input cpf-mask-input" maxlength="14" />
             </div>
 
             <div class="form-group">
@@ -51,7 +51,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
             </div>
 
             <div id="login-error-message" class="error-msg hidden">
-              E-mail/CPF ou senha incorretos.
+              CPF ou senha incorretos.
             </div>
 
             <button type="submit" class="btn-submit-login">Acessar Plataformas</button>
@@ -307,7 +307,7 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
     const password = loginPassInput.value;
 
     try {
-      const res = await fetch("http://localhost:3002/api/login", {
+      const res = await fetch(`${API_BASE}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -318,6 +318,9 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
 
       const data = await res.json();
       if (res.ok && data.success) {
+        if (data.token) {
+          localStorage.setItem("app_session_id", data.token);
+        }
         showPortal(data.user);
       } else {
         loginErrorMsg.classList.remove("hidden");
@@ -331,8 +334,9 @@ import SectionTitle from '../components/ui/SectionTitle.astro';
 
   // Handle Logout click
   btnLogout.addEventListener("click", async () => {
+    localStorage.removeItem("app_session_id");
     try {
-      await fetch("http://localhost:3002/api/logout", { method: "POST", credentials: "include" });
+      await fetch(`${API_BASE}/logout`, { method: "POST", credentials: "include" });
     } catch (e) {
       console.warn("Logout failed, clearing client view anyway");
     }
