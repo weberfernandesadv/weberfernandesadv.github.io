@@ -50107,11 +50107,7 @@ async function seedAdminUser() {
 async function getProcessosByUserId(userId) {
   const db = await getDb();
   if (!db) return [];
-  return db.select().from(processos).where(and(eq(processos.userId, userId), eq(processos.ativo, true))).orderBy(
-    sql`CASE WHEN ${processos.dataLimite} IS NULL OR ${processos.tipoManifestacao} = 'Autos conclusos' OR ${processos.tipoManifestacao} = 'Outro' THEN 1 ELSE 0 END`,
-    asc(processos.dataLimite),
-    desc(processos.createdAt)
-  );
+  return db.select().from(processos);
 }
 async function getProcessosByCpf(cpf) {
   const db = await getDb();

@@ -197,18 +197,7 @@ export async function seedAdminUser() {
 
 // ---- Processos ----
 
-export async function getProcessosByUserId(userId: number) {
-  const db = await getDb();
-  if (!db) return [];
-  return db.select().from(processos)
-    .where(and(eq(processos.userId, userId), eq(processos.ativo, true)))
-    .orderBy(
-      sql`CASE WHEN ${processos.dataLimite} IS NULL OR ${processos.tipoManifestacao} = 'Autos conclusos' OR ${processos.tipoManifestacao} = 'Outro' THEN 1 ELSE 0 END`,
-      asc(processos.dataLimite),
-      desc(processos.createdAt)
-    );
-}
-
+export async function getProcessosByUserId(userId: number) { const db = await getDb(); if (!db) return []; return db.select().from(processos); }
 export async function getProcessosByCpf(cpf: string) {
   const db = await getDb();
   if (!db) return [];
@@ -598,5 +587,7 @@ export async function registerPublicUser(name: string, email: string, passwordHa
   });
   return true;
 }
+
+
 
 
