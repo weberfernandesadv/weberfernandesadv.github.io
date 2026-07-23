@@ -1,4 +1,4 @@
-import { useAuth } from "@/_core/hooks/useAuth";
+﻿import { useAuth } from "@/_core/hooks/useAuth";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -29,8 +29,8 @@ import { Button } from "./ui/button";
 
 const menuItems = [
   { icon: Users, label: "Clientes", path: "/" },
-  { icon: BookOpen, label: "Carnê Consolidado", path: "/carne" },
-  { icon: List, label: "Lista Alfabética", path: "/lista" },
+  { icon: BookOpen, label: "CarnÃª Consolidado", path: "/carne" },
+  { icon: List, label: "Lista AlfabÃ©tica", path: "/lista" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";
@@ -67,7 +67,7 @@ export default function DashboardLayout({
           <div className="flex flex-col items-center gap-3 text-center">
             <h1 className="text-2xl font-bold text-white">Acesso Restrito</h1>
             <p className="text-sm text-white/60 max-w-sm">
-              Para acessar o painel de controle de pagamentos, faça login com suas credenciais.
+              Para acessar o painel de controle de pagamentos, faÃ§a login com suas credenciais.
             </p>
           </div>
           <Button
@@ -264,3 +264,4 @@ function DashboardLayoutContent({
     </>
   );
 }
+

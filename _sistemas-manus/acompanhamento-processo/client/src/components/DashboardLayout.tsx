@@ -1,4 +1,4 @@
-import { useAuth } from "@/_core/hooks/useAuth";
+﻿import { useAuth } from "@/_core/hooks/useAuth";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -62,7 +62,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="flex flex-col items-center gap-3 text-center">
             <h1 className="text-2xl font-bold text-white">Acesso Restrito</h1>
             <p className="text-sm text-white/60 max-w-sm">
-              Para acessar o painel de processos, faça login com suas credenciais.
+              Para acessar o painel de processos, faÃ§a login com suas credenciais.
             </p>
           </div>
           <Button
@@ -205,7 +205,7 @@ function DashboardLayoutContent({
                   {!isCollapsed && (
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-medium text-sidebar-foreground truncate leading-none">
-                        {user?.name || "Usuário"}
+                        {user?.name || "UsuÃ¡rio"}
                       </p>
                       <p className="text-xs text-sidebar-foreground/50 truncate mt-1">
                         {user?.email || (user?.cpf ? `CPF: ${user.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")}` : "")}
@@ -258,3 +258,4 @@ function DashboardLayoutContent({
     </>
   );
 }
+
