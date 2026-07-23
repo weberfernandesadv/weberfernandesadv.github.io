@@ -1,4 +1,4 @@
-import { eq, and, desc, asc, isNull, sql } from "drizzle-orm";
+﻿import { eq, and, desc, asc, isNull, sql, or } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, users, processos, novidades, InsertProcesso, InsertNovidade, leads, InsertLead,
@@ -142,7 +142,7 @@ export async function seedAdminUser() {
         passwordHash: pwdHash,
         role: "admin",
         loginMethod: "local",
-        cidade: "Jataí",
+        cidade: "JataÃ­",
         estado: "GO",
         fotoUrl: "",
         lastSignedIn: new Date()
@@ -155,7 +155,7 @@ export async function seedAdminUser() {
         cpf: adminCpf,
         passwordHash: pwdHash,
         role: "admin",
-        cidade: "Jataí",
+        cidade: "JataÃ­",
         estado: "GO"
       }).where(eq(users.id, user.id));
     }
@@ -170,15 +170,15 @@ export async function seedAdminUser() {
           await db.insert(artigos).values([
             {
               userId: adminUser.id,
-              titulo: "A Importância da Regularização Fundiária e a Usucapião Extrajudicial",
-              conteudo: "A usucapião realizada diretamente perante os cartórios de registro de imóveis trouxe celeridade para a garantia do direito de propriedade. Abordamos os principais requisitos documentais e as vantagens da via administrativa frente ao trâmite judicial comum.\n\nO procedimento extrajudicial, regulamentado pelo Provimento nº 65/2017 do CNJ, permite que o cidadão obtenha o registro de propriedade de forma célere, desde que haja consenso entre os confrontantes e a documentação esteja em conformidade com as exigências legais.\n\nA atuação do advogado é indispensável nesse trâmite, cabendo a ele analisar a cadeia possessória, coletar as assinaturas necessárias, elaborar a petição fundamentada e acompanhar o andamento junto ao Oficial de Registro de Imóveis.",
+              titulo: "A ImportÃ¢ncia da RegularizaÃ§Ã£o FundiÃ¡ria e a UsucapiÃ£o Extrajudicial",
+              conteudo: "A usucapiÃ£o realizada diretamente perante os cartÃ³rios de registro de imÃ³veis trouxe celeridade para a garantia do direito de propriedade. Abordamos os principais requisitos documentais e as vantagens da via administrativa frente ao trÃ¢mite judicial comum.\n\nO procedimento extrajudicial, regulamentado pelo Provimento nÂº 65/2017 do CNJ, permite que o cidadÃ£o obtenha o registro de propriedade de forma cÃ©lere, desde que haja consenso entre os confrontantes e a documentaÃ§Ã£o esteja em conformidade com as exigÃªncias legais.\n\nA atuaÃ§Ã£o do advogado Ã© indispensÃ¡vel nesse trÃ¢mite, cabendo a ele analisar a cadeia possessÃ³ria, coletar as assinaturas necessÃ¡rias, elaborar a petiÃ§Ã£o fundamentada e acompanhar o andamento junto ao Oficial de Registro de ImÃ³veis.",
               tipo: "Artigo",
-              categoria: "Direito Imobiliário"
+              categoria: "Direito ImobiliÃ¡rio"
             },
             {
               userId: adminUser.id,
-              titulo: "Garantias Constitucionais e o Devido Processo Legal em Sindicâncias e PAD",
-              conteudo: "O Processo Administrativo Disciplinar (PAD) deve estrita obediência aos ditames da ampla defesa e contraditório. Analisamos nulidades comuns que ocorrem pela ausência de defesa técnica especializada na colheita de depoimentos e fases instrutórias iniciais.\n\nServidores públicos sob investigação muitas vezes desconhecem seus direitos fundamentais, permitindo que a comissão processante cometa abusos ou ignore formalidades essenciais que viciam o processo.\n\nA presença de um defensor técnico desde a fase de sindicância garante a lisura do procedimento, evita autoincriminações e assegura que qualquer punição eventualmente aplicada seja baseada em provas válidas e em obediência às garantias constitucionais.",
+              titulo: "Garantias Constitucionais e o Devido Processo Legal em SindicÃ¢ncias e PAD",
+              conteudo: "O Processo Administrativo Disciplinar (PAD) deve estrita obediÃªncia aos ditames da ampla defesa e contraditÃ³rio. Analisamos nulidades comuns que ocorrem pela ausÃªncia de defesa tÃ©cnica especializada na colheita de depoimentos e fases instrutÃ³rias iniciais.\n\nServidores pÃºblicos sob investigaÃ§Ã£o muitas vezes desconhecem seus direitos fundamentais, permitindo que a comissÃ£o processante cometa abusos ou ignore formalidades essenciais que viciam o processo.\n\nA presenÃ§a de um defensor tÃ©cnico desde a fase de sindicÃ¢ncia garante a lisura do procedimento, evita autoincriminaÃ§Ãµes e assegura que qualquer puniÃ§Ã£o eventualmente aplicada seja baseada em provas vÃ¡lidas e em obediÃªncia Ã s garantias constitucionais.",
               tipo: "Artigo",
               categoria: "Direito Administrativo"
             }
@@ -360,7 +360,7 @@ export async function countNovidadesNaoLidas(userId: number) {
   return result.length;
 }
 
-// ─── Helpers de Leads ────────────────────────────────────────────────────────
+// â”€â”€â”€ Helpers de Leads â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export async function verifyLeadsTable(): Promise<void> {
   const db = await getDb();
@@ -387,13 +387,13 @@ export async function verifyLeadsTable(): Promise<void> {
 
 export async function saveLead(data: InsertLead): Promise<void> {
   const db = await getDb();
-  if (!db) throw new Error("[Database] Banco de dados indisponível");
+  if (!db) throw new Error("[Database] Banco de dados indisponÃ­vel");
   await db.insert(leads).values(data);
 }
 
 export async function getLeads() {
   const db = await getDb();
-  if (!db) throw new Error("[Database] Banco de dados indisponível");
+  if (!db) throw new Error("[Database] Banco de dados indisponÃ­vel");
   return db.select().from(leads).orderBy(desc(leads.createdAt));
 }
 
@@ -581,7 +581,7 @@ export async function registerPublicUser(name: string, email: string, passwordHa
 
   const existing = await getUserByEmail(email);
   if (existing) {
-    throw new Error("Este e-mail já está cadastrado.");
+    throw new Error("Este e-mail jÃ¡ estÃ¡ cadastrado.");
   }
   
   await db.insert(users).values({
@@ -598,3 +598,4 @@ export async function registerPublicUser(name: string, email: string, passwordHa
   });
   return true;
 }
+
