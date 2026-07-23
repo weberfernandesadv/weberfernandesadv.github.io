@@ -599,3 +599,4 @@ export async function registerPublicUser(name: string, email: string, passwordHa
   return true;
 }
 
+
