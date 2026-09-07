@@ -24,7 +24,8 @@ function isSecureRequest(req: Request) {
 export function getSessionCookieOptions(
   req: Request
 ): Pick<CookieOptions, "domain" | "httpOnly" | "path" | "sameSite" | "secure"> {
-  const isLocal = LOCAL_HOSTS.has(req.hostname) || isIpAddress(req.hostname);
+  const host = req.hostname || req.headers.host?.split(":")[0];
+  const isLocal = host ? LOCAL_HOSTS.has(host) || isIpAddress(host) : false;
   return {
     httpOnly: true,
     path: "/",

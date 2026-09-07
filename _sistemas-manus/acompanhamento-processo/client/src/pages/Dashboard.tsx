@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { Plus, Trash2, Scale, Search, Loader2, AlertCircle, Pencil, AlertTriangle, Clock, FileDown } from "lucide-react";
+import { Plus, Trash2, Scale, Search, Loader2, AlertCircle, Pencil, AlertTriangle, Clock, FileDown, FileText, Upload } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { formatarNumeroCnj, extrairTribunalDoCnj, validarNumeroCnj } from "@/lib/cnj";
@@ -42,6 +42,38 @@ const TIPOS_MANIFESTACAO = [
 const TIPOS_COM_HORARIO: TipoManifestacao[] = ["Conciliação", "Audiência"];
 
 type TipoManifestacao = typeof TIPOS_MANIFESTACAO[number];
+
+type EditProcessoState = {
+  id: number;
+  dataLimite: string;
+  dataIntimacao: string;
+  tipoManifestacao: string;
+  horario: string;
+  cliente: string;
+  clienteCpf: string;
+  anotacao: string;
+  resumoProcessual: string;
+  tribunal: string;
+  processoIntegralUrl: string | null;
+  processoIntegralNome: string | null;
+  ultimaMovimentacaoUrl: string | null;
+  ultimaMovimentacaoNome: string | null;
+  processoIntegralFile: File | null;
+  ultimaMovimentacaoFile: File | null;
+};
+
+const MAX_PDF_SIZE_BYTES = 25 * 1024 * 1024;
+
+function validarPdf(file: File | null): string | null {
+  if (!file) return null;
+  if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+    return "Envie somente arquivos PDF.";
+  }
+  if (file.size > MAX_PDF_SIZE_BYTES) {
+    return "Cada PDF deve ter no máximo 25 MB.";
+  }
+  return null;
+}
 
 const TIPO_CORES: Record<TipoManifestacao, string> = {
   "Recurso": "bg-orange-500/15 text-orange-400 border-orange-500/25",
@@ -101,7 +133,7 @@ export default function Dashboard() {
 
   const [openCreate, setOpenCreate] = useState(false);
   const [busca, setBusca] = useState("");
-  const [editProcesso, setEditProcesso] = useState<null | { id: number; dataLimite: string; dataIntimacao: string; tipoManifestacao: string; horario: string; cliente: string; clienteCpf: string; anotacao: string; tribunal: string }>(null);
+  const [editProcesso, setEditProcesso] = useState<EditProcessoState | null>(null);
 
   // Form state
   const [numeroCnj, setNumeroCnj] = useState("");
@@ -113,6 +145,10 @@ export default function Dashboard() {
   const [cliente, setCliente] = useState("");
   const [clienteCpf, setClienteCpf] = useState("");
   const [anotacao, setAnotacao] = useState("");
+  const [resumoProcessual, setResumoProcessual] = useState("");
+  const [processoIntegralFile, setProcessoIntegralFile] = useState<File | null>(null);
+  const [ultimaMovimentacaoFile, setUltimaMovimentacaoFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const [cnjError, setCnjError] = useState("");
 
   const utils = trpc.useUtils();
@@ -127,25 +163,8 @@ export default function Dashboard() {
     );
   });
 
-  const createMutation = trpc.processos.create.useMutation({
-    onSuccess: () => {
-      utils.processos.list.invalidate();
-      utils.novidades.countNaoLidas.invalidate();
-      toast.success("Processo cadastrado com sucesso!");
-      setOpenCreate(false);
-      resetForm();
-    },
-    onError: (err) => toast.error("Erro ao cadastrar: " + err.message),
-  });
-
-  const updateMutation = trpc.processos.update.useMutation({
-    onSuccess: () => {
-      utils.processos.list.invalidate();
-      toast.success("Processo atualizado!");
-      setEditProcesso(null);
-    },
-    onError: (err) => toast.error("Erro ao atualizar: " + err.message),
-  });
+  const createMutation = trpc.processos.create.useMutation();
+  const updateMutation = trpc.processos.update.useMutation();
 
   const deleteMutation = trpc.processos.delete.useMutation({
     onSuccess: () => {
@@ -197,11 +216,13 @@ export default function Dashboard() {
       p.tipoManifestacao ?? "",
       p.cliente ?? "",
       p.anotacao ?? "",
+      p.resumoProcessual ?? "",
+      p.ultimaMovimentacaoNome ? `PDF: ${p.ultimaMovimentacaoNome}` : "",
     ]);
 
     autoTable(doc, {
       startY: 27,
-      head: [["#", "Número CNJ", "Tribunal", "Data Limite", "Manifestação", "Cliente", "Anotação"]],
+      head: [["#", "Número CNJ", "Tribunal", "Data Limite", "Manifestação", "Cliente", "Anotação", "Resumo processual", "Última movimentação"]],
       body: rows,
       styles: { fontSize: 8, cellPadding: 3, overflow: "linebreak" },
       headStyles: { fillColor: [20, 20, 50], textColor: 255, fontStyle: "bold" },
@@ -213,7 +234,9 @@ export default function Dashboard() {
         3: { cellWidth: 22 },
         4: { cellWidth: 30 },
         5: { cellWidth: 35 },
-        6: { cellWidth: "auto" },
+        6: { cellWidth: 32 },
+        7: { cellWidth: 42 },
+        8: { cellWidth: 34 },
       },
       margin: { left: 14, right: 14 },
     });
@@ -246,7 +269,45 @@ export default function Dashboard() {
 
   function resetForm() {
     setNumeroCnj(""); setTribunal(""); setDataLimite(""); setDataIntimacao("");
-    setTipoManifestacao(""); setHorario(""); setCliente(""); setClienteCpf(""); setAnotacao(""); setCnjError("");
+    setTipoManifestacao(""); setHorario(""); setCliente(""); setClienteCpf(""); setAnotacao("");
+    setResumoProcessual(""); setProcessoIntegralFile(null); setUltimaMovimentacaoFile(null); setCnjError("");
+  }
+
+  async function uploadPdf(processoId: number, tipo: "processoIntegral" | "ultimaMovimentacao", file: File) {
+    const apiBase = window.location.pathname.startsWith("/plataformas/processos") ? "/api_processos" : "/api";
+    const response = await fetch(`${apiBase}/processos/${processoId}/arquivo?tipo=${tipo}`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/pdf",
+        "X-File-Name": encodeURIComponent(file.name),
+      },
+      body: file,
+    });
+    if (!response.ok) {
+      let message = "Erro ao enviar o PDF.";
+      try { message = (await response.json()).error || message; } catch { /* resposta não JSON */ }
+      throw new Error(message);
+    }
+  }
+
+  async function uploadSelectedPdfs(processoId: number, files: Array<["processoIntegral" | "ultimaMovimentacao", File | null]>) {
+    const selected = files.filter(
+      (entry): entry is ["processoIntegral" | "ultimaMovimentacao", File] => Boolean(entry[1]),
+    );
+    if (selected.length === 0) return;
+    setIsUploading(true);
+    try {
+      for (const [tipo, file] of selected) await uploadPdf(processoId, tipo, file);
+    } finally {
+      setIsUploading(false);
+    }
+  }
+
+  function validarArquivosSelecionados(files: Array<File | null>) {
+    const error = files.map(validarPdf).find(Boolean);
+    if (error) { toast.error(error); return false; }
+    return true;
   }
 
   function handleCnjChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -257,37 +318,70 @@ export default function Dashboard() {
     setTribunal(info ? info.sigla : "");
   }
 
-  function handleSubmitCreate(e: React.FormEvent) {
+  async function handleSubmitCreate(e: React.FormEvent) {
     e.preventDefault();
     if (!validarNumeroCnj(numeroCnj)) {
       setCnjError("Número CNJ inválido. Formato: NNNNNNN-DD.AAAA.J.TT.OOOO");
       return;
     }
     if (!tribunal) { setCnjError("Tribunal não identificado."); return; }
-    createMutation.mutate({
-      numeroCnj, tribunal,
-      dataLimite: dataLimite || null,
-      tipoManifestacao: tipoManifestacao as TipoManifestacao || null,
-      horario: horario || null,
-      cliente: cliente || null,
-      clienteCpf: clienteCpf || null,
-      anotacao: anotacao || null,
-    });
+    if (!validarArquivosSelecionados([processoIntegralFile, ultimaMovimentacaoFile])) return;
+
+    try {
+      const result = await createMutation.mutateAsync({
+        numeroCnj, tribunal,
+        dataLimite: dataLimite || null,
+        dataIntimacao: dataIntimacao || null,
+        tipoManifestacao: tipoManifestacao as TipoManifestacao || null,
+        horario: horario || null,
+        cliente: cliente || null,
+        clienteCpf: clienteCpf || null,
+        anotacao: anotacao || null,
+        resumoProcessual: resumoProcessual || null,
+      });
+      if (result.id) {
+        await uploadSelectedPdfs(result.id, [
+          ["processoIntegral", processoIntegralFile],
+          ["ultimaMovimentacao", ultimaMovimentacaoFile],
+        ]);
+      }
+      await utils.processos.list.invalidate();
+      await utils.novidades.countNaoLidas.invalidate();
+      toast.success("Processo cadastrado com sucesso!");
+      setOpenCreate(false);
+      resetForm();
+    } catch (error) {
+      toast.error("Erro ao cadastrar: " + (error instanceof Error ? error.message : "tente novamente"));
+    }
   }
 
-  function handleSubmitEdit(e: React.FormEvent) {
+  async function handleSubmitEdit(e: React.FormEvent) {
     e.preventDefault();
     if (!editProcesso) return;
-    updateMutation.mutate({
-      id: editProcesso.id,
-      dataLimite: editProcesso.dataLimite || null,
-      dataIntimacao: editProcesso.dataIntimacao || null,
-      tipoManifestacao: editProcesso.tipoManifestacao as TipoManifestacao || null,
-      horario: editProcesso.horario || null,
-      cliente: editProcesso.cliente || null,
-      clienteCpf: editProcesso.clienteCpf || null,
-      anotacao: editProcesso.anotacao || null,
-    });
+    if (!validarArquivosSelecionados([editProcesso.processoIntegralFile, editProcesso.ultimaMovimentacaoFile])) return;
+
+    try {
+      await updateMutation.mutateAsync({
+        id: editProcesso.id,
+        dataLimite: editProcesso.dataLimite || null,
+        dataIntimacao: editProcesso.dataIntimacao || null,
+        tipoManifestacao: editProcesso.tipoManifestacao as TipoManifestacao || null,
+        horario: editProcesso.horario || null,
+        cliente: editProcesso.cliente || null,
+        clienteCpf: editProcesso.clienteCpf || null,
+        anotacao: editProcesso.anotacao || null,
+        resumoProcessual: editProcesso.resumoProcessual || null,
+      });
+      await uploadSelectedPdfs(editProcesso.id, [
+        ["processoIntegral", editProcesso.processoIntegralFile],
+        ["ultimaMovimentacao", editProcesso.ultimaMovimentacaoFile],
+      ]);
+      await utils.processos.list.invalidate();
+      toast.success("Processo atualizado!");
+      setEditProcesso(null);
+    } catch (error) {
+      toast.error("Erro ao atualizar: " + (error instanceof Error ? error.message : "tente novamente"));
+    }
   }
 
   return (
@@ -341,7 +435,7 @@ export default function Dashboard() {
                 Adicionar Processo
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-card border-border max-w-lg">
+            <DialogContent className="bg-card border-border max-w-lg max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle className="text-foreground text-xl font-semibold">Novo Processo</DialogTitle>
               </DialogHeader>
@@ -422,10 +516,30 @@ export default function Dashboard() {
                   <Textarea className="bg-input border-border focus-visible:ring-primary resize-none" placeholder="Observações sobre o processo..." value={anotacao} onChange={e => setAnotacao(e.target.value)} rows={2} />
                 </div>
 
+                {/* Resumo processual */}
+                <div className="space-y-1.5">
+                  <label className="text-sm font-medium text-foreground">Resumo processual <span className="text-muted-foreground font-normal">(opcional)</span></label>
+                  <Textarea className="bg-input border-border focus-visible:ring-primary resize-y" placeholder="Descreva o resumo do processo..." value={resumoProcessual} onChange={e => setResumoProcessual(e.target.value)} rows={4} />
+                </div>
+
+                {/* PDFs */}
+                <div className="grid grid-cols-1 gap-3">
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-foreground">Processo na íntegra <span className="text-muted-foreground font-normal">(PDF, opcional)</span></label>
+                    <Input type="file" accept="application/pdf,.pdf" className="bg-input border-border file:text-foreground" onChange={e => setProcessoIntegralFile(e.target.files?.[0] ?? null)} />
+                    {processoIntegralFile && <p className="text-xs text-muted-foreground flex items-center gap-1"><Upload className="w-3 h-3" />{processoIntegralFile.name}</p>}
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-foreground">Última movimentação <span className="text-muted-foreground font-normal">(PDF, opcional)</span></label>
+                    <Input type="file" accept="application/pdf,.pdf" className="bg-input border-border file:text-foreground" onChange={e => setUltimaMovimentacaoFile(e.target.files?.[0] ?? null)} />
+                    {ultimaMovimentacaoFile && <p className="text-xs text-muted-foreground flex items-center gap-1"><Upload className="w-3 h-3" />{ultimaMovimentacaoFile.name}</p>}
+                  </div>
+                </div>
+
                 <div className="flex gap-3 pt-1">
                   <Button type="button" variant="outline" className="flex-1 border-border" onClick={() => setOpenCreate(false)}>Cancelar</Button>
-                  <Button type="submit" className="flex-1 bg-primary text-primary-foreground" disabled={createMutation.isPending}>
-                    {createMutation.isPending ? <><Loader2 className="w-4 h-4 animate-spin mr-2" />Salvando...</> : "Cadastrar"}
+                  <Button type="submit" className="flex-1 bg-primary text-primary-foreground" disabled={createMutation.isPending || isUploading}>
+                    {createMutation.isPending || isUploading ? <><Loader2 className="w-4 h-4 animate-spin mr-2" />Salvando...</> : "Cadastrar"}
                   </Button>
                 </div>
               </form>
@@ -460,9 +574,9 @@ export default function Dashboard() {
       ) : (
         <div className="rounded-xl border border-border overflow-hidden">
           {/* Cabeçalho da tabela */}
-          <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1.5fr_auto] gap-0 bg-muted/50 border-b border-border px-4 py-2.5">
-            {["Processo / Tribunal", "Data Limite", "Manifestação", "Cliente", "Anotação", ""].map((h, i) => {
-              if (i === 5 && isCliente) return null;
+          <div className="min-w-[1180px] grid grid-cols-[2fr_1.6fr_1fr_1fr_1fr_1.5fr_1.25fr_auto] gap-0 bg-muted/50 border-b border-border px-4 py-2.5">
+            {["Processo / Tribunal", "Resumo processual", "Data Limite", "Manifestação", "Cliente", "Anotação", "Última movimentação", ""].map((h, i) => {
+              if (i === 7 && isCliente) return null;
               return <div key={i} className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{h}</div>;
             })}
           </div>
@@ -483,7 +597,7 @@ export default function Dashboard() {
                 ? { background: "rgba(234,179,8,0.10)", borderLeft: "3px solid rgb(234,179,8)" }
                 : {};
               return (
-                <div key={p.id} style={rowStyle} className={`grid grid-cols-[2fr_1fr_1fr_1fr_1.5fr_auto] gap-0 items-center px-4 py-3 transition-colors group hover:brightness-110`}>
+                <div key={p.id} style={rowStyle} className={`min-w-[1180px] grid grid-cols-[2fr_1.6fr_1fr_1fr_1fr_1.5fr_1.25fr_auto] gap-0 items-center px-4 py-3 transition-colors group hover:brightness-110`}>
                   {/* Processo + Tribunal */}
                   <div className="flex items-center gap-2 min-w-0">
                     {vencido && (
@@ -499,6 +613,11 @@ export default function Dashboard() {
                       <p className="font-mono text-xs font-medium text-foreground truncate">{p.numeroCnj}</p>
                       <Badge className="mt-0.5 bg-primary/15 text-primary border-primary/25 text-xs">{p.tribunal}</Badge>
                     </div>
+                  </div>
+
+                  {/* Resumo processual */}
+                  <div className="text-xs text-muted-foreground pr-2 whitespace-pre-line overflow-hidden" title={p.resumoProcessual ?? undefined}>
+                    {p.resumoProcessual || "—"}
                   </div>
 
                   {/* Data Limite */}
@@ -543,6 +662,16 @@ export default function Dashboard() {
                     {p.anotacao || "—"}
                   </div>
 
+                  {/* Última movimentação */}
+                  <div className="text-xs pr-2 min-w-0">
+                    {p.ultimaMovimentacaoUrl ? (
+                      <a href={p.ultimaMovimentacaoUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline max-w-full">
+                        <FileText className="w-3.5 h-3.5 shrink-0" />
+                        <span className="truncate">{p.ultimaMovimentacaoNome || "Abrir PDF"}</span>
+                      </a>
+                    ) : <span className="text-muted-foreground">—</span>}
+                  </div>
+
                   {/* Ações */}
                   {!isCliente && (
                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -558,6 +687,13 @@ export default function Dashboard() {
                           cliente: p.cliente ?? "",
                           clienteCpf: p.clienteCpf ? formatarCpfInput(p.clienteCpf) : "",
                           anotacao: p.anotacao ?? "",
+                          resumoProcessual: p.resumoProcessual ?? "",
+                          processoIntegralUrl: p.processoIntegralUrl ?? null,
+                          processoIntegralNome: p.processoIntegralNome ?? null,
+                          ultimaMovimentacaoUrl: p.ultimaMovimentacaoUrl ?? null,
+                          ultimaMovimentacaoNome: p.ultimaMovimentacaoNome ?? null,
+                          processoIntegralFile: null,
+                          ultimaMovimentacaoFile: null,
                           tribunal: p.tribunal,
                         })}
                       >
@@ -583,7 +719,7 @@ export default function Dashboard() {
       {/* Modal de edição */}
       {!isCliente && (
         <Dialog open={!!editProcesso} onOpenChange={(v) => { if (!v) setEditProcesso(null); }}>
-          <DialogContent className="bg-card border-border max-w-lg">
+          <DialogContent className="bg-card border-border max-w-lg max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="text-foreground text-xl font-semibold">Editar Processo</DialogTitle>
             </DialogHeader>
@@ -702,10 +838,36 @@ export default function Dashboard() {
                   />
                 </div>
 
+                {/* Resumo processual */}
+                <div className="space-y-1.5">
+                  <label className="text-sm font-medium text-foreground">Resumo processual</label>
+                  <Textarea className="bg-input border-border focus-visible:ring-primary resize-y"
+                    placeholder="Descreva o resumo do processo..." rows={4}
+                    value={editProcesso.resumoProcessual}
+                    onChange={e => setEditProcesso(prev => prev ? { ...prev, resumoProcessual: e.target.value } : null)}
+                  />
+                </div>
+
+                {/* PDFs substituíveis */}
+                <div className="grid grid-cols-1 gap-3">
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-foreground">Processo na íntegra <span className="text-muted-foreground font-normal">(PDF)</span></label>
+                    {editProcesso.processoIntegralUrl && <a href={editProcesso.processoIntegralUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs text-primary hover:underline"><FileText className="w-3.5 h-3.5" />{editProcesso.processoIntegralNome || "Abrir PDF atual"}</a>}
+                    <Input type="file" accept="application/pdf,.pdf" className="bg-input border-border file:text-foreground" onChange={e => setEditProcesso(prev => prev ? { ...prev, processoIntegralFile: e.target.files?.[0] ?? null } : null)} />
+                    {editProcesso.processoIntegralFile && <p className="text-xs text-muted-foreground flex items-center gap-1"><Upload className="w-3 h-3" />Novo: {editProcesso.processoIntegralFile.name}</p>}
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-foreground">Última movimentação <span className="text-muted-foreground font-normal">(PDF)</span></label>
+                    {editProcesso.ultimaMovimentacaoUrl && <a href={editProcesso.ultimaMovimentacaoUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs text-primary hover:underline"><FileText className="w-3.5 h-3.5" />{editProcesso.ultimaMovimentacaoNome || "Abrir PDF atual"}</a>}
+                    <Input type="file" accept="application/pdf,.pdf" className="bg-input border-border file:text-foreground" onChange={e => setEditProcesso(prev => prev ? { ...prev, ultimaMovimentacaoFile: e.target.files?.[0] ?? null } : null)} />
+                    {editProcesso.ultimaMovimentacaoFile && <p className="text-xs text-muted-foreground flex items-center gap-1"><Upload className="w-3 h-3" />Novo: {editProcesso.ultimaMovimentacaoFile.name}</p>}
+                  </div>
+                </div>
+
                 <div className="flex gap-3 pt-1">
                   <Button type="button" variant="outline" className="flex-1 border-border" onClick={() => setEditProcesso(null)}>Cancelar</Button>
-                  <Button type="submit" className="flex-1 bg-primary text-primary-foreground" disabled={updateMutation.isPending}>
-                    {updateMutation.isPending ? <><Loader2 className="w-4 h-4 animate-spin mr-2" />Salvando...</> : "Salvar"}
+                  <Button type="submit" className="flex-1 bg-primary text-primary-foreground" disabled={updateMutation.isPending || isUploading}>
+                    {updateMutation.isPending || isUploading ? <><Loader2 className="w-4 h-4 animate-spin mr-2" />Salvando...</> : "Salvar"}
                   </Button>
                 </div>
               </form>

@@ -7,6 +7,7 @@ import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { parse as parseCookie } from "cookie";
+import { storagePut } from "../storage";
 
 process.on("uncaughtException", (err) => {
   console.error("[Uncaught Exception]", err);
@@ -29,7 +30,7 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
   }
   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Cookie");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Cookie, X-File-Name");
   if (req.method === "OPTIONS") {
     return res.sendStatus(200);
   }
@@ -223,6 +224,56 @@ app.use((req, res, next) => {
       return null;
     }
   }
+
+  // Upload de PDFs vinculados a um processo. O arquivo antigo deixa de ser referenciado
+  // quando um novo upload é concluído; os objetos antigos permanecem sem URL pública.
+  app.post(
+    ["/api/processos/:id/arquivo", "/processos/:id/arquivo"],
+    express.raw({ type: "application/pdf", limit: "25mb" }),
+    async (req, res) => {
+      try {
+        const user = await authenticateSession(req);
+        if (!user) return res.status(401).json({ error: "Não autorizado. Faça o login." });
+        if (user.role === "cliente") return res.status(403).json({ error: "Apenas advogados podem enviar arquivos." });
+
+        const processoId = Number(req.params.id);
+        if (!Number.isInteger(processoId) || processoId <= 0) {
+          return res.status(400).json({ error: "ID de processo inválido." });
+        }
+
+        const tipo = req.query.tipo;
+        if (tipo !== "processoIntegral" && tipo !== "ultimaMovimentacao") {
+          return res.status(400).json({ error: "Tipo de arquivo inválido." });
+        }
+
+        const body = Buffer.isBuffer(req.body) ? req.body : Buffer.alloc(0);
+        if (body.length === 0 || body.subarray(0, 5).toString("ascii") !== "%PDF-") {
+          return res.status(400).json({ error: "Envie um arquivo PDF válido." });
+        }
+
+        const rawName = String(req.headers["x-file-name"] || `${tipo}.pdf`);
+        let nome = rawName;
+        try { nome = decodeURIComponent(rawName); } catch { /* mantém o nome original */ }
+        nome = nome.replace(/[^a-zA-Z0-9À-ÿ._() -]/g, "_").slice(-255) || `${tipo}.pdf`;
+        if (!nome.toLowerCase().endsWith(".pdf")) nome += ".pdf";
+
+        const { key, url } = await storagePut(
+          `processos/${user.id}/${processoId}/${tipo}.pdf`,
+          body,
+          "application/pdf",
+        );
+        const { updateProcessoArquivo, getProcessoById } = await import("../db");
+        const processo = await getProcessoById(processoId, user.id);
+        if (!processo) return res.status(404).json({ error: "Processo não encontrado." });
+        await updateProcessoArquivo(processoId, user.id, tipo, { key, url, nome });
+
+        return res.status(200).json({ success: true, tipo, key, url, nome });
+      } catch (error: any) {
+        console.error("[API Processo PDF] Error:", error);
+        return res.status(500).json({ error: error.message || "Erro ao armazenar o PDF." });
+      }
+    },
+  );
 
   // API to register public users (Name, Email, Password, City, State, Photo)
   app.post(["/api/public-register", "/public-register"], async (req, res) => {
