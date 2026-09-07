@@ -252,7 +252,7 @@ export async function createProcesso(data: InsertProcesso) {
 export async function updateProcesso(
   id: number,
   userId: number,
-  data: Partial<Pick<typeof processos.$inferInsert, 'dataLimite' | 'dataIntimacao' | 'tipoManifestacao' | 'horario' | 'cliente' | 'clienteCpf' | 'anotacao'>>
+  data: Partial<Pick<typeof processos.$inferInsert, 'dataLimite' | 'dataIntimacao' | 'tipoManifestacao' | 'horario' | 'cliente' | 'clienteCpf' | 'anotacao' | 'resumoProcessual'>>
 ) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
@@ -260,6 +260,34 @@ export async function updateProcesso(
   // Note: we fetch by id to verify ownership or admin, but generally it's filtered by userId.
   return db.update(processos)
     .set({ ...data, updatedAt: new Date() })
+    .where(and(eq(processos.id, id), eq(processos.userId, userId)));
+}
+
+export async function updateProcessoArquivo(
+  id: number,
+  userId: number,
+  tipo: "processoIntegral" | "ultimaMovimentacao",
+  data: { key: string; url: string; nome: string },
+) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const values = tipo === "processoIntegral"
+    ? {
+        processoIntegralKey: data.key,
+        processoIntegralUrl: data.url,
+        processoIntegralNome: data.nome,
+        updatedAt: new Date(),
+      }
+    : {
+        ultimaMovimentacaoKey: data.key,
+        ultimaMovimentacaoUrl: data.url,
+        ultimaMovimentacaoNome: data.nome,
+        updatedAt: new Date(),
+      };
+
+  return db.update(processos)
+    .set(values)
     .where(and(eq(processos.id, id), eq(processos.userId, userId)));
 }
 

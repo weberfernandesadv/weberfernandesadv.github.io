@@ -94,20 +94,21 @@ export const appRouter = router({
         z.object({
           numeroCnj: z.string().min(1),
           tribunal: z.string().min(1),
-          dataLimite: z.string().nullable(),
-          tipoManifestacao: z.enum(["Recurso", "Resposta", "ApelaÃ§Ã£o", "Embargos de declaraÃ§Ã£o", "Autos conclusos", "ConciliaÃ§Ã£o", "AudiÃªncia", "ContestaÃ§Ã£o", "ImpugnaÃ§Ã£o", "Outro"]).nullable(),
-          horario: z.string().nullable(),
-          dataIntimacao: z.string().nullable(),
-          cliente: z.string().nullable(),
-          clienteCpf: z.string().nullable(),
-          anotacao: z.string().nullable(),
+          dataLimite: z.string().nullable().optional(),
+          tipoManifestacao: z.enum(["Recurso", "Resposta", "Apelação", "Embargos de declaração", "Autos conclusos", "Conciliação", "Audiência", "Contestação", "Impugnação", "Outro"]).nullable().optional(),
+          horario: z.string().nullable().optional(),
+          dataIntimacao: z.string().nullable().optional(),
+          cliente: z.string().nullable().optional(),
+          clienteCpf: z.string().nullable().optional(),
+          anotacao: z.string().nullable().optional(),
+          resumoProcessual: z.string().nullable().optional(),
         })
       )
       .mutation(async ({ ctx, input }) => {
         if (ctx.user.role === "cliente") {
           throw new TRPCError({ code: "FORBIDDEN", message: "Apenas advogados podem cadastrar processos." });
         }
-        await createProcesso({
+        const result = await createProcesso({
           userId: ctx.user.id,
           numeroCnj: input.numeroCnj,
           tribunal: input.tribunal,
@@ -118,21 +119,23 @@ export const appRouter = router({
           cliente: input.cliente,
           clienteCpf: input.clienteCpf ? input.clienteCpf.replace(/\D/g, "") : null,
           anotacao: input.anotacao,
+          resumoProcessual: input.resumoProcessual ?? null,
         });
-        return { success: true };
+        return { success: true, id: Number((result as any)?.[0]?.insertId ?? 0) };
       }),
 
     update: protectedProcedure
       .input(
         z.object({
           id: z.number(),
-          dataLimite: z.string().nullable(),
-          dataIntimacao: z.string().nullable(),
-          tipoManifestacao: z.enum(["Recurso", "Resposta", "ApelaÃ§Ã£o", "Embargos de declaraÃ§Ã£o", "Autos conclusos", "ConciliaÃ§Ã£o", "AudiÃªncia", "ContestaÃ§Ã£o", "ImpugnaÃ§Ã£o", "Outro"]).nullable(),
-          horario: z.string().nullable(),
-          cliente: z.string().nullable(),
-          clienteCpf: z.string().nullable(),
-          anotacao: z.string().nullable(),
+          dataLimite: z.string().nullable().optional(),
+          dataIntimacao: z.string().nullable().optional(),
+          tipoManifestacao: z.enum(["Recurso", "Resposta", "Apelação", "Embargos de declaração", "Autos conclusos", "Conciliação", "Audiência", "Contestação", "Impugnação", "Outro"]).nullable().optional(),
+          horario: z.string().nullable().optional(),
+          cliente: z.string().nullable().optional(),
+          clienteCpf: z.string().nullable().optional(),
+          anotacao: z.string().nullable().optional(),
+          resumoProcessual: z.string().nullable().optional(),
         })
       )
       .mutation(async ({ ctx, input }) => {
@@ -147,6 +150,7 @@ export const appRouter = router({
           cliente: input.cliente ?? null,
           clienteCpf: input.clienteCpf ? input.clienteCpf.replace(/\D/g, "") : null,
           anotacao: input.anotacao ?? null,
+          resumoProcessual: input.resumoProcessual ?? null,
         });
         return { success: true };
       }),
@@ -190,4 +194,3 @@ export const appRouter = router({
 });
 
 export type AppRouter = typeof appRouter;
-
